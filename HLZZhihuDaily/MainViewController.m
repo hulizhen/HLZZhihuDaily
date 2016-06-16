@@ -22,6 +22,7 @@
 
 @property (nonatomic, strong) HLZInfiniteScrollView *scrollView;
 @property (nonatomic, strong) UIImageView *launchImageView;
+@property (nonatomic, strong) UIPageControl *pageControl;
 
 @end
 
@@ -40,9 +41,18 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     
     self.scrollView = [[HLZInfiniteScrollView alloc] init];
     self.tableView.stickyHeaderView = self.scrollView;
+    self.pageControl = [[UIPageControl alloc] init];
     
     [self configureTableView:self.tableView];
     [self configureScrollView:self.scrollView];
+    [self configurePageControl:self.pageControl];
+    
+    [self updateStories];
+}
+
+- (void)viewDidLayoutSubviews {
+    CGRect frame = self.pageControl.frame;
+    self.pageControl.frame = CGRectMake(frame.origin.x, -self.tableView.contentOffset.y - 40, frame.size.width, frame.size.height);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -60,7 +70,7 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 
 #pragma mark - UIScrollViewDelegate
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     if (scrollView == self.tableView) {
     } else if (scrollView == self.scrollView) {
     }
@@ -87,6 +97,21 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 
 #pragma mark - Helpers
 
+- (void)updateStories {
+    NSMutableArray *imageViews = [[NSMutableArray alloc] init];
+    NSInteger i = 0;
+    for (Story *story in [StoryStore sharedInstance].topStories) {
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [imageView sd_setImageWithURL:story.imageURL placeholderImage:nil];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        [imageViews addObject:imageView];
+        ++i;
+    }
+    
+    self.scrollView.contentViews = imageViews;
+    self.pageControl.numberOfPages = imageViews.count;
+}
+
 - (void)configureTableView:(UITableView *)tableView {
     tableView.estimatedRowHeight = StoryCellRowHeight;
     tableView.rowHeight = UITableViewAutomaticDimension;
@@ -100,26 +125,31 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 }
 
 - (void)configureScrollView:(HLZInfiniteScrollView *)scrollView {
-    NSMutableArray *imageViews = [[NSMutableArray alloc] init];
-    NSInteger i = 0;
-    for (Story *story in [StoryStore sharedInstance].topStories) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        [imageView sd_setImageWithURL:story.imageURL placeholderImage:nil];
-        imageView.contentMode = UIViewContentModeScaleAspectFill;
-        [imageViews addObject:imageView];
-        ++i;
+    scrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * 3, 220);
+    scrollView.showsHorizontalScrollIndicator = NO;
+    scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.infiniteScrollEnabled = YES;
+    scrollView.autoScrollEnabled = YES;
+    scrollView.autoScrollTimerInterval = 5.0;
+    scrollView.autoScrollAnimationDuration = 0.5;
+    scrollView.autoScrollLeftShift = YES;
+    scrollView.delegate = self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    if ([keyPath isEqual:@"currentViewIndex"] && object == self.scrollView) {
+        self.pageControl.currentPage = [change[NSKeyValueChangeNewKey] integerValue];
     }
+}
+
+- (void)configurePageControl:(UIPageControl *)pageControl {
+    pageControl.currentPage = self.scrollView.currentViewIndex;
+    [self.view addSubview:pageControl];
     
-    self.scrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * 3, 220);
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.showsVerticalScrollIndicator = NO;
-    self.scrollView.infiniteScrollEnabled = YES;
-    self.scrollView.contentViews = imageViews;
-    self.scrollView.autoScrollEnabled = YES;
-    self.scrollView.autoScrollTimerInterval = 5.0;
-    self.scrollView.autoScrollAnimationDuration = 0.5;
-    self.scrollView.autoScrollLeftShift = YES;
-    self.scrollView.delegate = self;
+    [self.scrollView addObserver:self forKeyPath:@"currentViewIndex" options:NSKeyValueObservingOptionNew context:nil];
+
+    self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint activateConstraints:@[[self.pageControl.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor]]];
 }
 
 - (void)showLaunchImage {

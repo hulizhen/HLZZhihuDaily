@@ -84,6 +84,16 @@
     }
 }
 
+- (void)setCenterViewIndex:(NSInteger)centerViewIndex {
+    [self willChangeValueForKey:@"currentViewIndex"];
+    _centerViewIndex = centerViewIndex;
+    [self didChangeValueForKey:@"currentViewIndex"];
+}
+
+- (NSInteger)currentViewIndex {
+    return self.centerViewIndex;
+}
+
 #pragma mark - Helpers
 
 - (void)setUp {

@@ -16,12 +16,14 @@
 
 @property (nonatomic, weak, nullable) id<HLZInfiniteScrollViewDelegate> delegate;
 
-@property (nonatomic, getter=isInfiniteScrollEnabled) BOOL infiniteScrollEnabled;
+@property (nonatomic, assign, getter=isInfiniteScrollEnabled) BOOL infiniteScrollEnabled;
 @property (nonatomic, copy, nullable) NSArray<UIView *> *contentViews;
 
-@property (nonatomic, getter=isAutoScrollEnabled) BOOL autoScrollEnabled;
-@property (nonatomic, getter=isAutoScrollLeftShift) BOOL autoScrollLeftShift;
-@property (nonatomic) NSTimeInterval autoScrollTimerInterval;
-@property (nonatomic) NSTimeInterval autoScrollAnimationDuration;
+@property (nonatomic, assign, getter=isAutoScrollEnabled) BOOL autoScrollEnabled;
+@property (nonatomic, assign, getter=isAutoScrollLeftShift) BOOL autoScrollLeftShift;
+@property (nonatomic, assign) NSTimeInterval autoScrollTimerInterval;
+@property (nonatomic, assign) NSTimeInterval autoScrollAnimationDuration;
+
+@property (nonatomic, assign, readonly) NSInteger currentViewIndex;
 
 @end
