@@ -1,12 +1,13 @@
 //
 //  AppDelegate.m
-//  HLZZhihuDaily
+//  oZhihuDaily
 //
-//  Created by Hu Lizhen on 6/15/16.
-//  Copyright © 2016 hulizhen. All rights reserved.
+//  Created by Hu Lizhen on 5/31/16.
+//  Copyright © 2016 hulz. All rights reserved.
 //
 
 #import "AppDelegate.h"
+#import "StoryStore.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +17,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [[StoryStore sharedInstance] fetchStories];
     return YES;
 }
 
