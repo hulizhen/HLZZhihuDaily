@@ -19,6 +19,7 @@
 		25C00E641D11AAFD007A6F5B /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E631D11AAFD007A6F5B /* MainViewController.m */; };
 		25C00E671D11AC15007A6F5B /* UITableView+HLZStickyHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */; };
 		25C00E6A1D129054007A6F5B /* HLZInfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E691D129054007A6F5B /* HLZInfiniteScrollView.m */; };
+		25C00E751D142379007A6F5B /* TopStoryImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E741D142379007A6F5B /* TopStoryImageView.xib */; };
 		4097FF62344F95D0CACD1BF4 /* Pods_HLZZhihuDaily.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DF8815100B926C446D994D /* Pods_HLZZhihuDaily.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+HLZStickyHeader.m"; sourceTree = "<group>"; };
 		25C00E681D129054007A6F5B /* HLZInfiniteScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZInfiniteScrollView.h; sourceTree = "<group>"; };
 		25C00E691D129054007A6F5B /* HLZInfiniteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZInfiniteScrollView.m; sourceTree = "<group>"; };
+		25C00E741D142379007A6F5B /* TopStoryImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopStoryImageView.xib; sourceTree = "<group>"; };
 		5AACB207D96E2984BD24C400 /* Pods-HLZZhihuDaily.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HLZZhihuDaily.release.xcconfig"; path = "Pods/Target Support Files/Pods-HLZZhihuDaily/Pods-HLZZhihuDaily.release.xcconfig"; sourceTree = "<group>"; };
 		67DF8815100B926C446D994D /* Pods_HLZZhihuDaily.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HLZZhihuDaily.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -111,6 +113,7 @@
 				25C00E5D1D11AA11007A6F5B /* StoryCell.h */,
 				25C00E5E1D11AA11007A6F5B /* StoryCell.m */,
 				25C00E5F1D11AA11007A6F5B /* StoryCell.xib */,
+				25C00E741D142379007A6F5B /* TopStoryImageView.xib */,
 				25C00E681D129054007A6F5B /* HLZInfiniteScrollView.h */,
 				25C00E691D129054007A6F5B /* HLZInfiniteScrollView.m */,
 				25C00E651D11AC15007A6F5B /* UITableView+HLZStickyHeader.h */,
@@ -235,6 +238,7 @@
 			files = (
 				25C00E411D11A59A007A6F5B /* LaunchScreen.storyboard in Resources */,
 				25C00E3E1D11A59A007A6F5B /* Assets.xcassets in Resources */,
+				25C00E751D142379007A6F5B /* TopStoryImageView.xib in Resources */,
 				25C00E3C1D11A59A007A6F5B /* Main.storyboard in Resources */,
 				25C00E611D11AA11007A6F5B /* StoryCell.xib in Resources */,
 			);

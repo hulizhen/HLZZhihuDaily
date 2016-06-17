@@ -63,7 +63,7 @@
         [self.privateTopStories addObject:story];
     }
     
-    [self dumpStories];
+//    [self dumpStories];
 }
 
 

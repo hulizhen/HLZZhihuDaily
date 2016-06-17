@@ -66,7 +66,7 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 - (void)viewDidLayoutSubviews {
     self.pageControl.frame = ({
         CGRect frame = self.pageControl.frame;
-        frame.origin.y = -self.tableView.contentOffset.y - 40;
+        frame.origin.y = -self.tableView.contentOffset.y - 32;
         frame;
     });
 }
@@ -77,7 +77,7 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     if (scrollView == self.tableView) {
         self.pageControl.frame = ({
             CGRect frame = self.pageControl.frame;
-            frame.origin.y = -self.tableView.contentOffset.y - 40;
+            frame.origin.y = -self.tableView.contentOffset.y - 32;
             frame;
         });
     } else if (scrollView == self.scrollView) {
@@ -117,10 +117,15 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     NSMutableArray *imageViews = [[NSMutableArray alloc] init];
     NSInteger i = 0;
     for (Story *story in [StoryStore sharedInstance].topStories) {
-        UIImageView *imageView = [[UIImageView alloc] init];
+        UIImageView *imageView = [[NSBundle mainBundle] loadNibNamed:@"TopStoryImageView" owner:nil options:nil][0];
         [imageView sd_setImageWithURL:story.imageURL placeholderImage:nil];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         [imageViews addObject:imageView];
+        
+        UILabel *label = [imageView viewWithTag:LabelInTopStoryImageViewTag];
+        label.text = story.title;
+        [imageView addSubview:label];
+        
         ++i;
     }
     
