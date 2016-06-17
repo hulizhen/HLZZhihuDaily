@@ -22,7 +22,6 @@
 @property (nonatomic, assign, getter=isAutoScrollEnabled) BOOL autoScrollEnabled;
 @property (nonatomic, assign, getter=isAutoScrollLeftShift) BOOL autoScrollLeftShift;
 @property (nonatomic, assign) NSTimeInterval autoScrollTimerInterval;
-@property (nonatomic, assign) NSTimeInterval autoScrollAnimationDuration;
 
 @property (nonatomic, assign, readonly) NSInteger currentViewIndex;
 

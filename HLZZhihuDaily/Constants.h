@@ -26,9 +26,12 @@ static NSString * const StoryRecommendersURL    = @"http://news-at.zhihu.com/api
 static NSString * const StoryInThemeURL         = @"http://news-at.zhihu.com/api/4/theme/%@/before/%@";
 static NSString * const EditorProfileURL        = @"http://news-at.zhihu.com/api/4/editor/%@/profile-page/ios";
 
-static float const TableHeaderViewHeightMin = 220;
-static float const TableHeaderViewHeightMax = 320;
-static float const StoryCellRowHeight       = 92;
+static float const TableHeaderViewHeightMin = 220.0;
+static float const TableHeaderViewHeightMax = 320.0;
+static float const StoryCellRowHeight       = 92.0;
 
+static float const AutoScrollTimerInterval = 3.0;
+
+//#define LaunchImageEnabled
 
 #endif /* Constants_h */

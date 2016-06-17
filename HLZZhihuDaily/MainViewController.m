@@ -50,11 +50,6 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     [self updateStories];
 }
 
-- (void)viewDidLayoutSubviews {
-    CGRect frame = self.pageControl.frame;
-    self.pageControl.frame = CGRectMake(frame.origin.x, -self.tableView.contentOffset.y - 40, frame.size.width, frame.size.height);
-}
-
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
@@ -68,12 +63,29 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     }];
 }
 
+- (void)viewDidLayoutSubviews {
+    CGRect frame = self.pageControl.frame;
+    self.pageControl.frame = CGRectMake(frame.origin.x, -self.tableView.contentOffset.y - 40, frame.size.width, frame.size.height);
+}
+
 #pragma mark - UIScrollViewDelegate
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == self.tableView) {
+        CGRect frame = self.pageControl.frame;
+        frame.origin.y = -self.tableView.contentOffset.y - 40;
+        self.pageControl.frame = frame;
+//        self.pageControl.frame = CGRectMake(frame.origin.x, -self.tableView.contentOffset.y - 40, frame.size.width, frame.size.height);
     } else if (scrollView == self.scrollView) {
     }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    self.pageControl.currentPage = self.scrollView.currentViewIndex;
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    self.pageControl.currentPage = self.scrollView.currentViewIndex;
 }
 
 #pragma mark - UITableViewDataSource
@@ -101,7 +113,7 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     NSMutableArray *imageViews = [[NSMutableArray alloc] init];
     NSInteger i = 0;
     for (Story *story in [StoryStore sharedInstance].topStories) {
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        UIImageView *imageView = [[UIImageView alloc] init];
         [imageView sd_setImageWithURL:story.imageURL placeholderImage:nil];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         [imageViews addObject:imageView];
@@ -125,34 +137,26 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 }
 
 - (void)configureScrollView:(HLZInfiniteScrollView *)scrollView {
-    scrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * 3, 220);
+    scrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * 3, TableHeaderViewHeightMin);
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.showsVerticalScrollIndicator = NO;
     scrollView.infiniteScrollEnabled = YES;
     scrollView.autoScrollEnabled = YES;
-    scrollView.autoScrollTimerInterval = 5.0;
-    scrollView.autoScrollAnimationDuration = 0.5;
+    scrollView.autoScrollTimerInterval = AutoScrollTimerInterval;
     scrollView.autoScrollLeftShift = YES;
     scrollView.delegate = self;
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-    if ([keyPath isEqual:@"currentViewIndex"] && object == self.scrollView) {
-        self.pageControl.currentPage = [change[NSKeyValueChangeNewKey] integerValue];
-    }
 }
 
 - (void)configurePageControl:(UIPageControl *)pageControl {
     pageControl.currentPage = self.scrollView.currentViewIndex;
     [self.view addSubview:pageControl];
     
-    [self.scrollView addObserver:self forKeyPath:@"currentViewIndex" options:NSKeyValueObservingOptionNew context:nil];
-
     self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
     [NSLayoutConstraint activateConstraints:@[[self.pageControl.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor]]];
 }
 
 - (void)showLaunchImage {
+#ifdef LaunchImageEnabled
     self.launchImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     // Get the launch image.
@@ -167,13 +171,16 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
         self.launchImageView.image = launchImage;
         [[[UIApplication sharedApplication].delegate window] addSubview:self.launchImageView];
     }
+#endif
 }
 
 - (void)hideLaunchImage {
+#ifdef LaunchImageEnabled
     if (self.launchImageView) {
         [self.launchImageView removeFromSuperview];
         self.launchImageView = nil;
     }
+#endif
 }
 
 @end
