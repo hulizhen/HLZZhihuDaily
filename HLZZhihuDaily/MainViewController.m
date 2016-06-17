@@ -64,18 +64,22 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 }
 
 - (void)viewDidLayoutSubviews {
-    CGRect frame = self.pageControl.frame;
-    self.pageControl.frame = CGRectMake(frame.origin.x, -self.tableView.contentOffset.y - 40, frame.size.width, frame.size.height);
+    self.pageControl.frame = ({
+        CGRect frame = self.pageControl.frame;
+        frame.origin.y = -self.tableView.contentOffset.y - 40;
+        frame;
+    });
 }
 
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == self.tableView) {
-        CGRect frame = self.pageControl.frame;
-        frame.origin.y = -self.tableView.contentOffset.y - 40;
-        self.pageControl.frame = frame;
-//        self.pageControl.frame = CGRectMake(frame.origin.x, -self.tableView.contentOffset.y - 40, frame.size.width, frame.size.height);
+        self.pageControl.frame = ({
+            CGRect frame = self.pageControl.frame;
+            frame.origin.y = -self.tableView.contentOffset.y - 40;
+            frame;
+        });
     } else if (scrollView == self.scrollView) {
     }
 }
