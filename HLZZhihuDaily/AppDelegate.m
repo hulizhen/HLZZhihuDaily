@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "StoryStore.h"
+#import "Macros.h"
 
 @interface AppDelegate ()
 
@@ -15,8 +16,12 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+//    [UINavigationBar appearance].barTintColor = [UIColor clearColor];
+//    [UINavigationBar appearance].barTintColor = UIColorFromRGBA(0x00000000);
+//    [UINavigationBar appearance].backgroundColor = [UIColor clearColor];
+//    [UINavigationBar appearance].translucent = NO;
+    
     [[StoryStore sharedInstance] fetchStories];
     return YES;
 }

@@ -13,6 +13,7 @@
 #import "StoryCell.h"
 #import "HLZInfiniteScrollView.h"
 #import "UITableView+HLZStickyHeader.h"
+#import "Macros.h"
 
 @import SDWebImage;
 
@@ -35,17 +36,22 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+#ifdef LaunchImageEnabled
     // Hide table view and show launch image.
     self.view.alpha = 0.0;
     [self showLaunchImage];
+#endif
     
     self.scrollView = [[HLZInfiniteScrollView alloc] init];
+    self.tableView.stickyHeaderViewHeightMin = StickyHeaderViewHeightMin;
+    self.tableView.stickyHeaderViewHeightMax = StickyHeaderViewHeightMax;
     self.tableView.stickyHeaderView = self.scrollView;
     self.pageControl = [[UIPageControl alloc] init];
     
-    [self configureTableView:self.tableView];
-    [self configureScrollView:self.scrollView];
-    [self configurePageControl:self.pageControl];
+    [self configureNavigationBar];
+    [self configureTableView];
+    [self configureScrollView];
+    [self configurePageControl];
     
     [self updateStories];
 }
@@ -53,14 +59,16 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+#ifdef LaunchImageEnabled
     // Show table view and hide launch image.
-    [NSThread sleepForTimeInterval:1.5];
+    [NSThread sleepForTimeInterval:ShowLaunchImageDuration];
     
     [UIView animateWithDuration:1.0 animations:^{
         self.view.alpha = 1.0;
     } completion:^(BOOL finished){
         [self hideLaunchImage];
     }];
+#endif
 }
 
 - (void)viewDidLayoutSubviews {
@@ -133,39 +141,47 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     self.pageControl.numberOfPages = imageViews.count;
 }
 
-- (void)configureTableView:(UITableView *)tableView {
-    tableView.estimatedRowHeight = StoryCellRowHeight;
-    tableView.rowHeight = UITableViewAutomaticDimension;
-    
-    tableView.showsHorizontalScrollIndicator = NO;
-    tableView.showsVerticalScrollIndicator = NO;
+- (void)configureNavigationBar {
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+    self.title = @"今日热闻";
+}
+
+- (void)configureTableView {
+    self.tableView.estimatedRowHeight = StoryCellRowHeight;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.showsHorizontalScrollIndicator = NO;
+    self.tableView.showsVerticalScrollIndicator = NO;
     
     // Register table view cell.
     UINib *cellNib = [UINib nibWithNibName:StoryCellIdentifier bundle:nil];
-    [tableView registerNib:cellNib forCellReuseIdentifier:StoryCellIdentifier];
+    [self.tableView registerNib:cellNib forCellReuseIdentifier:StoryCellIdentifier];
 }
 
-- (void)configureScrollView:(HLZInfiniteScrollView *)scrollView {
-    scrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * 3, TableHeaderViewHeightMin);
-    scrollView.showsHorizontalScrollIndicator = NO;
-    scrollView.showsVerticalScrollIndicator = NO;
-    scrollView.infiniteScrollEnabled = YES;
-    scrollView.autoScrollEnabled = YES;
-    scrollView.autoScrollTimerInterval = AutoScrollTimerInterval;
-    scrollView.autoScrollLeftShift = YES;
-    scrollView.delegate = self;
+- (void)configureScrollView {
+    self.scrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * 3, StickyHeaderViewHeightMin);
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    self.scrollView.infiniteScrollEnabled = YES;
+    self.scrollView.autoScrollEnabled = YES;
+    self.scrollView.autoScrollTimerInterval = AutoScrollTimerInterval;
+    self.scrollView.autoScrollLeftShift = YES;
+    self.scrollView.delegate = self;
 }
 
-- (void)configurePageControl:(UIPageControl *)pageControl {
-    pageControl.currentPage = self.scrollView.currentViewIndex;
-    [self.view addSubview:pageControl];
+- (void)configurePageControl {
+    self.pageControl.currentPage = self.scrollView.currentViewIndex;
+    [self.view addSubview:self.pageControl];
     
     self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
     [NSLayoutConstraint activateConstraints:@[[self.pageControl.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor]]];
 }
 
 - (void)showLaunchImage {
-#ifdef LaunchImageEnabled
     self.launchImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     // Get the launch image.
@@ -180,16 +196,13 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
         self.launchImageView.image = launchImage;
         [[[UIApplication sharedApplication].delegate window] addSubview:self.launchImageView];
     }
-#endif
 }
 
 - (void)hideLaunchImage {
-#ifdef LaunchImageEnabled
     if (self.launchImageView) {
         [self.launchImageView removeFromSuperview];
         self.launchImageView = nil;
     }
-#endif
 }
 
 @end

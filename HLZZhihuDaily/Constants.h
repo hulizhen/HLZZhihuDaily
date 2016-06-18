@@ -26,15 +26,13 @@ static NSString * const StoryRecommendersURL    = @"http://news-at.zhihu.com/api
 static NSString * const StoryInThemeURL         = @"http://news-at.zhihu.com/api/4/theme/%@/before/%@";
 static NSString * const EditorProfileURL        = @"http://news-at.zhihu.com/api/4/editor/%@/profile-page/ios";
 
-static float const TableHeaderViewHeightMin = 220.0;
-static float const TableHeaderViewHeightMax = 320.0;
-static float const StoryCellRowHeight       = 92.0;
-
-static float const AutoScrollTimerInterval = 5.0;
+static float const ShowLaunchImageDuration   = 1.5;
+static float const StickyHeaderViewHeightMin = 220.0 - 44.0 - 20.0;
+static float const StickyHeaderViewHeightMax = 320.0;
+static float const StoryCellRowHeight        = 92.0;
+static float const AutoScrollTimerInterval   = 5.0;
 
 static int const ViewTagBase = 1000;
 static int const LabelInTopStoryImageViewTag = ViewTagBase + 1;
-
-//#define LaunchImageEnabled
 
 #endif /* Constants_h */
