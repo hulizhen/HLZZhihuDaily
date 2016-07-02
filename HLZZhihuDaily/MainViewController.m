@@ -13,6 +13,7 @@
 #import "StoryCell.h"
 #import "HLZInfiniteScrollView.h"
 #import "UITableView+HLZStickyHeader.h"
+#import "HLZRefreshControl.h"
 #import "Macros.h"
 
 @import SDWebImage;
@@ -21,6 +22,7 @@
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 
+@property (nonatomic, strong) HLZRefreshControl *refreshControl;
 @property (nonatomic, strong) HLZInfiniteScrollView *scrollView;
 @property (nonatomic, strong) UIImageView *launchImageView;
 @property (nonatomic, strong) UIPageControl *pageControl;
@@ -42,16 +44,21 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     [self showLaunchImage];
 #endif
     
+    NSInteger statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    NSInteger navigationBarHeight = self.navigationController.navigationBar.frame.size.height;
+    
     self.scrollView = [[HLZInfiniteScrollView alloc] init];
-    self.tableView.stickyHeaderViewHeightMin = StickyHeaderViewHeightMin;
-    self.tableView.stickyHeaderViewHeightMax = StickyHeaderViewHeightMax;
-    self.tableView.stickyHeaderView = self.scrollView;
+    self.tableView.hlz_stickyHeaderViewHeightMin = StickyHeaderViewHeightMin - statusBarHeight - navigationBarHeight;
+    self.tableView.hlz_stickyHeaderViewHeightMax = StickyHeaderViewHeightMax;
+    self.tableView.hlz_stickyHeaderView = self.scrollView;
+    
     self.pageControl = [[UIPageControl alloc] init];
     
     [self configureNavigationBar];
     [self configureTableView];
     [self configureScrollView];
     [self configurePageControl];
+    [self configureRefreshControl];
     
     [self updateStories];
 }
@@ -88,16 +95,33 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
             frame.origin.y = -self.tableView.contentOffset.y - 32;
             frame;
         });
+        
+        CGFloat progress = -(self.tableView.contentOffset.y + StickyHeaderViewHeightMin)/(StickyHeaderViewHeightMax - StickyHeaderViewHeightMin);
+        if (progress >= 0) {
+            self.refreshControl.progress = progress;
+        }
     } else if (scrollView == self.scrollView) {
     }
 }
 
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (scrollView == self.tableView) {
+        if (self.refreshControl.progress >= 1) {
+            [self.refreshControl beginRefreshing];
+        }
+    }
+}
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    self.pageControl.currentPage = self.scrollView.currentViewIndex;
+    if (scrollView == self.scrollView) {
+        self.pageControl.currentPage = self.scrollView.currentViewIndex;
+    }
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    self.pageControl.currentPage = self.scrollView.currentViewIndex;
+    if (scrollView == self.scrollView) {
+        self.pageControl.currentPage = self.scrollView.currentViewIndex;
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -179,6 +203,18 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     
     self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
     [NSLayoutConstraint activateConstraints:@[[self.pageControl.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor]]];
+}
+
+- (void)configureRefreshControl {
+    self.refreshControl = [[HLZRefreshControl alloc] init];
+    
+    // Change the position of refresh control.
+    self.refreshControl.bounds = ({
+        CGRect bounds = CGRectMake(-50, -(StickyHeaderViewHeightMin - 12), self.refreshControl.bounds.size.width, self.refreshControl.bounds.size.height);
+        bounds;
+    });
+    self.refreshControl.tintColor = [UIColor whiteColor];
+    [self.tableView addSubview: self.refreshControl];
 }
 
 - (void)showLaunchImage {

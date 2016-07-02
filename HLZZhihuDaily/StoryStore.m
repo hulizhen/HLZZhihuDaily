@@ -12,8 +12,8 @@
 
 @interface StoryStore ()
 
-@property (nonatomic, strong) NSMutableArray *privateLatestStories;
-@property (nonatomic, strong) NSMutableArray *privateTopStories;
+@property (nonatomic, strong) NSMutableArray *mutableLatestStories;
+@property (nonatomic, strong) NSMutableArray *mutableTopStories;
 
 @end
 
@@ -33,8 +33,8 @@
 - (instancetype)initSharedInstance {
     self = [super init];
     if (self) {
-        _privateLatestStories = [[NSMutableArray alloc] init];
-        _privateTopStories = [[NSMutableArray alloc] init];
+        _mutableLatestStories = [[NSMutableArray alloc] init];
+        _mutableTopStories = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -53,14 +53,14 @@
     NSArray *stories = json[@"stories"];
     for (NSDictionary *dictionary in stories) {
         Story *story = [[Story alloc] initWithDictionary:dictionary];
-        [self.privateLatestStories addObject:story];
+        [self.mutableLatestStories addObject:story];
     }
     
     // Top stories.
     stories = json[@"top_stories"];
     for (NSDictionary *dictionary in stories) {
         Story *story = [[Story alloc] initWithDictionary:dictionary];
-        [self.privateTopStories addObject:story];
+        [self.mutableTopStories addObject:story];
     }
     
 //    [self dumpStories];
@@ -70,22 +70,22 @@
 #pragma mark - Accessors
 
 - (NSArray *)latestStories {
-    return [self.privateLatestStories copy];
+    return [self.mutableLatestStories copy];
 }
 
 - (NSArray *)topStories {
-    return [self.privateTopStories copy];
+    return [self.mutableTopStories copy];
 }
 
 #pragma mark - Utils
 
 - (void)dumpStories {
-    for (Story *story in self.privateLatestStories) {
+    for (Story *story in self.mutableLatestStories) {
         NSLog(@"Latest Story: %@", story);
     }
     
     printf("\n");
-    for (Story *story in self.privateTopStories) {
+    for (Story *story in self.mutableTopStories) {
         NSLog(@"Top Story: %@", story);
     }
     

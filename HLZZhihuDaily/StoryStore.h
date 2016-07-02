@@ -10,8 +10,8 @@
 
 @interface StoryStore : NSObject
 
-@property (nonatomic, readonly) NSArray *latestStories;
-@property (nonatomic, readonly) NSArray *topStories;
+@property (nonatomic, readonly, strong) NSArray *latestStories;
+@property (nonatomic, readonly, strong) NSArray *topStories;
 
 + (instancetype)sharedInstance;
 - (void)fetchStories;
