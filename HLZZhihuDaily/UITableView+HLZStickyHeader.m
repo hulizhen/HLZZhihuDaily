@@ -26,63 +26,63 @@
 - (void)hlz_layoutSubviews {
     [self hlz_layoutSubviews];
     
-    [self updateTableViewHeader];
+    [self hlz_updateTableViewHeader];
 }
 
 #pragma mark - Accessors
 
-- (void)setStickyHeaderView:(UIView *)stickyHeaderView {
-    objc_setAssociatedObject(self, @selector(stickyHeaderView), stickyHeaderView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)hlz_setStickyHeaderView:(UIView *)stickyHeaderView {
+    objc_setAssociatedObject(self, @selector(hlz_stickyHeaderView), stickyHeaderView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
-    self.stickyHeaderView.clipsToBounds = YES;
+    self.hlz_stickyHeaderView.clipsToBounds = YES;
     
     // Put scroll view into the top inset of table view.
     // This is exactly the trick to make scroll view stick to the top of view controller.
     [self addSubview:stickyHeaderView];
-    self.contentInset = UIEdgeInsetsMake(self.stickyHeaderViewHeightMin, 0, 0, 0);
-    self.contentOffset = CGPointMake(0, -self.stickyHeaderViewHeightMin);
+    self.contentInset = UIEdgeInsetsMake(self.hlz_stickyHeaderViewHeightMin, 0, 0, 0);
+    self.contentOffset = CGPointMake(0, -self.hlz_stickyHeaderViewHeightMin);
 }
 
-- (UIView *)stickyHeaderView {
-    return objc_getAssociatedObject(self, @selector(stickyHeaderView));
+- (UIView *)hlz_stickyHeaderView {
+    return objc_getAssociatedObject(self, @selector(hlz_stickyHeaderView));
 }
 
-- (void)setStickyHeaderViewHeightMin:(CGFloat)stickyHeaderViewHeightMin {
+- (void)hlz_setStickyHeaderViewHeightMin:(CGFloat)stickyHeaderViewHeightMin {
     NSNumber *number = [NSNumber numberWithFloat:stickyHeaderViewHeightMin];
-    objc_setAssociatedObject(self, @selector(stickyHeaderViewHeightMin), number, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(hlz_stickyHeaderViewHeightMin), number, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (CGFloat)stickyHeaderViewHeightMin {
-    NSNumber *number = objc_getAssociatedObject(self, @selector(stickyHeaderViewHeightMin));
+- (CGFloat)hlz_stickyHeaderViewHeightMin {
+    NSNumber *number = objc_getAssociatedObject(self, @selector(hlz_stickyHeaderViewHeightMin));
     if (number == nil) {
         number = [[NSNumber alloc] initWithFloat:220];
-        objc_setAssociatedObject(self, @selector(stickyHeaderViewHeightMin), number, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(self, @selector(hlz_stickyHeaderViewHeightMin), number, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return [number floatValue];
 }
 
-- (void)setStickyHeaderViewHeightMax:(CGFloat)stickyHeaderViewHeightMax {
+- (void)hlz_setStickyHeaderViewHeightMax:(CGFloat)stickyHeaderViewHeightMax {
     NSNumber *number = [NSNumber numberWithFloat:stickyHeaderViewHeightMax];
-    objc_setAssociatedObject(self, @selector(stickyHeaderViewHeightMax), number, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(hlz_stickyHeaderViewHeightMax), number, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (CGFloat)stickyHeaderViewHeightMax {
-    NSNumber *number = objc_getAssociatedObject(self, @selector(stickyHeaderViewHeightMax));
+- (CGFloat)hlz_stickyHeaderViewHeightMax {
+    NSNumber *number = objc_getAssociatedObject(self, @selector(hlz_stickyHeaderViewHeightMax));
     if (number == nil) {
         number = [[NSNumber alloc] initWithFloat:320];
-        objc_setAssociatedObject(self, @selector(stickyHeaderViewHeightMax), number, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(self, @selector(hlz_stickyHeaderViewHeightMax), number, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return [number floatValue];
 }
 
 // Update the scroll view's height, thus make it stretchable.
-- (void)updateTableViewHeader {
+- (void)hlz_updateTableViewHeader {
     // Stop stretching when the height of table view header is out of range.
     CGFloat contentOffsetX = self.contentOffset.x;
-    CGFloat contentOffsetY = self.contentOffset.y > -self.stickyHeaderViewHeightMax ? self.contentOffset.y : -self.stickyHeaderViewHeightMax;
+    CGFloat contentOffsetY = self.contentOffset.y > -self.hlz_stickyHeaderViewHeightMax ? self.contentOffset.y : -self.hlz_stickyHeaderViewHeightMax;
     
     self.contentOffset = CGPointMake(self.contentOffset.x, contentOffsetY);
-    self.stickyHeaderView.frame = CGRectMake(contentOffsetX, contentOffsetY, [UIScreen mainScreen].bounds.size.width, -contentOffsetY);
+    self.hlz_stickyHeaderView.frame = CGRectMake(contentOffsetX, contentOffsetY, [UIScreen mainScreen].bounds.size.width, -contentOffsetY);
 }
 
 @end
