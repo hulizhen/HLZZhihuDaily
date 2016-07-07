@@ -14,6 +14,6 @@
 @property (nonatomic, readonly, strong) NSArray *topStories;
 
 + (instancetype)sharedInstance;
-- (void)fetchStories;
+- (void)updateStoriesWithCompletion:(void(^)(void))completion;
 
 @end

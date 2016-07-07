@@ -13,19 +13,18 @@
 #import "StoryCell.h"
 #import "HLZInfiniteScrollView.h"
 #import "UITableView+HLZStickyHeader.h"
-#import "HLZRefreshControl.h"
+#import "HLZRefreshView.h"
 #import "Macros.h"
 
 @import SDWebImage;
 
-@interface MainViewController () <UITableViewDataSource, HLZInfiniteScrollViewDelegate>
+@interface MainViewController () <UITableViewDataSource>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 
-@property (nonatomic, strong) HLZRefreshControl *refreshControl;
+@property (nonatomic, strong) HLZRefreshView *refreshView;
 @property (nonatomic, strong) HLZInfiniteScrollView *scrollView;
 @property (nonatomic, strong) UIImageView *launchImageView;
-@property (nonatomic, strong) UIPageControl *pageControl;
 
 @end
 
@@ -34,6 +33,11 @@
 static NSString * const StoryCellIdentifier = @"StoryCell";
 
 #pragma mark - Lifecycle
+
+- (void)dealloc {
+    [[StoryStore sharedInstance] removeObserver:self forKeyPath:@"latestStories"];
+    [[StoryStore sharedInstance] removeObserver:self forKeyPath:@"topStories"];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,23 +48,11 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     [self showLaunchImage];
 #endif
     
-    NSInteger statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-    NSInteger navigationBarHeight = self.navigationController.navigationBar.frame.size.height;
-    
-    self.scrollView = [[HLZInfiniteScrollView alloc] init];
-    self.tableView.hlz_stickyHeaderViewHeightMin = StickyHeaderViewHeightMin - statusBarHeight - navigationBarHeight;
-    self.tableView.hlz_stickyHeaderViewHeightMax = StickyHeaderViewHeightMax;
-    self.tableView.hlz_stickyHeaderView = self.scrollView;
-    
-    self.pageControl = [[UIPageControl alloc] init];
-    
     [self configureNavigationBar];
-    [self configureTableView];
     [self configureScrollView];
-    [self configurePageControl];
-    [self configureRefreshControl];
+    [self configureTableView];
     
-    [self updateStories];
+    [self loadStories];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -78,49 +70,30 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 #endif
 }
 
-- (void)viewDidLayoutSubviews {
-    self.pageControl.frame = ({
-        CGRect frame = self.pageControl.frame;
-        frame.origin.y = -self.tableView.contentOffset.y - 32;
-        frame;
-    });
-}
-
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == self.tableView) {
-        self.pageControl.frame = ({
-            CGRect frame = self.pageControl.frame;
-            frame.origin.y = -self.tableView.contentOffset.y - 32;
-            frame;
-        });
-        
-        CGFloat progress = -(self.tableView.contentOffset.y + StickyHeaderViewHeightMin)/(StickyHeaderViewHeightMax - StickyHeaderViewHeightMin);
+        CGFloat progress = -(self.tableView.contentOffset.y + StickyHeaderViewHeightMin)/(StickyHeaderViewHeightMax - StickyHeaderViewHeightMin) * 1.5;
         if (progress >= 0) {
-            self.refreshControl.progress = progress;
+            self.refreshView.progress = progress;
         }
-    } else if (scrollView == self.scrollView) {
     }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (scrollView == self.tableView) {
-        if (self.refreshControl.progress >= 1) {
-            [self.refreshControl beginRefreshing];
+        if (self.refreshView.progress >= 1) {
+            [self.refreshView beginRefreshing];
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [[StoryStore sharedInstance] updateStoriesWithCompletion:^{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.refreshView endRefreshing];
+                    });
+                }];
+            });
         }
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if (scrollView == self.scrollView) {
-        self.pageControl.currentPage = self.scrollView.currentViewIndex;
-    }
-}
-
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    if (scrollView == self.scrollView) {
-        self.pageControl.currentPage = self.scrollView.currentViewIndex;
     }
 }
 
@@ -145,7 +118,7 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 
 #pragma mark - Helpers
 
-- (void)updateStories {
+- (void)loadStories {
     NSMutableArray *imageViews = [[NSMutableArray alloc] init];
     NSInteger i = 0;
     for (Story *story in [StoryStore sharedInstance].topStories) {
@@ -162,7 +135,16 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     }
     
     self.scrollView.contentViews = imageViews;
-    self.pageControl.numberOfPages = imageViews.count;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    if ([object isEqual:[StoryStore sharedInstance]]) {
+        if ([keyPath isEqualToString:@"latestStories"]) {
+            [self.tableView reloadData];
+        } else if ([keyPath isEqualToString:@"topStories"]) {
+            [self loadStories];
+        }
+    }
 }
 
 - (void)configureNavigationBar {
@@ -172,10 +154,34 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
-    self.title = @"今日热闻";
+    
+    // Customize title view.
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 140, 30)];
+    
+    self.refreshView = [[HLZRefreshView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    [titleView addSubview:self.refreshView];
+    
+    UILabel *titleLabel = ({
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 80, 30)];
+        titleLabel.textColor = [UIColor whiteColor];
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        titleLabel.font = [UIFont boldSystemFontOfSize:18];
+        titleLabel.text = @"今日热闻";
+        titleLabel;
+    });
+    [titleView addSubview:titleLabel];
+    
+    self.navigationItem.titleView = titleView;
 }
 
 - (void)configureTableView {
+    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    CGFloat navigationBarHeight = self.navigationController.navigationBar.frame.size.height;
+    
+    self.tableView.hlz_stickyHeaderViewHeightMin = StickyHeaderViewHeightMin - statusBarHeight - navigationBarHeight;
+    self.tableView.hlz_stickyHeaderViewHeightMax = StickyHeaderViewHeightMax;
+    self.tableView.hlz_stickyHeaderView = self.scrollView;
+    
     self.tableView.estimatedRowHeight = StoryCellRowHeight;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.showsHorizontalScrollIndicator = NO;
@@ -184,37 +190,26 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     // Register table view cell.
     UINib *cellNib = [UINib nibWithNibName:StoryCellIdentifier bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:StoryCellIdentifier];
+    
+    [[StoryStore sharedInstance] addObserver:self forKeyPath:@"latestStories" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)configureScrollView {
-    self.scrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width * 3, StickyHeaderViewHeightMin);
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.showsVerticalScrollIndicator = NO;
-    self.scrollView.infiniteScrollEnabled = YES;
-    self.scrollView.autoScrollEnabled = YES;
-    self.scrollView.autoScrollTimerInterval = AutoScrollTimerInterval;
-    self.scrollView.autoScrollLeftShift = YES;
-    self.scrollView.delegate = self;
-}
-
-- (void)configurePageControl {
-    self.pageControl.currentPage = self.scrollView.currentViewIndex;
-    [self.view addSubview:self.pageControl];
-    
-    self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
-    [NSLayoutConstraint activateConstraints:@[[self.pageControl.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor]]];
-}
-
-- (void)configureRefreshControl {
-    self.refreshControl = [[HLZRefreshControl alloc] init];
-    
-    // Change the position of refresh control.
-    self.refreshControl.bounds = ({
-        CGRect bounds = CGRectMake(-50, -(StickyHeaderViewHeightMin - 12), self.refreshControl.bounds.size.width, self.refreshControl.bounds.size.height);
-        bounds;
+    self.scrollView = ({
+        HLZInfiniteScrollView *scrollView = [[HLZInfiniteScrollView alloc] initWithFrame:CGRectMake(0,
+                                                                                                    -StickyHeaderViewHeightMin,
+                                                                                                    [UIScreen mainScreen].bounds.size.width,
+                                                                                                    StickyHeaderViewHeightMin)];
+//        HLZInfiniteScrollView *scrollView = [[HLZInfiniteScrollView alloc] init];
+        scrollView.autoScrollEnabled = YES;
+        scrollView.autoScrollTimerInterval = 2.0;
+        scrollView.autoScrollDirection = AutoScrollDirectionRight;
+        scrollView.backgroundColor = [UIColor redColor];
+        scrollView;
     });
-    self.refreshControl.tintColor = [UIColor whiteColor];
-    [self.tableView addSubview: self.refreshControl];
+//    [self.view addSubview:self.scrollView];
+    
+    [[StoryStore sharedInstance] addObserver:self forKeyPath:@"topStories" options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)showLaunchImage {

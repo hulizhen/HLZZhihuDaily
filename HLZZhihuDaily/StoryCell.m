@@ -27,7 +27,6 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
     // Configure the view for the selected state
 }
 
@@ -38,7 +37,6 @@
     
     self.storyTitle.text = story.title;
     [self.storyImageView sd_setImageWithURL:story.imageURL placeholderImage:nil];
-    
 }
 
 @end

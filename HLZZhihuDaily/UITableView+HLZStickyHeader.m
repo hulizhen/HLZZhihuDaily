@@ -11,6 +11,9 @@
 
 @implementation UITableView (HLZStickyHeader)
 
+static const float DefaultStickyHeaderViewHeightMin = 180.0;
+static const float DefaultStickyHeaderViewHeightMax = 320.0;
+
 #pragma mark - Lifecycle
 
 + (void)load {
@@ -36,9 +39,10 @@
     
     self.hlz_stickyHeaderView.clipsToBounds = YES;
     
+    [self addSubview:stickyHeaderView];
+    
     // Put scroll view into the top inset of table view.
     // This is exactly the trick to make scroll view stick to the top of view controller.
-    [self addSubview:stickyHeaderView];
     self.contentInset = UIEdgeInsetsMake(self.hlz_stickyHeaderViewHeightMin, 0, 0, 0);
     self.contentOffset = CGPointMake(0, -self.hlz_stickyHeaderViewHeightMin);
 }
@@ -55,7 +59,7 @@
 - (CGFloat)hlz_stickyHeaderViewHeightMin {
     NSNumber *number = objc_getAssociatedObject(self, @selector(hlz_stickyHeaderViewHeightMin));
     if (number == nil) {
-        number = [[NSNumber alloc] initWithFloat:220];
+        number = [[NSNumber alloc] initWithFloat:DefaultStickyHeaderViewHeightMin];
         objc_setAssociatedObject(self, @selector(hlz_stickyHeaderViewHeightMin), number, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return [number floatValue];
@@ -69,7 +73,7 @@
 - (CGFloat)hlz_stickyHeaderViewHeightMax {
     NSNumber *number = objc_getAssociatedObject(self, @selector(hlz_stickyHeaderViewHeightMax));
     if (number == nil) {
-        number = [[NSNumber alloc] initWithFloat:320];
+        number = [[NSNumber alloc] initWithFloat:DefaultStickyHeaderViewHeightMax];
         objc_setAssociatedObject(self, @selector(hlz_stickyHeaderViewHeightMax), number, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
     return [number floatValue];
@@ -83,6 +87,8 @@
     
     self.contentOffset = CGPointMake(self.contentOffset.x, contentOffsetY);
     self.hlz_stickyHeaderView.frame = CGRectMake(contentOffsetX, contentOffsetY, [UIScreen mainScreen].bounds.size.width, -contentOffsetY);
+//    NSLog(@"table view  offset: (%f, %f)", self.contentOffset.x, self.contentOffset.y);
+//    NSLog(@"scroll view offset: (%@)", self.hlz_stickyHeaderView);
 }
 
 @end

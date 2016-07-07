@@ -9,6 +9,7 @@
 #import "StoryStore.h"
 #import "Constants.h"
 #import "Story.h"
+#import "Macros.h"
 
 @interface StoryStore ()
 
@@ -44,26 +45,38 @@
     return nil;
 }
 
-- (void)fetchStories {
+- (void)updateStoriesWithCompletion:(void(^)(void))completion {
     NSURL *url = [NSURL URLWithString:LatestStoriesURL];
     NSData *data = [NSData dataWithContentsOfURL:url];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+    [self.mutableLatestStories removeAllObjects];
+    [self.mutableTopStories removeAllObjects];
     
     // Latest stories.
+    [self willChangeValueForKey:@"latestStories"];
     NSArray *stories = json[@"stories"];
     for (NSDictionary *dictionary in stories) {
         Story *story = [[Story alloc] initWithDictionary:dictionary];
         [self.mutableLatestStories addObject:story];
     }
+    [self didChangeValueForKey:@"latestStories"];
     
     // Top stories.
+    [self willChangeValueForKey:@"topStories"];
     stories = json[@"top_stories"];
     for (NSDictionary *dictionary in stories) {
         Story *story = [[Story alloc] initWithDictionary:dictionary];
         [self.mutableTopStories addObject:story];
     }
+    [self didChangeValueForKey:@"topStories"];
     
-//    [self dumpStories];
+    if (completion) {
+        completion();
+    }
+    
+#ifdef DumpStories
+    [self dumpStories];
+#endif
 }
 
 
@@ -79,6 +92,7 @@
 
 #pragma mark - Utils
 
+#ifdef DumpStories
 - (void)dumpStories {
     for (Story *story in self.mutableLatestStories) {
         NSLog(@"Latest Story: %@", story);
@@ -91,5 +105,6 @@
     
     printf("\n");
 }
+#endif
 
 @end

@@ -20,7 +20,7 @@
 		25C00E671D11AC15007A6F5B /* UITableView+HLZStickyHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */; };
 		25C00E6A1D129054007A6F5B /* HLZInfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E691D129054007A6F5B /* HLZInfiniteScrollView.m */; };
 		25C00E751D142379007A6F5B /* TopStoryImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E741D142379007A6F5B /* TopStoryImageView.xib */; };
-		25D7A1761D1629C6008030AB /* HLZRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A1751D1629C6008030AB /* HLZRefreshControl.m */; };
+		25D7A1761D1629C6008030AB /* HLZRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A1751D1629C6008030AB /* HLZRefreshView.m */; };
 		4097FF62344F95D0CACD1BF4 /* Pods_HLZZhihuDaily.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DF8815100B926C446D994D /* Pods_HLZZhihuDaily.framework */; };
 /* End PBXBuildFile section */
 
@@ -50,8 +50,8 @@
 		25C00E691D129054007A6F5B /* HLZInfiniteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZInfiniteScrollView.m; sourceTree = "<group>"; };
 		25C00E741D142379007A6F5B /* TopStoryImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopStoryImageView.xib; sourceTree = "<group>"; };
 		25D7A1731D152F00008030AB /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
-		25D7A1741D1629C6008030AB /* HLZRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZRefreshControl.h; sourceTree = "<group>"; };
-		25D7A1751D1629C6008030AB /* HLZRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZRefreshControl.m; sourceTree = "<group>"; };
+		25D7A1741D1629C6008030AB /* HLZRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZRefreshView.h; sourceTree = "<group>"; };
+		25D7A1751D1629C6008030AB /* HLZRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZRefreshView.m; sourceTree = "<group>"; };
 		5AACB207D96E2984BD24C400 /* Pods-HLZZhihuDaily.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HLZZhihuDaily.release.xcconfig"; path = "Pods/Target Support Files/Pods-HLZZhihuDaily/Pods-HLZZhihuDaily.release.xcconfig"; sourceTree = "<group>"; };
 		67DF8815100B926C446D994D /* Pods_HLZZhihuDaily.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HLZZhihuDaily.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -123,8 +123,8 @@
 				25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */,
 				25C00E681D129054007A6F5B /* HLZInfiniteScrollView.h */,
 				25C00E691D129054007A6F5B /* HLZInfiniteScrollView.m */,
-				25D7A1741D1629C6008030AB /* HLZRefreshControl.h */,
-				25D7A1751D1629C6008030AB /* HLZRefreshControl.m */,
+				25D7A1741D1629C6008030AB /* HLZRefreshView.h */,
+				25D7A1751D1629C6008030AB /* HLZRefreshView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -313,7 +313,7 @@
 				25C00E671D11AC15007A6F5B /* UITableView+HLZStickyHeader.m in Sources */,
 				25C00E601D11AA11007A6F5B /* StoryCell.m in Sources */,
 				25C00E641D11AAFD007A6F5B /* MainViewController.m in Sources */,
-				25D7A1761D1629C6008030AB /* HLZRefreshControl.m in Sources */,
+				25D7A1761D1629C6008030AB /* HLZRefreshView.m in Sources */,
 				25C00E4D1D11A956007A6F5B /* AppDelegate.m in Sources */,
 				25C00E331D11A59A007A6F5B /* main.m in Sources */,
 			);

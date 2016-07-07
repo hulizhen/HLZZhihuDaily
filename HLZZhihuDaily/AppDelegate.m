@@ -22,7 +22,7 @@
 //    [UINavigationBar appearance].backgroundColor = [UIColor clearColor];
 //    [UINavigationBar appearance].translucent = NO;
     
-    [[StoryStore sharedInstance] fetchStories];
+    [[StoryStore sharedInstance] updateStoriesWithCompletion:nil];
     return YES;
 }
 
