@@ -50,11 +50,7 @@ static NSString * const CellReuseIdentifier = @"CellReuseIdentifier";
                                                   [_containerView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor]]];
         
         // Set up the page control.
-        _pageControl = ({
-            UIPageControl *pageControl = [[UIPageControl alloc] init];
-            pageControl.currentPage = 0;
-            pageControl;
-        });
+        _pageControl = [[UIPageControl alloc] init];
         [_pageControl sizeToFit];
         [self addSubview:_pageControl];
         _pageControl.translatesAutoresizingMaskIntoConstraints = NO;
@@ -83,9 +79,6 @@ static NSString * const CellReuseIdentifier = @"CellReuseIdentifier";
     // Update the number of pages and current page.
     self.pageControl.numberOfPages = contentViews.count;
     self.pageControl.currentPage = 0;
-    
-//    self.containerView.dataSource = self;
-//    self.containerView.delegate = self;
     
     // Scroll to the first item in the contentViews.
     [self.containerView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]
@@ -176,8 +169,10 @@ static NSString * const CellReuseIdentifier = @"CellReuseIdentifier";
 }
 
 - (void)resetTimer {
-    [self stopTimer];
-    [self startTimer];
+    if (self.contentViews && self.isAutoScrollEnabled) {
+        [self stopTimer];
+        [self startTimer];
+    }
 }
 
 #pragma mark - Helpers
@@ -251,12 +246,12 @@ static NSString * const CellReuseIdentifier = @"CellReuseIdentifier";
     [self resetTimer];
 }
 
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-//    self.pageControl.currentPage = self.currentViewIndex;
-//}
-//
-//- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-//    self.pageControl.currentPage = self.currentViewIndex;
-//}
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    self.pageControl.currentPage = self.currentViewIndex;
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    self.pageControl.currentPage = self.currentViewIndex;
+}
 
 @end

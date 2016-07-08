@@ -87,8 +87,6 @@ static const float DefaultStickyHeaderViewHeightMax = 320.0;
     
     self.contentOffset = CGPointMake(self.contentOffset.x, contentOffsetY);
     self.hlz_stickyHeaderView.frame = CGRectMake(contentOffsetX, contentOffsetY, [UIScreen mainScreen].bounds.size.width, -contentOffsetY);
-//    NSLog(@"table view  offset: (%f, %f)", self.contentOffset.x, self.contentOffset.y);
-//    NSLog(@"scroll view offset: (%@)", self.hlz_stickyHeaderView);
 }
 
 @end

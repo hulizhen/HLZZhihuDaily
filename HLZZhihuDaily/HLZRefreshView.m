@@ -17,8 +17,6 @@
 
 @implementation HLZRefreshView
 
-#pragma mark - Lifecycle
-
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -33,16 +31,37 @@
 }
 
 - (void)drawRect:(CGRect)rect {
+    if (self.progress == 0) {
+        return;
+    }
+    
     if (!self.isRefreshing) {
         CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-        UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:center
-                                                            radius:8.0
-                                                        startAngle:M_PI/2
-                                                          endAngle:M_PI/2 + self.progress * M_PI * 2
-                                                         clockwise:YES];
-        UIColor *tintColor = self.tintColor ?: [UIColor whiteColor];
+        UIBezierPath *path;
+        UIColor *tintColor;
+        CGFloat lineWidth = 1.0;
+        CGFloat circleRadius = 8.0;
+        
+        // Draw the background circle.
+        path = [UIBezierPath bezierPathWithArcCenter:center
+                                              radius:circleRadius
+                                          startAngle:0
+                                            endAngle:M_PI * 2
+                                           clockwise:YES];
+        tintColor = [UIColor colorWithWhite:0.5 alpha:0.3];
         [tintColor setStroke];
-        path.lineWidth = 1.5;
+        path.lineWidth = lineWidth;
+        [path stroke];
+        
+        // Draw the progress circle.
+        path = [UIBezierPath bezierPathWithArcCenter:center
+                                              radius:circleRadius
+                                          startAngle:M_PI/2
+                                            endAngle:M_PI/2 + self.progress * M_PI * 2
+                                           clockwise:YES];
+        tintColor = self.tintColor ?: [UIColor whiteColor];
+        [tintColor setStroke];
+        path.lineWidth = lineWidth;
         [path stroke];
     }
 }
@@ -57,97 +76,13 @@
     self.refreshing = false;
 }
 
-#pragma mark - Accessors
-
 - (void)setProgress:(CGFloat)progress {
     _progress = progress;
-    [self setNeedsDisplay];
-}
-
-@end
-
-
-
-
-
-
-
-
-
-#if 0
-
-#pragma mark - HLZRefreshCircleView
-
-@interface HLZRefreshCircleView : UIView
-
-@property (nonatomic, assign) CGFloat progress;
-
-@end
-
-@implementation HLZRefreshCircleView
-
-- (void)drawRect:(CGRect)rect {
-    CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-    UIBezierPath *path = [UIBezierPath bezierPathWithArcCenter:center
-                                                        radius:13.0
-                                                    startAngle:M_PI/2
-                                                      endAngle:M_PI/2 + self.progress * M_PI * 2
-                                                     clockwise:YES];
-    [self.tintColor setStroke];
-    path.lineWidth = 2.0;
-    [path stroke];
-}
-
-- (void)setProgress:(CGFloat)progress {
-    _progress = progress;
-    [self setNeedsDisplay];
-}
-
-@end
-
-
-#pragma mark - HLZRefreshView
-
-@interface HLZRefreshView ()
-
-@property (nonatomic, strong) HLZRefreshCircleView *refreshControlView;
-
-@end
-
-@implementation HLZRefreshView
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
     
-    if (!self.refreshControlView && !self.isRefreshing) {
-        self.subviews[0].subviews[0].hidden = YES;
-        
-        self.refreshControlView = [[HLZRefreshCircleView alloc] initWithFrame:self.bounds];
-        self.refreshControlView.tintColor = self.tintColor ?: [UIColor whiteColor];
-        self.refreshControlView.backgroundColor = [UIColor clearColor];
-        [self.subviews[0] addSubview:self.refreshControlView];
-        
-        self.refreshControlView.translatesAutoresizingMaskIntoConstraints = YES;
-        self.refreshControlView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    }
-    
-    if (self.refreshControlView && self.isRefreshing) {
-        self.subviews[0].subviews[0].hidden = NO;
-        [self.refreshControlView removeFromSuperview];
-        self.refreshControlView = nil;
-    }
-}
-
-- (void)setProgress:(CGFloat)progress {
-    _progress = progress;
-    self.refreshControlView.progress = progress;
-}
-
-- (void)endRefreshing {
-    [super endRefreshing];
-    self.progress = 0;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // Make sure the updating-UI code is run on main thread.
+        [self setNeedsDisplay];
+    });
 }
 
 @end
-
-#endif

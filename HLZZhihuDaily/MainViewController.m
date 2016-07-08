@@ -129,6 +129,9 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
         
         UILabel *label = [imageView viewWithTag:LabelInTopStoryImageViewTag];
         label.text = story.title;
+        
+        // TODO: Add a blur mask to the image.
+        
         [imageView addSubview:label];
         
         ++i;
@@ -200,14 +203,12 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
                                                                                                     -StickyHeaderViewHeightMin,
                                                                                                     [UIScreen mainScreen].bounds.size.width,
                                                                                                     StickyHeaderViewHeightMin)];
-//        HLZInfiniteScrollView *scrollView = [[HLZInfiniteScrollView alloc] init];
-        scrollView.autoScrollEnabled = YES;
-        scrollView.autoScrollTimerInterval = 2.0;
-        scrollView.autoScrollDirection = AutoScrollDirectionRight;
-        scrollView.backgroundColor = [UIColor redColor];
+        scrollView.pagingEnabled = YES;
+//        scrollView.autoScrollEnabled = YES;
+//        scrollView.autoScrollTimerInterval = AutoScrollTimerInterval;
+//        scrollView.autoScrollDirection = AutoScrollDirectionRight;
         scrollView;
     });
-//    [self.view addSubview:self.scrollView];
     
     [[StoryStore sharedInstance] addObserver:self forKeyPath:@"topStories" options:NSKeyValueObservingOptionNew context:nil];
 }
