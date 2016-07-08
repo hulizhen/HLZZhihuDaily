@@ -68,6 +68,8 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
         [self hideLaunchImage];
     }];
 #endif
+    
+    self.scrollView.currentPage = 0;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -75,7 +77,7 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == self.tableView) {
         CGFloat progress = -(self.tableView.contentOffset.y + StickyHeaderViewHeightMin)/(StickyHeaderViewHeightMax - StickyHeaderViewHeightMin) * 1.5;
-        if (progress >= 0) {
+        if (progress >= 0 && scrollView.isDragging) {
             self.refreshView.progress = progress;
         }
     }
@@ -93,6 +95,9 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
                     });
                 }];
             });
+        } else {
+            // Reset the progress to 0 if it did not reach 1.0.
+            self.refreshView.progress = 0;
         }
     }
 }
@@ -143,9 +148,13 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     if ([object isEqual:[StoryStore sharedInstance]]) {
         if ([keyPath isEqualToString:@"latestStories"]) {
-            [self.tableView reloadData];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
         } else if ([keyPath isEqualToString:@"topStories"]) {
-            [self loadStories];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self loadStories];
+            });
         }
     }
 }
@@ -185,10 +194,11 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     self.tableView.hlz_stickyHeaderViewHeightMax = StickyHeaderViewHeightMax;
     self.tableView.hlz_stickyHeaderView = self.scrollView;
     
-    self.tableView.estimatedRowHeight = StoryCellRowHeight;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = StoryCellRowHeight;
     self.tableView.showsHorizontalScrollIndicator = NO;
     self.tableView.showsVerticalScrollIndicator = NO;
+    self.tableView.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
     
     // Register table view cell.
     UINib *cellNib = [UINib nibWithNibName:StoryCellIdentifier bundle:nil];
@@ -204,9 +214,9 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
                                                                                                     [UIScreen mainScreen].bounds.size.width,
                                                                                                     StickyHeaderViewHeightMin)];
         scrollView.pagingEnabled = YES;
-//        scrollView.autoScrollEnabled = YES;
-//        scrollView.autoScrollTimerInterval = AutoScrollTimerInterval;
-//        scrollView.autoScrollDirection = AutoScrollDirectionRight;
+        scrollView.autoScrollEnabled = YES;
+        scrollView.autoScrollTimerInterval = AutoScrollTimerInterval;
+        scrollView.autoScrollDirection = AutoScrollDirectionRight;
         scrollView;
     });
     

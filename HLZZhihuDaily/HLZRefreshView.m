@@ -17,6 +17,7 @@
 
 @implementation HLZRefreshView
 
+
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -69,20 +70,33 @@
 - (void)beginRefreshing {
     self.refreshing = true;
     [self.indicatorView startAnimating];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setNeedsDisplay];
+    });
 }
 
 - (void)endRefreshing {
     [self.indicatorView stopAnimating];
     self.refreshing = false;
+    
+    self.progress = 0;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self setNeedsDisplay];
+    });
 }
 
 - (void)setProgress:(CGFloat)progress {
     _progress = progress;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        // Make sure the updating-UI code is run on main thread.
         [self setNeedsDisplay];
     });
+}
+
+- (void)setTintColor:(UIColor *)tintColor {
+    [super setTintColor:tintColor];
+    self.indicatorView.color = tintColor;
 }
 
 @end
