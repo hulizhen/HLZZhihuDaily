@@ -1,13 +1,13 @@
 //
 //  AppDelegate.m
-//  oZhihuDaily
+//  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 5/31/16.
 //  Copyright © 2016 hulz. All rights reserved.
 //
 
 #import "AppDelegate.h"
-#import "StoryStore.h"
+#import "HLZStoryStore.h"
 #import "Macros.h"
 
 @interface AppDelegate ()
@@ -22,7 +22,7 @@
 //    [UINavigationBar appearance].backgroundColor = [UIColor clearColor];
 //    [UINavigationBar appearance].translucent = NO;
     
-    [[StoryStore sharedInstance] updateStoriesWithCompletion:nil];
+    [[HLZStoryStore sharedInstance] updateStoriesWithCompletion:nil];
     return YES;
 }
 

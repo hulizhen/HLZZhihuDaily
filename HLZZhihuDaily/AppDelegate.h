@@ -1,6 +1,6 @@
 //
 //  AppDelegate.h
-//  oZhihuDaily
+//  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 5/31/16.
 //  Copyright © 2016 hulz. All rights reserved.

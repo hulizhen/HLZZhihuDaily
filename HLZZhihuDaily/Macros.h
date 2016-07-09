@@ -10,7 +10,7 @@
 #define Macros_h
 
 
-//#define LaunchImageEnabled
+//#define LaunchViewEnabled
 //#define DumpStories
 
 #define UIColorFromRGBA(rgbaValue) [UIColor colorWithRed:((float)((rgbaValue & 0xFF000000) >> 24))/255.0 \

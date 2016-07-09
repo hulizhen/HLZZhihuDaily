@@ -1,6 +1,6 @@
 //
 //  Constants.h
-//  oZhihuDaily
+//  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 6/2/16.
 //  Copyright © 2016 hulz. All rights reserved.

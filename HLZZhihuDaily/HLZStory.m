@@ -1,20 +1,20 @@
 //
-//  Story.m
-//  oZhihuDaily
+//  HLZStory.m
+//  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 6/2/16.
 //  Copyright © 2016 hulz. All rights reserved.
 //
 
-#import "Story.h"
+#import "HLZStory.h"
 #import "Constants.h"
 
-@interface Story ()
+@interface HLZStory ()
 
 
 @end
 
-@implementation Story
+@implementation HLZStory
 
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {

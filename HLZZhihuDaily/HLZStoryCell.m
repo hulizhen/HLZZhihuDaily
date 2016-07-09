@@ -1,26 +1,26 @@
 //
-//  StoryCell.m
-//  oZhihuDaily
+//  HLZStoryCell.m
+//  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 6/2/16.
 //  Copyright © 2016 hulz. All rights reserved.
 //
 
-#import "StoryCell.h"
-#import "Story.h"
+#import "HLZStoryCell.h"
+#import "HLZStory.h"
 
 @import SDWebImage;
 
-@interface StoryCell ()
+@interface HLZStoryCell ()
 
 @property (nonatomic, weak) IBOutlet UILabel     *storyTitle;
 @property (nonatomic, weak) IBOutlet UIImageView *storyImageView;
 
 @end
 
-@implementation StoryCell
+@implementation HLZStoryCell
 
-- (void)setStory:(Story *)story {
+- (void)setStory:(HLZStory *)story {
     _story = story;
     
     self.storyTitle.text = story.title;

@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2577ACEE1D30D88800CBE921 /* HLZLaunchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2577ACED1D30D88800CBE921 /* HLZLaunchView.xib */; };
 		25C00E331D11A59A007A6F5B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E321D11A59A007A6F5B /* main.m */; };
 		25C00E3C1D11A59A007A6F5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E3A1D11A59A007A6F5B /* Main.storyboard */; };
 		25C00E3E1D11A59A007A6F5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E3D1D11A59A007A6F5B /* Assets.xcassets */; };
 		25C00E411D11A59A007A6F5B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E3F1D11A59A007A6F5B /* LaunchScreen.storyboard */; };
 		25C00E4D1D11A956007A6F5B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E4C1D11A956007A6F5B /* AppDelegate.m */; };
-		25C00E531D11A993007A6F5B /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E501D11A993007A6F5B /* Story.m */; };
-		25C00E541D11A993007A6F5B /* StoryStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E521D11A993007A6F5B /* StoryStore.m */; };
-		25C00E601D11AA11007A6F5B /* StoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E5E1D11AA11007A6F5B /* StoryCell.m */; };
-		25C00E611D11AA11007A6F5B /* StoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E5F1D11AA11007A6F5B /* StoryCell.xib */; };
+		25C00E531D11A993007A6F5B /* HLZStory.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E501D11A993007A6F5B /* HLZStory.m */; };
+		25C00E541D11A993007A6F5B /* HLZStoryStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E521D11A993007A6F5B /* HLZStoryStore.m */; };
+		25C00E601D11AA11007A6F5B /* HLZStoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E5E1D11AA11007A6F5B /* HLZStoryCell.m */; };
+		25C00E611D11AA11007A6F5B /* HLZStoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E5F1D11AA11007A6F5B /* HLZStoryCell.xib */; };
 		25C00E641D11AAFD007A6F5B /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E631D11AAFD007A6F5B /* MainViewController.m */; };
 		25C00E671D11AC15007A6F5B /* UITableView+HLZStickyHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */; };
 		25C00E751D142379007A6F5B /* TopStoryImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E741D142379007A6F5B /* TopStoryImageView.xib */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		1DDA95C75237F4355DAF72E1 /* Pods-HLZZhihuDaily.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HLZZhihuDaily.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HLZZhihuDaily/Pods-HLZZhihuDaily.debug.xcconfig"; sourceTree = "<group>"; };
+		2577ACED1D30D88800CBE921 /* HLZLaunchView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HLZLaunchView.xib; sourceTree = "<group>"; };
 		25C00E2E1D11A59A007A6F5B /* HLZZhihuDaily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HLZZhihuDaily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25C00E321D11A59A007A6F5B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		25C00E3B1D11A59A007A6F5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -34,13 +36,13 @@
 		25C00E4A1D11A939007A6F5B /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		25C00E4B1D11A956007A6F5B /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		25C00E4C1D11A956007A6F5B /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		25C00E4F1D11A993007A6F5B /* Story.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Story.h; sourceTree = "<group>"; };
-		25C00E501D11A993007A6F5B /* Story.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Story.m; sourceTree = "<group>"; };
-		25C00E511D11A993007A6F5B /* StoryStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryStore.h; sourceTree = "<group>"; };
-		25C00E521D11A993007A6F5B /* StoryStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryStore.m; sourceTree = "<group>"; };
-		25C00E5D1D11AA11007A6F5B /* StoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryCell.h; sourceTree = "<group>"; };
-		25C00E5E1D11AA11007A6F5B /* StoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryCell.m; sourceTree = "<group>"; };
-		25C00E5F1D11AA11007A6F5B /* StoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoryCell.xib; sourceTree = "<group>"; };
+		25C00E4F1D11A993007A6F5B /* HLZStory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZStory.h; sourceTree = "<group>"; };
+		25C00E501D11A993007A6F5B /* HLZStory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZStory.m; sourceTree = "<group>"; };
+		25C00E511D11A993007A6F5B /* HLZStoryStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZStoryStore.h; sourceTree = "<group>"; };
+		25C00E521D11A993007A6F5B /* HLZStoryStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZStoryStore.m; sourceTree = "<group>"; };
+		25C00E5D1D11AA11007A6F5B /* HLZStoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZStoryCell.h; sourceTree = "<group>"; };
+		25C00E5E1D11AA11007A6F5B /* HLZStoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZStoryCell.m; sourceTree = "<group>"; };
+		25C00E5F1D11AA11007A6F5B /* HLZStoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HLZStoryCell.xib; sourceTree = "<group>"; };
 		25C00E621D11AAFD007A6F5B /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		25C00E631D11AAFD007A6F5B /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		25C00E651D11AC15007A6F5B /* UITableView+HLZStickyHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+HLZStickyHeader.h"; sourceTree = "<group>"; };
@@ -110,12 +112,13 @@
 		25C00E481D11A8F4007A6F5B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2577ACED1D30D88800CBE921 /* HLZLaunchView.xib */,
 				25C00E3A1D11A59A007A6F5B /* Main.storyboard */,
 				25C00E3F1D11A59A007A6F5B /* LaunchScreen.storyboard */,
 				25C00E741D142379007A6F5B /* TopStoryImageView.xib */,
-				25C00E5F1D11AA11007A6F5B /* StoryCell.xib */,
-				25C00E5D1D11AA11007A6F5B /* StoryCell.h */,
-				25C00E5E1D11AA11007A6F5B /* StoryCell.m */,
+				25C00E5F1D11AA11007A6F5B /* HLZStoryCell.xib */,
+				25C00E5D1D11AA11007A6F5B /* HLZStoryCell.h */,
+				25C00E5E1D11AA11007A6F5B /* HLZStoryCell.m */,
 				25C00E651D11AC15007A6F5B /* UITableView+HLZStickyHeader.h */,
 				25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */,
 				25D7A1741D1629C6008030AB /* HLZRefreshView.h */,
@@ -144,10 +147,10 @@
 		25C00E551D11A99B007A6F5B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				25C00E4F1D11A993007A6F5B /* Story.h */,
-				25C00E501D11A993007A6F5B /* Story.m */,
-				25C00E511D11A993007A6F5B /* StoryStore.h */,
-				25C00E521D11A993007A6F5B /* StoryStore.m */,
+				25C00E4F1D11A993007A6F5B /* HLZStory.h */,
+				25C00E501D11A993007A6F5B /* HLZStory.m */,
+				25C00E511D11A993007A6F5B /* HLZStoryStore.h */,
+				25C00E521D11A993007A6F5B /* HLZStoryStore.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -243,7 +246,8 @@
 				25C00E3E1D11A59A007A6F5B /* Assets.xcassets in Resources */,
 				25C00E751D142379007A6F5B /* TopStoryImageView.xib in Resources */,
 				25C00E3C1D11A59A007A6F5B /* Main.storyboard in Resources */,
-				25C00E611D11AA11007A6F5B /* StoryCell.xib in Resources */,
+				2577ACEE1D30D88800CBE921 /* HLZLaunchView.xib in Resources */,
+				25C00E611D11AA11007A6F5B /* HLZStoryCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,10 +306,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				25C00E531D11A993007A6F5B /* Story.m in Sources */,
-				25C00E541D11A993007A6F5B /* StoryStore.m in Sources */,
+				25C00E531D11A993007A6F5B /* HLZStory.m in Sources */,
+				25C00E541D11A993007A6F5B /* HLZStoryStore.m in Sources */,
 				25C00E671D11AC15007A6F5B /* UITableView+HLZStickyHeader.m in Sources */,
-				25C00E601D11AA11007A6F5B /* StoryCell.m in Sources */,
+				25C00E601D11AA11007A6F5B /* HLZStoryCell.m in Sources */,
 				25C00E641D11AAFD007A6F5B /* MainViewController.m in Sources */,
 				25D7A1761D1629C6008030AB /* HLZRefreshView.m in Sources */,
 				25C00E4D1D11A956007A6F5B /* AppDelegate.m in Sources */,

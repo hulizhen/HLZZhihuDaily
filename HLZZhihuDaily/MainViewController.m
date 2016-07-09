@@ -1,6 +1,6 @@
 //
 //  MainViewController.m
-//  oZhihuDaily
+//  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 5/31/16.
 //  Copyright © 2016 hulz. All rights reserved.
@@ -8,9 +8,9 @@
 
 #import "MainViewController.h"
 #import "Constants.h"
-#import "StoryStore.h"
-#import "Story.h"
-#import "StoryCell.h"
+#import "HLZStoryStore.h"
+#import "HLZStory.h"
+#import "HLZStoryCell.h"
 #import "HLZInfiniteScrollView.h"
 #import "UITableView+HLZStickyHeader.h"
 #import "HLZRefreshView.h"
@@ -24,28 +24,28 @@
 
 @property (nonatomic, strong) HLZRefreshView *refreshView;
 @property (nonatomic, strong) HLZInfiniteScrollView *scrollView;
-@property (nonatomic, strong) UIImageView *launchImageView;
+@property (nonatomic, strong) UIImageView *launchView;
 
 @end
 
 @implementation MainViewController
 
-static NSString * const StoryCellIdentifier = @"StoryCell";
+static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 
 #pragma mark - Lifecycle
 
 - (void)dealloc {
-    [[StoryStore sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(latestStories))];
-    [[StoryStore sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(topStories))];
+    [[HLZStoryStore sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(latestStories))];
+    [[HLZStoryStore sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(topStories))];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-#ifdef LaunchImageEnabled
+#ifdef LaunchViewEnabled
     // Hide table view and show launch image.
     self.view.alpha = 0.0;
-    [self showLaunchImage];
+    [self showLaunchView];
 #endif
     
     [self configureNavigationBar];
@@ -58,14 +58,14 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-#ifdef LaunchImageEnabled
+#ifdef LaunchViewEnabled
     // Show table view and hide launch image.
-    [NSThread sleepForTimeInterval:ShowLaunchImageDuration];
+    [NSThread sleepForTimeInterval:ShowLaunchViewDuration];
     
     [UIView animateWithDuration:1.0 animations:^{
         self.view.alpha = 1.0;
     } completion:^(BOOL finished){
-        [self hideLaunchImage];
+        [self hideLaunchView];
     }];
 #endif
     
@@ -89,7 +89,7 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
             [self.refreshView beginRefreshing];
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                [[StoryStore sharedInstance] updateStoriesWithCompletion:^{
+                [[HLZStoryStore sharedInstance] updateStoriesWithCompletion:^{
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.refreshView endRefreshing];
                     });
@@ -113,14 +113,14 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [StoryStore sharedInstance].latestStories.count;
+    return [HLZStoryStore sharedInstance].latestStories.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    StoryCell *cell = [self.tableView dequeueReusableCellWithIdentifier:StoryCellIdentifier forIndexPath:indexPath];
+    HLZStoryCell *cell = [self.tableView dequeueReusableCellWithIdentifier:StoryCellIdentifier forIndexPath:indexPath];
     
-    NSArray *stories = [StoryStore sharedInstance].latestStories;
-    cell.story = (Story *)stories[indexPath.row];
+    NSArray *stories = [HLZStoryStore sharedInstance].latestStories;
+    cell.story = (HLZStory *)stories[indexPath.row];
     
     return cell;
 }
@@ -130,7 +130,7 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 - (void)loadStories {
     NSMutableArray *imageViews = [[NSMutableArray alloc] init];
     NSInteger i = 0;
-    for (Story *story in [StoryStore sharedInstance].topStories) {
+    for (HLZStory *story in [HLZStoryStore sharedInstance].topStories) {
         UIImageView *imageView = [[NSBundle mainBundle] loadNibNamed:@"TopStoryImageView" owner:nil options:nil][0];
         [imageView sd_setImageWithURL:story.imageURL placeholderImage:nil];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -148,7 +148,7 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-    if ([object isEqual:[StoryStore sharedInstance]]) {
+    if ([object isEqual:[HLZStoryStore sharedInstance]]) {
         if ([keyPath isEqualToString:NSStringFromSelector(@selector(latestStories))]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
@@ -208,7 +208,7 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     UINib *cellNib = [UINib nibWithNibName:StoryCellIdentifier bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:StoryCellIdentifier];
     
-    [[StoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(latestStories)) options:NSKeyValueObservingOptionNew context:nil];
+    [[HLZStoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(latestStories)) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)configureScrollView {
@@ -224,11 +224,13 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
         scrollView;
     });
     
-    [[StoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(topStories ))options:NSKeyValueObservingOptionNew context:nil];
+    [[HLZStoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(topStories ))options:NSKeyValueObservingOptionNew context:nil];
 }
 
-- (void)showLaunchImage {
-    self.launchImageView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+#ifdef LaunchViewEnabled
+
+- (void)showLaunchView {
+    self.launchView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     // Get the launch image.
     NSURL *jsonURL = [NSURL URLWithString:[NSString stringWithFormat:LaunchImageURL, [NSString stringWithFormat:@"%d*%d", 1080, 177]]];
@@ -238,17 +240,28 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
     UIImage *launchImage = [UIImage imageWithData:imageData];
     
+    // Bottom view.
+    
+    // Author label.
+    UILabel *authorLabel = ({
+        UILabel *label = [[UILabel alloc] init];
+        label.font = [UIFont fontWithName:@"Avenir-Book" size:16];
+        label;
+    });
+    [self.launchView addSubview:authorLabel];
+    
     if (launchImage) {
-        self.launchImageView.image = launchImage;
-        [[[UIApplication sharedApplication].delegate window] addSubview:self.launchImageView];
+        self.launchView.image = launchImage;
+        [[[UIApplication sharedApplication].delegate window] addSubview:self.launchView];
     }
 }
 
-- (void)hideLaunchImage {
-    if (self.launchImageView) {
-        [self.launchImageView removeFromSuperview];
-        self.launchImageView = nil;
+- (void)hideLaunchView {
+    if (self.launchView) {
+        [self.launchView removeFromSuperview];
+        self.launchView = nil;
     }
 }
+#endif
 
 @end

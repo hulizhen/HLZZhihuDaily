@@ -1,6 +1,6 @@
 //
-//  Story.h
-//  oZhihuDaily
+//  HLZStory.h
+//  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 6/2/16.
 //  Copyright © 2016 hulz. All rights reserved.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Story : NSObject
+@interface HLZStory : NSObject
 
 @property (nonatomic, copy  ) NSString *gaPrefix;
 @property (nonatomic, assign) NSNumber *id;
