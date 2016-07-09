@@ -53,22 +53,22 @@
     [self.mutableTopStories removeAllObjects];
     
     // Latest stories.
-    [self willChangeValueForKey:@"latestStories"];
+    [self willChangeValueForKey:NSStringFromSelector(@selector(latestStories))];
     NSArray *stories = json[@"stories"];
     for (NSDictionary *dictionary in stories) {
         Story *story = [[Story alloc] initWithDictionary:dictionary];
         [self.mutableLatestStories addObject:story];
     }
-    [self didChangeValueForKey:@"latestStories"];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(latestStories))];
     
     // Top stories.
-    [self willChangeValueForKey:@"topStories"];
+    [self willChangeValueForKey:NSStringFromSelector(@selector(topStories))];
     stories = json[@"top_stories"];
     for (NSDictionary *dictionary in stories) {
         Story *story = [[Story alloc] initWithDictionary:dictionary];
         [self.mutableTopStories addObject:story];
     }
-    [self didChangeValueForKey:@"topStories"];
+    [self didChangeValueForKey:NSStringFromSelector(@selector(topStories))];
     
     if (completion) {
         completion();

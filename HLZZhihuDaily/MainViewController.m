@@ -35,8 +35,8 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 #pragma mark - Lifecycle
 
 - (void)dealloc {
-    [[StoryStore sharedInstance] removeObserver:self forKeyPath:@"latestStories"];
-    [[StoryStore sharedInstance] removeObserver:self forKeyPath:@"topStories"];
+    [[StoryStore sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(latestStories))];
+    [[StoryStore sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(topStories))];
 }
 
 - (void)viewDidLoad {
@@ -135,8 +135,6 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
         UILabel *label = [imageView viewWithTag:LabelInTopStoryImageViewTag];
         label.text = story.title;
         
-        // TODO: Add a blur mask to the image.
-        
         [imageView addSubview:label];
         
         ++i;
@@ -147,11 +145,11 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     if ([object isEqual:[StoryStore sharedInstance]]) {
-        if ([keyPath isEqualToString:@"latestStories"]) {
+        if ([keyPath isEqualToString:NSStringFromSelector(@selector(latestStories))]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
             });
-        } else if ([keyPath isEqualToString:@"topStories"]) {
+        } else if ([keyPath isEqualToString:NSStringFromSelector(@selector(topStories))]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self loadStories];
             });
@@ -204,7 +202,7 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     UINib *cellNib = [UINib nibWithNibName:StoryCellIdentifier bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:StoryCellIdentifier];
     
-    [[StoryStore sharedInstance] addObserver:self forKeyPath:@"latestStories" options:NSKeyValueObservingOptionNew context:nil];
+    [[StoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(latestStories)) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)configureScrollView {
@@ -220,7 +218,7 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
         scrollView;
     });
     
-    [[StoryStore sharedInstance] addObserver:self forKeyPath:@"topStories" options:NSKeyValueObservingOptionNew context:nil];
+    [[StoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(topStories ))options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)showLaunchImage {
