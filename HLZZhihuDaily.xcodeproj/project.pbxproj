@@ -18,7 +18,6 @@
 		25C00E611D11AA11007A6F5B /* StoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E5F1D11AA11007A6F5B /* StoryCell.xib */; };
 		25C00E641D11AAFD007A6F5B /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E631D11AAFD007A6F5B /* MainViewController.m */; };
 		25C00E671D11AC15007A6F5B /* UITableView+HLZStickyHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */; };
-		25C00E6A1D129054007A6F5B /* HLZInfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E691D129054007A6F5B /* HLZInfiniteScrollView.m */; };
 		25C00E751D142379007A6F5B /* TopStoryImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E741D142379007A6F5B /* TopStoryImageView.xib */; };
 		25D7A1761D1629C6008030AB /* HLZRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A1751D1629C6008030AB /* HLZRefreshView.m */; };
 		4097FF62344F95D0CACD1BF4 /* Pods_HLZZhihuDaily.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DF8815100B926C446D994D /* Pods_HLZZhihuDaily.framework */; };
@@ -46,8 +45,6 @@
 		25C00E631D11AAFD007A6F5B /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		25C00E651D11AC15007A6F5B /* UITableView+HLZStickyHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+HLZStickyHeader.h"; sourceTree = "<group>"; };
 		25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+HLZStickyHeader.m"; sourceTree = "<group>"; };
-		25C00E681D129054007A6F5B /* HLZInfiniteScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZInfiniteScrollView.h; sourceTree = "<group>"; };
-		25C00E691D129054007A6F5B /* HLZInfiniteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZInfiniteScrollView.m; sourceTree = "<group>"; };
 		25C00E741D142379007A6F5B /* TopStoryImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopStoryImageView.xib; sourceTree = "<group>"; };
 		25D7A1731D152F00008030AB /* Macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 		25D7A1741D1629C6008030AB /* HLZRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZRefreshView.h; sourceTree = "<group>"; };
@@ -121,8 +118,6 @@
 				25C00E5E1D11AA11007A6F5B /* StoryCell.m */,
 				25C00E651D11AC15007A6F5B /* UITableView+HLZStickyHeader.h */,
 				25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */,
-				25C00E681D129054007A6F5B /* HLZInfiniteScrollView.h */,
-				25C00E691D129054007A6F5B /* HLZInfiniteScrollView.m */,
 				25D7A1741D1629C6008030AB /* HLZRefreshView.h */,
 				25D7A1751D1629C6008030AB /* HLZRefreshView.m */,
 			);
@@ -307,7 +302,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				25C00E6A1D129054007A6F5B /* HLZInfiniteScrollView.m in Sources */,
 				25C00E531D11A993007A6F5B /* Story.m in Sources */,
 				25C00E541D11A993007A6F5B /* StoryStore.m in Sources */,
 				25C00E671D11AC15007A6F5B /* UITableView+HLZStickyHeader.m in Sources */,

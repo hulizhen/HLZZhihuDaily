@@ -18,6 +18,8 @@ typedef NS_ENUM(NSInteger, AutoScrollDirection) {
 // The views which will be showed in the scroll view.
 @property (nonatomic, copy) NSArray<UIView *> *contentViews;
 
+@property (nonatomic, assign, getter=isPageControlEnabled) BOOL pageControlEnabled;
+
 // If you want to set this property, do it after the view did layout.
 @property (nonatomic, assign) NSInteger currentPage;
 

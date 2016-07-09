@@ -117,7 +117,7 @@ static NSString * const CellReuseIdentifier = @"HLZCell";
 }
 
 - (void)setCurrentPage:(NSInteger)currentPage {
-    if (currentPage < 0 || currentPage >= self.pageControl.numberOfPages) {
+    if (currentPage < 0 || currentPage >= self.contentViews.count) {
         return;
     }
     self.pageControl.currentPage = currentPage;
@@ -129,7 +129,7 @@ static NSString * const CellReuseIdentifier = @"HLZCell";
 }
 
 - (NSInteger)currentPage {
-    return self.pageControl.currentPage;
+    return self.currentViewIndex;
 }
 
 - (void)setPagingEnabled:(BOOL)pagingEnabled {
@@ -193,18 +193,31 @@ static NSString * const CellReuseIdentifier = @"HLZCell";
                                               [_containerView.topAnchor constraintEqualToAnchor:self.topAnchor],
                                               [_containerView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor]]];
     
-    // Set up the page control.
-    _pageControl = [[UIPageControl alloc] init];
-    [_pageControl sizeToFit];
-    [self addSubview:_pageControl];
-    _pageControl.translatesAutoresizingMaskIntoConstraints = NO;
-    [NSLayoutConstraint activateConstraints:@[[_pageControl.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
-                                              [_pageControl.bottomAnchor constraintEqualToAnchor:self.bottomAnchor]]];
-    
     // Set the default auto scroll direction.
     self.autoScrollDirection = AutoScrollDirectionRight;
 }
 
+// Explicitly synthesize this property, since we customize the getter.
+@synthesize pageControlEnabled = _pageControlEnabled;
+- (void)setPageControlEnabled:(BOOL)pageControlEnabled {
+    _pageControlEnabled = pageControlEnabled;
+    
+    if (pageControlEnabled) {
+        self.pageControl = [[UIPageControl alloc] init];
+        [self.pageControl sizeToFit];
+        [self addSubview:self.pageControl];
+        self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
+        [NSLayoutConstraint activateConstraints:@[[self.pageControl.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
+                                                  [self.pageControl.bottomAnchor constraintEqualToAnchor:self.bottomAnchor]]];
+    } else {
+        [self.pageControl removeFromSuperview];
+        self.pageControl = nil;
+    }
+}
+
+- (BOOL)isPageControlEnabled {
+    return _pageControlEnabled;
+}
 
 - (void)adjustContentOffset {
     NSInteger count = self.workingContentViews.count;
