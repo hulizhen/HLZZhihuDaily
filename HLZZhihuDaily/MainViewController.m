@@ -18,7 +18,7 @@
 
 @import SDWebImage;
 
-@interface MainViewController () <UITableViewDataSource>
+@interface MainViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 
@@ -95,10 +95,14 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
                     });
                 }];
             });
-        } else {
-            // Reset the progress to 0 if it did not reach 1.0.
-            self.refreshView.progress = 0;
         }
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (scrollView == self.tableView) {
+        // Reset the progress to 0 if it did not reach 1.0.
+        self.refreshView.progress = 0;
     }
 }
 
@@ -197,6 +201,8 @@ static NSString * const StoryCellIdentifier = @"StoryCell";
     self.tableView.showsHorizontalScrollIndicator = NO;
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
     
     // Register table view cell.
     UINib *cellNib = [UINib nibWithNibName:StoryCellIdentifier bundle:nil];
