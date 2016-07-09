@@ -74,9 +74,7 @@
         completion();
     }
     
-#ifdef DumpStories
-    [self dumpStories];
-#endif
+//    [self dumpStories];
 }
 
 
@@ -92,7 +90,6 @@
 
 #pragma mark - Utils
 
-#ifdef DumpStories
 - (void)dumpStories {
     for (HLZStory *story in self.mutableLatestStories) {
         NSLog(@"Latest Story: %@", story);
@@ -105,6 +102,5 @@
     
     printf("\n");
 }
-#endif
 
 @end

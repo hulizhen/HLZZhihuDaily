@@ -14,6 +14,7 @@
 #import "HLZInfiniteScrollView.h"
 #import "UITableView+HLZStickyHeader.h"
 #import "HLZRefreshView.h"
+#import "HLZLaunchView.h"
 #import "Macros.h"
 
 @import SDWebImage;
@@ -24,7 +25,6 @@
 
 @property (nonatomic, strong) HLZRefreshView *refreshView;
 @property (nonatomic, strong) HLZInfiniteScrollView *scrollView;
-@property (nonatomic, strong) UIImageView *launchView;
 
 @end
 
@@ -42,34 +42,15 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-#ifdef LaunchViewEnabled
-    // Hide table view and show launch image.
-    self.view.alpha = 0.0;
-    [self showLaunchView];
-#endif
-    
     [self configureNavigationBar];
     [self configureScrollView];
     [self configureTableView];
     
-    [self loadStories];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+    [self loadTopStories];
     
-#ifdef LaunchViewEnabled
-    // Show table view and hide launch image.
-    [NSThread sleepForTimeInterval:ShowLaunchViewDuration];
-    
-    [UIView animateWithDuration:1.0 animations:^{
-        self.view.alpha = 1.0;
-    } completion:^(BOOL finished){
-        [self hideLaunchView];
+    [self showLaunchViewWithCompletion:^{
+        self.scrollView.currentPage = 0;
     }];
-#endif
-    
-    self.scrollView.currentPage = 0;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -127,21 +108,18 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 
 #pragma mark - Helpers
 
-- (void)loadStories {
+- (void)loadTopStories {
     NSMutableArray *imageViews = [[NSMutableArray alloc] init];
-    NSInteger i = 0;
     for (HLZStory *story in [HLZStoryStore sharedInstance].topStories) {
         UIImageView *imageView = [[NSBundle mainBundle] loadNibNamed:@"TopStoryImageView" owner:nil options:nil][0];
         [imageView sd_setImageWithURL:story.imageURL placeholderImage:nil];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         [imageViews addObject:imageView];
         
+        // Add title label.
         UILabel *label = [imageView viewWithTag:LabelInTopStoryImageViewTag];
         label.text = story.title;
-        
         [imageView addSubview:label];
-        
-        ++i;
     }
     
     self.scrollView.contentViews = imageViews;
@@ -155,7 +133,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
             });
         } else if ([keyPath isEqualToString:NSStringFromSelector(@selector(topStories))]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self loadStories];
+                [self loadTopStories];
             });
         }
     }
@@ -218,50 +196,39 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
                                                                                                     [UIScreen mainScreen].bounds.size.width,
                                                                                                     StickyHeaderViewHeightMin)];
         scrollView.pagingEnabled = YES;
+        scrollView.pageControlEnabled = YES;
         scrollView.autoScrollEnabled = YES;
         scrollView.autoScrollTimerInterval = AutoScrollTimerInterval;
         scrollView.autoScrollDirection = AutoScrollDirectionRight;
         scrollView;
     });
     
-    [[HLZStoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(topStories ))options:NSKeyValueObservingOptionNew context:nil];
+    [[HLZStoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(topStories)) options:NSKeyValueObservingOptionNew context:nil];
 }
 
-#ifdef LaunchViewEnabled
-
-- (void)showLaunchView {
-    self.launchView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+- (void)showLaunchViewWithCompletion:(void (^)(void))completion {
+    HLZLaunchView *launchView = [[HLZLaunchView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    // Get the launch image.
     NSURL *jsonURL = [NSURL URLWithString:[NSString stringWithFormat:LaunchImageURL, [NSString stringWithFormat:@"%d*%d", 1080, 177]]];
     NSData *jsonData = [NSData dataWithContentsOfURL:jsonURL];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
+    if (!json) {
+        return;
+    }
+    
+    // Get launch image.
     NSURL *imageURL = [NSURL URLWithString:json[@"img"]];
     NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
     UIImage *launchImage = [UIImage imageWithData:imageData];
     
-    // Bottom view.
+    launchView.launchImage = launchImage;
+    launchView.authorName = json[@"text"];
+    launchView.title = @"知乎日报";
+    launchView.subtitle = @"每天三次，每次七分钟";
+    launchView.completionBlock = completion;
     
-    // Author label.
-    UILabel *authorLabel = ({
-        UILabel *label = [[UILabel alloc] init];
-        label.font = [UIFont fontWithName:@"Avenir-Book" size:16];
-        label;
-    });
-    [self.launchView addSubview:authorLabel];
-    
-    if (launchImage) {
-        self.launchView.image = launchImage;
-        [[[UIApplication sharedApplication].delegate window] addSubview:self.launchView];
-    }
+    // Add launch view to the window.
+    [[[UIApplication sharedApplication].delegate window] addSubview:launchView];
 }
-
-- (void)hideLaunchView {
-    if (self.launchView) {
-        [self.launchView removeFromSuperview];
-        self.launchView = nil;
-    }
-}
-#endif
 
 @end

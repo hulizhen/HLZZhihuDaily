@@ -41,11 +41,11 @@
         UIBezierPath *path;
         UIColor *tintColor;
         CGFloat lineWidth = 1.0;
-        CGFloat circleRadius = 8.0;
+        CGFloat radius = 8.0;
         
         // Draw the background circle.
         path = [UIBezierPath bezierPathWithArcCenter:center
-                                              radius:circleRadius
+                                              radius:radius
                                           startAngle:0
                                             endAngle:M_PI * 2
                                            clockwise:YES];
@@ -56,7 +56,7 @@
         
         // Draw the progress circle.
         path = [UIBezierPath bezierPathWithArcCenter:center
-                                              radius:circleRadius
+                                              radius:radius
                                           startAngle:M_PI/2
                                             endAngle:M_PI/2 + self.progress * M_PI * 2
                                            clockwise:YES];

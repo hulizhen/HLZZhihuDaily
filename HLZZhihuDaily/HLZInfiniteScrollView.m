@@ -20,7 +20,9 @@
 
 @implementation HLZInfiniteScrollView
 
-static NSString * const CellReuseIdentifier = @"HLZCell";
+@synthesize pageControlEnabled = _pageControlEnabled;
+
+static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
 
 #pragma mark - Lifecycle
 
@@ -84,7 +86,7 @@ static NSString * const CellReuseIdentifier = @"HLZCell";
     // Enable paging when enabling auto scrolling.
     self.containerView.pagingEnabled = YES;
     
-    if (autoScrollEnabled) {
+    if (_autoScrollEnabled) {
         [self startTimer];
     } else {
         [self stopTimer];
@@ -126,6 +128,7 @@ static NSString * const CellReuseIdentifier = @"HLZCell";
     [self.containerView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:currentPage + 1 inSection:0]
                                atScrollPosition:UICollectionViewScrollPositionLeft
                                        animated:NO];
+    [self resetTimer];
 }
 
 - (NSInteger)currentPage {
@@ -138,6 +141,27 @@ static NSString * const CellReuseIdentifier = @"HLZCell";
 
 - (BOOL)isPagingEnabled {
     return self.containerView.pagingEnabled;
+}
+
+// Explicitly synthesize this property, since we customize the getter.
+- (void)setPageControlEnabled:(BOOL)pageControlEnabled {
+    _pageControlEnabled = pageControlEnabled;
+    
+    if (_pageControlEnabled) {
+        self.pageControl = [[UIPageControl alloc] init];
+        [self.pageControl sizeToFit];
+        [self addSubview:self.pageControl];
+        self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
+        [NSLayoutConstraint activateConstraints:@[[self.pageControl.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
+                                                  [self.pageControl.bottomAnchor constraintEqualToAnchor:self.bottomAnchor]]];
+    } else {
+        [self.pageControl removeFromSuperview];
+        self.pageControl = nil;
+    }
+}
+
+- (BOOL)isPageControlEnabled {
+    return _pageControlEnabled;
 }
 
 - (void)setFrame:(CGRect)frame {
@@ -179,7 +203,7 @@ static NSString * const CellReuseIdentifier = @"HLZCell";
         flowLayout.minimumLineSpacing = 0;
         
         UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
-        [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CellReuseIdentifier];
+        [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CollectionViewCellIdentifier];
         collectionView.showsHorizontalScrollIndicator = NO;
         collectionView.showsVerticalScrollIndicator = NO;
         collectionView.dataSource = self;
@@ -195,28 +219,6 @@ static NSString * const CellReuseIdentifier = @"HLZCell";
     
     // Set the default auto scroll direction.
     self.autoScrollDirection = AutoScrollDirectionRight;
-}
-
-// Explicitly synthesize this property, since we customize the getter.
-@synthesize pageControlEnabled = _pageControlEnabled;
-- (void)setPageControlEnabled:(BOOL)pageControlEnabled {
-    _pageControlEnabled = pageControlEnabled;
-    
-    if (pageControlEnabled) {
-        self.pageControl = [[UIPageControl alloc] init];
-        [self.pageControl sizeToFit];
-        [self addSubview:self.pageControl];
-        self.pageControl.translatesAutoresizingMaskIntoConstraints = NO;
-        [NSLayoutConstraint activateConstraints:@[[self.pageControl.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
-                                                  [self.pageControl.bottomAnchor constraintEqualToAnchor:self.bottomAnchor]]];
-    } else {
-        [self.pageControl removeFromSuperview];
-        self.pageControl = nil;
-    }
-}
-
-- (BOOL)isPageControlEnabled {
-    return _pageControlEnabled;
 }
 
 - (void)adjustContentOffset {
@@ -265,7 +267,7 @@ static NSString * const CellReuseIdentifier = @"HLZCell";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [self.containerView dequeueReusableCellWithReuseIdentifier:CellReuseIdentifier forIndexPath:indexPath];
+    UICollectionViewCell *cell = [self.containerView dequeueReusableCellWithReuseIdentifier:CollectionViewCellIdentifier forIndexPath:indexPath];
     
     UIView *view = self.workingContentViews[indexPath.row];
     [cell.contentView addSubview:view];

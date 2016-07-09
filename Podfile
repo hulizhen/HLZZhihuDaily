@@ -4,6 +4,5 @@ use_frameworks!
 target 'HLZZhihuDaily' do
 
 pod 'SDWebImage', '~>3.7.6'
-pod 'HLZInfiniteScrollView', '~>1.0'
 
 end

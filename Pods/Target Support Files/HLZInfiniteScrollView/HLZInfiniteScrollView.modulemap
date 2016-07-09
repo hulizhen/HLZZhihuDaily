@@ -1,6 +1,0 @@
-framework module HLZInfiniteScrollView {
-  umbrella header "HLZInfiniteScrollView-umbrella.h"
-
-  export *
-  module * { export * }
-}

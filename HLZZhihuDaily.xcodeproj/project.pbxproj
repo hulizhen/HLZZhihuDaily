@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2577ACEE1D30D88800CBE921 /* HLZLaunchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2577ACED1D30D88800CBE921 /* HLZLaunchView.xib */; };
+		251631731D32436500A43E35 /* HLZInfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 251631721D32436500A43E35 /* HLZInfiniteScrollView.m */; };
+		2577ACF11D30DBF100CBE921 /* HLZLaunchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2577ACF01D30DBF100CBE921 /* HLZLaunchView.m */; };
 		25C00E331D11A59A007A6F5B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E321D11A59A007A6F5B /* main.m */; };
 		25C00E3C1D11A59A007A6F5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E3A1D11A59A007A6F5B /* Main.storyboard */; };
 		25C00E3E1D11A59A007A6F5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E3D1D11A59A007A6F5B /* Assets.xcassets */; };
@@ -26,7 +27,10 @@
 
 /* Begin PBXFileReference section */
 		1DDA95C75237F4355DAF72E1 /* Pods-HLZZhihuDaily.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HLZZhihuDaily.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HLZZhihuDaily/Pods-HLZZhihuDaily.debug.xcconfig"; sourceTree = "<group>"; };
-		2577ACED1D30D88800CBE921 /* HLZLaunchView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HLZLaunchView.xib; sourceTree = "<group>"; };
+		251631711D32436500A43E35 /* HLZInfiniteScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZInfiniteScrollView.h; sourceTree = "<group>"; };
+		251631721D32436500A43E35 /* HLZInfiniteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZInfiniteScrollView.m; sourceTree = "<group>"; };
+		2577ACEF1D30DBF100CBE921 /* HLZLaunchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZLaunchView.h; sourceTree = "<group>"; };
+		2577ACF01D30DBF100CBE921 /* HLZLaunchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZLaunchView.m; sourceTree = "<group>"; };
 		25C00E2E1D11A59A007A6F5B /* HLZZhihuDaily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HLZZhihuDaily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25C00E321D11A59A007A6F5B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		25C00E3B1D11A59A007A6F5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -112,17 +116,20 @@
 		25C00E481D11A8F4007A6F5B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2577ACED1D30D88800CBE921 /* HLZLaunchView.xib */,
 				25C00E3A1D11A59A007A6F5B /* Main.storyboard */,
 				25C00E3F1D11A59A007A6F5B /* LaunchScreen.storyboard */,
 				25C00E741D142379007A6F5B /* TopStoryImageView.xib */,
 				25C00E5F1D11AA11007A6F5B /* HLZStoryCell.xib */,
 				25C00E5D1D11AA11007A6F5B /* HLZStoryCell.h */,
 				25C00E5E1D11AA11007A6F5B /* HLZStoryCell.m */,
+				251631711D32436500A43E35 /* HLZInfiniteScrollView.h */,
+				251631721D32436500A43E35 /* HLZInfiniteScrollView.m */,
 				25C00E651D11AC15007A6F5B /* UITableView+HLZStickyHeader.h */,
 				25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */,
 				25D7A1741D1629C6008030AB /* HLZRefreshView.h */,
 				25D7A1751D1629C6008030AB /* HLZRefreshView.m */,
+				2577ACEF1D30DBF100CBE921 /* HLZLaunchView.h */,
+				2577ACF01D30DBF100CBE921 /* HLZLaunchView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -246,7 +253,6 @@
 				25C00E3E1D11A59A007A6F5B /* Assets.xcassets in Resources */,
 				25C00E751D142379007A6F5B /* TopStoryImageView.xib in Resources */,
 				25C00E3C1D11A59A007A6F5B /* Main.storyboard in Resources */,
-				2577ACEE1D30D88800CBE921 /* HLZLaunchView.xib in Resources */,
 				25C00E611D11AA11007A6F5B /* HLZStoryCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -306,8 +312,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				251631731D32436500A43E35 /* HLZInfiniteScrollView.m in Sources */,
 				25C00E531D11A993007A6F5B /* HLZStory.m in Sources */,
 				25C00E541D11A993007A6F5B /* HLZStoryStore.m in Sources */,
+				2577ACF11D30DBF100CBE921 /* HLZLaunchView.m in Sources */,
 				25C00E671D11AC15007A6F5B /* UITableView+HLZStickyHeader.m in Sources */,
 				25C00E601D11AA11007A6F5B /* HLZStoryCell.m in Sources */,
 				25C00E641D11AAFD007A6F5B /* MainViewController.m in Sources */,

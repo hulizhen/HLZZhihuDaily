@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -24,17 +24,9 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="afm-wQ-h4W">
                         <rect key="frame" x="252.5" y="15" width="76.5" height="62"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="85" id="3z9-jq-iMy"/>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="85" id="KeG-Wv-uBX"/>
                             <constraint firstAttribute="width" constant="76.5" id="OHV-0v-Ioz"/>
                             <constraint firstAttribute="height" constant="62" id="xWa-Wp-UUj"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="3z9-jq-iMy"/>
-                                <exclude reference="KeG-Wv-uBX"/>
-                            </mask>
-                        </variation>
                     </imageView>
                 </subviews>
                 <constraints>

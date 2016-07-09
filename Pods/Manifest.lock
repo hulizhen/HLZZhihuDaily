@@ -1,17 +1,14 @@
 PODS:
-  - HLZInfiniteScrollView (1.0.2)
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
 
 DEPENDENCIES:
-  - HLZInfiniteScrollView (~> 1.0)
   - SDWebImage (~> 3.7.6)
 
 SPEC CHECKSUMS:
-  HLZInfiniteScrollView: a31fa415c15ea71f97af702800eca5aebf505c48
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
 
-PODFILE CHECKSUM: bc126535bd5cc602f9e864c79a7ab7dbdf05e6ed
+PODFILE CHECKSUM: 18633af025689fdceb7f260fac5994e114cf8b4f
 
 COCOAPODS: 1.0.1
