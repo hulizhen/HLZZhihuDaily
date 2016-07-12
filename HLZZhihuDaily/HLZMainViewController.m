@@ -24,6 +24,7 @@
 
 @property (nonatomic, strong) HLZRefreshView *refreshView;
 @property (nonatomic, strong) HLZInfiniteScrollView *scrollView;
+@property (nonatomic, assign) BOOL hideStatusBar;
 
 @end
 
@@ -33,6 +34,17 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 
 #pragma mark - Lifecycle
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _hideStatusBar = YES;
+        
+        [[HLZStoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(latestStories)) options:NSKeyValueObservingOptionNew context:nil];
+        [[HLZStoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(topStories)) options:NSKeyValueObservingOptionNew context:nil];
+    }
+    return self;
+}
+
 - (void)dealloc {
     [[HLZStoryStore sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(latestStories))];
     [[HLZStoryStore sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(topStories))];
@@ -40,6 +52,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     
     [self configureNavigationBar];
     [self configureScrollView];
@@ -49,7 +62,18 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     
     [self showLaunchViewWithCompletion:^{
         self.scrollView.currentPage = 0;
+        
+        self.hideStatusBar = NO;
+        [self setNeedsStatusBarAppearanceUpdate];
     }];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return self.hideStatusBar;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -184,8 +208,6 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     // Register table view cell.
     UINib *cellNib = [UINib nibWithNibName:StoryCellIdentifier bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:StoryCellIdentifier];
-    
-    [[HLZStoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(latestStories)) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)configureScrollView {
@@ -201,8 +223,6 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         scrollView.autoScrollDirection = AutoScrollDirectionRight;
         scrollView;
     });
-    
-    [[HLZStoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(topStories)) options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)showLaunchViewWithCompletion:(void (^)(void))completion {

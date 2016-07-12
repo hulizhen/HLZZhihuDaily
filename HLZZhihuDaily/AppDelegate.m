@@ -15,6 +15,7 @@
 
 @implementation AppDelegate
 
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 //    [UINavigationBar appearance].barTintColor = [UIColor clearColor];
 //    [UINavigationBar appearance].barTintColor = UIColorFromRGBA(0x00000000);

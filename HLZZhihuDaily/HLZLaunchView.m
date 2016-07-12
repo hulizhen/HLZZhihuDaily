@@ -232,14 +232,15 @@ static const NSTimeInterval FadeOutDuration                   = 0.5;
     if (anim == [animatedLogoLayer animationForKey:@"strokeEnd"]) {
         [NSThread sleepForTimeInterval:StayStillDuration];
         
+        if (self.completionBlock) {
+            self.completionBlock();
+        }
+        
         self.alpha = 1.0;
         [UIView animateWithDuration:FadeOutDuration animations:^{
             self.alpha = 0;
         } completion:^(BOOL finished) {
             [self removeFromSuperview];
-            if (self.completionBlock) {
-                self.completionBlock();
-            }
         }];
     }
 }
