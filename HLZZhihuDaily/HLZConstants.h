@@ -1,13 +1,13 @@
 //
-//  Constants.h
+//  HLZConstants.h
 //  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 6/2/16.
 //  Copyright © 2016 hulz. All rights reserved.
 //
 
-#ifndef Constants_h
-#define Constants_h
+#ifndef HLZConstants_h
+#define HLZConstants_h
 
 static NSString * const LaunchImageURL          = @"http://news-at.zhihu.com/api/4/start-image/%@";
 static NSString * const AppVersionURL           = @"http://news-at.zhihu.com/api/4/version/ios/%@";
@@ -35,4 +35,4 @@ static float const AutoScrollTimerInterval   = 5.0;
 static int const ViewTagBase = 1000;
 static int const LabelInTopStoryImageViewTag = ViewTagBase + 1;
 
-#endif /* Constants_h */
+#endif /* HLZConstants_h */

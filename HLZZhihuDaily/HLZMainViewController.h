@@ -1,5 +1,5 @@
 //
-//  MainViewController.h
+//  HLZMainViewController.h
 //  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 5/31/16.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewController : UIViewController
+@interface HLZMainViewController : UIViewController
 
 
 @end

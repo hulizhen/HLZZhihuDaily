@@ -7,7 +7,7 @@
 //
 
 #import "HLZStory.h"
-#import "Constants.h"
+#import "HLZConstants.h"
 
 @interface HLZStory ()
 

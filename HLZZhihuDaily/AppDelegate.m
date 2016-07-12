@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "HLZStoryStore.h"
-#import "Macros.h"
 
 @interface AppDelegate ()
 

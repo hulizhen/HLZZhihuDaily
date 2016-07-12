@@ -1,13 +1,13 @@
 //
-//  MainViewController.m
+//  HLZMainViewController.m
 //  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 5/31/16.
 //  Copyright © 2016 hulz. All rights reserved.
 //
 
-#import "MainViewController.h"
-#import "Constants.h"
+#import "HLZMainViewController.h"
+#import "HLZConstants.h"
 #import "HLZStoryStore.h"
 #import "HLZStory.h"
 #import "HLZStoryCell.h"
@@ -15,11 +15,10 @@
 #import "UITableView+HLZStickyHeader.h"
 #import "HLZRefreshView.h"
 #import "HLZLaunchView.h"
-#import "Macros.h"
 
 @import SDWebImage;
 
-@interface MainViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface HLZMainViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 
@@ -28,7 +27,7 @@
 
 @end
 
-@implementation MainViewController
+@implementation HLZMainViewController
 
 static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 
@@ -111,7 +110,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 - (void)loadTopStories {
     NSMutableArray *imageViews = [[NSMutableArray alloc] init];
     for (HLZStory *story in [HLZStoryStore sharedInstance].topStories) {
-        UIImageView *imageView = [[NSBundle mainBundle] loadNibNamed:@"TopStoryImageView" owner:nil options:nil][0];
+        UIImageView *imageView = [[NSBundle mainBundle] loadNibNamed:@"HLZTopStoryImageView" owner:nil options:nil][0];
         [imageView sd_setImageWithURL:story.imageURL placeholderImage:nil];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         [imageViews addObject:imageView];

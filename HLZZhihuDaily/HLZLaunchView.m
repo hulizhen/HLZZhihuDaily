@@ -7,7 +7,6 @@
 //
 
 #import "HLZLaunchView.h"
-#import "Macros.h"
 
 @interface HLZLaunchView ()
 
