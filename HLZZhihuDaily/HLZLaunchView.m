@@ -41,6 +41,12 @@ static const NSTimeInterval FadeOutDuration                   = 0.5;
     return self;
 }
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    @throw [NSException exceptionWithName:@"Initializer" reason:@"Use -[initWithFrame] instead" userInfo:nil];
+    return nil;
+}
+
 - (void)didMoveToSuperview {
     // Layout without animation.
     [self layoutIfNeeded];

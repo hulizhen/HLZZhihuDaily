@@ -25,9 +25,13 @@
     static HLZStoryStore *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[self alloc] initSharedInstance];
+        sharedInstance = [[super allocWithZone:nil] initSharedInstance];
     });
     return sharedInstance;
+}
+
++ (instancetype)allocWithZone:(struct _NSZone *)zone {
+    return [self sharedInstance];
 }
 
 - (instancetype)initSharedInstance {
@@ -40,7 +44,7 @@
 }
 
 - (instancetype)init {
-    @throw [NSException exceptionWithName:@"Singleton" reason:@"Use +[HLZStoryStore sharedInstance]" userInfo:nil];
+    @throw [NSException exceptionWithName:@"Singleton" reason:@"Use +[HLZStoryStore sharedInstance] instead" userInfo:nil];
     return nil;
 }
 
