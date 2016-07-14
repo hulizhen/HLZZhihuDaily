@@ -15,6 +15,7 @@
 #import "UITableView+HLZStickyHeader.h"
 #import "HLZRefreshView.h"
 #import "HLZLaunchView.h"
+#import "HLZTopStoryImageView.h"
 
 @import SDWebImage;
 
@@ -134,15 +135,10 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 - (void)loadTopStories {
     NSMutableArray *imageViews = [[NSMutableArray alloc] init];
     for (HLZStory *story in [HLZStoryStore sharedInstance].topStories) {
-        UIImageView *imageView = [[NSBundle mainBundle] loadNibNamed:@"HLZTopStoryImageView" owner:nil options:nil][0];
-        [imageView sd_setImageWithURL:story.imageURL placeholderImage:nil];
-        imageView.contentMode = UIViewContentModeScaleAspectFill;
-        [imageViews addObject:imageView];
+        HLZTopStoryImageView *imageView = [[HLZTopStoryImageView alloc] init];
+        imageView.story = story;
         
-        // Add title label.
-        UILabel *label = [imageView viewWithTag:LabelInTopStoryImageViewTag];
-        label.text = story.title;
-        [imageView addSubview:label];
+        [imageViews addObject:imageView];
     }
     
     self.scrollView.contentViews = imageViews;
