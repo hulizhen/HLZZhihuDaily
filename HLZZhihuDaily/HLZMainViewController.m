@@ -54,19 +54,13 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
     [self configureNavigationBar];
     [self configureScrollView];
     [self configureTableView];
     
     [self loadTopStories];
     
-    [self showLaunchViewWithCompletion:^{
-        self.scrollView.currentPage = 0;
-        
-        self.hideStatusBar = NO;
-        [self setNeedsStatusBarAppearanceUpdate];
-    }];
+    [self showLaunchViewWithCompletion];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -221,26 +215,15 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     });
 }
 
-- (void)showLaunchViewWithCompletion:(void (^)(void))completion {
+- (void)showLaunchViewWithCompletion {
     HLZLaunchView *launchView = [[HLZLaunchView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    NSURL *jsonURL = [NSURL URLWithString:[NSString stringWithFormat:LaunchImageURL, [NSString stringWithFormat:@"%d*%d", 1080, 177]]];
-    NSData *jsonData = [NSData dataWithContentsOfURL:jsonURL];
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
-    if (!json) {
-        return;
-    }
-    
-    // Get launch image.
-    NSURL *imageURL = [NSURL URLWithString:json[@"img"]];
-    NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-    UIImage *launchImage = [UIImage imageWithData:imageData];
-    
-    launchView.launchImage = launchImage;
-    launchView.authorName = json[@"text"];
-    launchView.title = @"知乎日报";
-    launchView.subtitle = @"每天三次，每次七分钟";
-    launchView.completionBlock = completion;
+    launchView.launchImageURL = [NSURL URLWithString:[NSString stringWithFormat:LaunchImageURL, [NSString stringWithFormat:@"%d*%d", 1080, 177]]];
+    launchView.completionBlock = ^{
+        self.scrollView.currentPage = 0;
+        self.hideStatusBar = NO;
+        [self setNeedsStatusBarAppearanceUpdate];
+    };
     
     // Add launch view to the window.
     [[[UIApplication sharedApplication].delegate window] addSubview:launchView];

@@ -24,7 +24,7 @@
     _story = story;
     
     self.storyTitle.text = story.title;
-    [self.storyImageView sd_setImageWithURL:story.imageURL placeholderImage:nil];
+    [self.storyImageView sd_setImageWithURL:story.imageURL];
 }
 
 @end

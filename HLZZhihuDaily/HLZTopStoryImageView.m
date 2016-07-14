@@ -23,7 +23,7 @@
     _story = story;
     
     self.storyTitle.text = _story.title;
-    [self sd_setImageWithURL:_story.imageURL placeholderImage:nil];
+    [self sd_setImageWithURL:_story.imageURL];
     self.contentMode = UIViewContentModeScaleAspectFill;
 }
 

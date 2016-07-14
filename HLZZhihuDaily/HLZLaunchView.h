@@ -10,10 +10,7 @@
 
 @interface HLZLaunchView : UIView
 
-@property (nonatomic, copy) UIImage *launchImage;
-@property (nonatomic, copy) NSString *authorName;
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSString *subtitle;
+@property (nonatomic, strong) NSURL *launchImageURL;
 @property (nonatomic, copy) void (^completionBlock)(void);
 
 @end

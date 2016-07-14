@@ -8,6 +8,8 @@
 
 #import "HLZLaunchView.h"
 
+@import SDWebImage;
+
 @interface HLZLaunchView ()
 
 @property (nonatomic, strong) UIImageView *lauchImageView;
@@ -74,29 +76,21 @@ static const NSTimeInterval FadeOutDuration                   = 0.5;
     });
 }
 
-- (void)setLaunchImage:(UIImage *)launchImage {
-    _launchImage = launchImage;
+- (void)setLaunchImageURL:(NSURL *)launchImageURL {
+    _launchImageURL = launchImageURL;
     
-    self.lauchImageView.image = [_launchImage copy];
+    NSData *jsonData = [NSData dataWithContentsOfURL:_launchImageURL];
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
+    if (!json) {
+        return;
+    }
+    
+    self.authorLabel.text = json[@"text"];
+    self.titleLabel.text = @"知乎日报";
+    self.subtitleLabel.text = @"每天三次，每次七分钟";
+    
+    [self.lauchImageView sd_setImageWithURL:[NSURL URLWithString:json[@"img"]]];
     self.lauchImageView.alpha = 0;
-}
-
-- (void)setAuthorName:(NSString *)authorName {
-    _authorName = authorName;
-    
-    self.authorLabel.text = [_authorName copy];
-}
-
-- (void)setTitle:(NSString *)title {
-    _title = title;
-    
-    self.titleLabel.text = [_title copy];
-}
-
-- (void)setSubtitle:(NSString *)subtitle {
-    _subtitle = subtitle;
-    
-    self.subtitleLabel.text = [_subtitle copy];
 }
 
 - (void)setUp:(CGRect)frame {
