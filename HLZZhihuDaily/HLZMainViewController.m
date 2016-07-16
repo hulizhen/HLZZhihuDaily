@@ -75,8 +75,10 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == self.tableView) {
-        CGFloat progress = -(self.tableView.contentOffset.y + StickyHeaderViewHeightMin)/(StickyHeaderViewHeightMax - StickyHeaderViewHeightMin) * 1.5;
-        if (progress >= 0 && scrollView.isDragging) {
+        CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+        CGFloat currentDifference = -(self.tableView.contentOffset.y + StickyHeaderViewHeightMin + statusBarHeight);
+        CGFloat progress = currentDifference / (StickyHeaderViewHeightMax - StickyHeaderViewHeightMin) * 1.5;
+        if (progress >= 0) {
             self.refreshView.progress = progress;
         }
     }
@@ -94,6 +96,9 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
                     });
                 }];
             });
+        } else {
+            // Reset the progress to 0 if it did not reach 1.0.
+            self.refreshView.progress = 0;
         }
     }
 }
