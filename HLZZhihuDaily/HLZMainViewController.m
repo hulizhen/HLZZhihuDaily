@@ -73,17 +73,6 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 
 #pragma mark - UIScrollViewDelegate
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView == self.tableView) {
-        CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-        CGFloat currentDifference = -(self.tableView.contentOffset.y + StickyHeaderViewHeightMin + statusBarHeight);
-        CGFloat progress = currentDifference / (StickyHeaderViewHeightMax - StickyHeaderViewHeightMin) * 1.5;
-        if (progress >= 0) {
-            self.refreshView.progress = progress;
-        }
-    }
-}
-
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (scrollView == self.tableView) {
         if (self.refreshView.progress >= 1) {
@@ -107,6 +96,27 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     if (scrollView == self.tableView) {
         // Reset the progress to 0 if it did not reach 1.0.
         self.refreshView.progress = 0;
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView == self.tableView) {
+        CGFloat difference = 0;
+        
+        // Update the alpha value of navigation bar, according to the contentOffset.y of table view.
+        difference = (StickyHeaderViewHeightMin + 5) + self.tableView.contentOffset.y;
+        CGFloat alpha = difference / StickyHeaderViewHeightMin;
+        alpha = alpha < 0 ? 0 : alpha;
+        alpha = alpha > 1 ? 1 : alpha;
+        self.navigationController.navigationBar.subviews[0].alpha = alpha;
+        
+        // Update refresh view.
+        CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+        difference = -(self.tableView.contentOffset.y + StickyHeaderViewHeightMin + statusBarHeight);
+        CGFloat progress = difference / (StickyHeaderViewHeightMax - StickyHeaderViewHeightMin) * 1.5;
+        if (progress >= 0) {
+            self.refreshView.progress = progress;
+        }
     }
 }
 
@@ -158,12 +168,10 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 }
 
 - (void)configureNavigationBar {
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.01 green:0.56 blue:0.84 alpha:1.0];
+    self.navigationController.navigationBar.subviews[0].alpha = 0;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     
     // Customize title view.
     UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 140, 30)];
