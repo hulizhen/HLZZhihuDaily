@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  HLZMainViewController.h
 //  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 5/31/16.
@@ -8,10 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
+@interface HLZMainViewController : UIViewController
 
 
 @end
-

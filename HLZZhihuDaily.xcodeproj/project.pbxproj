@@ -7,25 +7,61 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		251631731D32436500A43E35 /* HLZInfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 251631721D32436500A43E35 /* HLZInfiniteScrollView.m */; };
+		254A38821D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A38811D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m */; };
+		2577ACF11D30DBF100CBE921 /* HLZLaunchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2577ACF01D30DBF100CBE921 /* HLZLaunchView.m */; };
 		25C00E331D11A59A007A6F5B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E321D11A59A007A6F5B /* main.m */; };
-		25C00E361D11A59A007A6F5B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E351D11A59A007A6F5B /* AppDelegate.m */; };
-		25C00E391D11A59A007A6F5B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E381D11A59A007A6F5B /* ViewController.m */; };
 		25C00E3C1D11A59A007A6F5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E3A1D11A59A007A6F5B /* Main.storyboard */; };
 		25C00E3E1D11A59A007A6F5B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E3D1D11A59A007A6F5B /* Assets.xcassets */; };
 		25C00E411D11A59A007A6F5B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E3F1D11A59A007A6F5B /* LaunchScreen.storyboard */; };
+		25C00E4D1D11A956007A6F5B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E4C1D11A956007A6F5B /* AppDelegate.m */; };
+		25C00E531D11A993007A6F5B /* HLZStory.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E501D11A993007A6F5B /* HLZStory.m */; };
+		25C00E541D11A993007A6F5B /* HLZStoryStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E521D11A993007A6F5B /* HLZStoryStore.m */; };
+		25C00E601D11AA11007A6F5B /* HLZStoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E5E1D11AA11007A6F5B /* HLZStoryCell.m */; };
+		25C00E611D11AA11007A6F5B /* HLZStoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E5F1D11AA11007A6F5B /* HLZStoryCell.xib */; };
+		25C00E641D11AAFD007A6F5B /* HLZMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E631D11AAFD007A6F5B /* HLZMainViewController.m */; };
+		25C00E671D11AC15007A6F5B /* UITableView+HLZStickyHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */; };
+		25C00E751D142379007A6F5B /* HLZTopStoryImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E741D142379007A6F5B /* HLZTopStoryImageView.xib */; };
+		25CDC9C01D3723CA000C314D /* HLZTopStoryImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CDC9BF1D3723CA000C314D /* HLZTopStoryImageView.m */; };
+		25D7A1761D1629C6008030AB /* HLZRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A1751D1629C6008030AB /* HLZRefreshView.m */; };
+		4097FF62344F95D0CACD1BF4 /* Pods_HLZZhihuDaily.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DF8815100B926C446D994D /* Pods_HLZZhihuDaily.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1DDA95C75237F4355DAF72E1 /* Pods-HLZZhihuDaily.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HLZZhihuDaily.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HLZZhihuDaily/Pods-HLZZhihuDaily.debug.xcconfig"; sourceTree = "<group>"; };
+		251631711D32436500A43E35 /* HLZInfiniteScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZInfiniteScrollView.h; sourceTree = "<group>"; };
+		251631721D32436500A43E35 /* HLZInfiniteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZInfiniteScrollView.m; sourceTree = "<group>"; };
+		254A38801D34F7B40052AD9D /* UINavigationController+HLZStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+HLZStatusBar.h"; sourceTree = "<group>"; };
+		254A38811D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+HLZStatusBar.m"; sourceTree = "<group>"; };
+		2577ACEF1D30DBF100CBE921 /* HLZLaunchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZLaunchView.h; sourceTree = "<group>"; };
+		2577ACF01D30DBF100CBE921 /* HLZLaunchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZLaunchView.m; sourceTree = "<group>"; };
 		25C00E2E1D11A59A007A6F5B /* HLZZhihuDaily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HLZZhihuDaily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25C00E321D11A59A007A6F5B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		25C00E341D11A59A007A6F5B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		25C00E351D11A59A007A6F5B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		25C00E371D11A59A007A6F5B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		25C00E381D11A59A007A6F5B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		25C00E3B1D11A59A007A6F5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		25C00E3D1D11A59A007A6F5B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		25C00E401D11A59A007A6F5B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		25C00E421D11A59A007A6F5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		25C00E4A1D11A939007A6F5B /* HLZConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZConstants.h; sourceTree = "<group>"; };
+		25C00E4B1D11A956007A6F5B /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		25C00E4C1D11A956007A6F5B /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		25C00E4F1D11A993007A6F5B /* HLZStory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZStory.h; sourceTree = "<group>"; };
+		25C00E501D11A993007A6F5B /* HLZStory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZStory.m; sourceTree = "<group>"; };
+		25C00E511D11A993007A6F5B /* HLZStoryStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZStoryStore.h; sourceTree = "<group>"; };
+		25C00E521D11A993007A6F5B /* HLZStoryStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZStoryStore.m; sourceTree = "<group>"; };
+		25C00E5D1D11AA11007A6F5B /* HLZStoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZStoryCell.h; sourceTree = "<group>"; };
+		25C00E5E1D11AA11007A6F5B /* HLZStoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZStoryCell.m; sourceTree = "<group>"; };
+		25C00E5F1D11AA11007A6F5B /* HLZStoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HLZStoryCell.xib; sourceTree = "<group>"; };
+		25C00E621D11AAFD007A6F5B /* HLZMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZMainViewController.h; sourceTree = "<group>"; };
+		25C00E631D11AAFD007A6F5B /* HLZMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZMainViewController.m; sourceTree = "<group>"; };
+		25C00E651D11AC15007A6F5B /* UITableView+HLZStickyHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+HLZStickyHeader.h"; sourceTree = "<group>"; };
+		25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+HLZStickyHeader.m"; sourceTree = "<group>"; };
+		25C00E741D142379007A6F5B /* HLZTopStoryImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HLZTopStoryImageView.xib; sourceTree = "<group>"; };
+		25CDC9BE1D3723CA000C314D /* HLZTopStoryImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZTopStoryImageView.h; sourceTree = "<group>"; };
+		25CDC9BF1D3723CA000C314D /* HLZTopStoryImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZTopStoryImageView.m; sourceTree = "<group>"; };
+		25D7A1741D1629C6008030AB /* HLZRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZRefreshView.h; sourceTree = "<group>"; };
+		25D7A1751D1629C6008030AB /* HLZRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZRefreshView.m; sourceTree = "<group>"; };
+		5AACB207D96E2984BD24C400 /* Pods-HLZZhihuDaily.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HLZZhihuDaily.release.xcconfig"; path = "Pods/Target Support Files/Pods-HLZZhihuDaily/Pods-HLZZhihuDaily.release.xcconfig"; sourceTree = "<group>"; };
+		67DF8815100B926C446D994D /* Pods_HLZZhihuDaily.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HLZZhihuDaily.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4097FF62344F95D0CACD1BF4 /* Pods_HLZZhihuDaily.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +81,8 @@
 			children = (
 				25C00E301D11A59A007A6F5B /* HLZZhihuDaily */,
 				25C00E2F1D11A59A007A6F5B /* Products */,
+				568B6E686AFC085F15E9FE4A /* Pods */,
+				490E9ECA1EACD6590127E6F2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,14 +97,11 @@
 		25C00E301D11A59A007A6F5B /* HLZZhihuDaily */ = {
 			isa = PBXGroup;
 			children = (
-				25C00E341D11A59A007A6F5B /* AppDelegate.h */,
-				25C00E351D11A59A007A6F5B /* AppDelegate.m */,
-				25C00E371D11A59A007A6F5B /* ViewController.h */,
-				25C00E381D11A59A007A6F5B /* ViewController.m */,
-				25C00E3A1D11A59A007A6F5B /* Main.storyboard */,
-				25C00E3D1D11A59A007A6F5B /* Assets.xcassets */,
-				25C00E3F1D11A59A007A6F5B /* LaunchScreen.storyboard */,
-				25C00E421D11A59A007A6F5B /* Info.plist */,
+				25C00E4E1D11A95A007A6F5B /* Application */,
+				25C00E551D11A99B007A6F5B /* Models */,
+				25C00E481D11A8F4007A6F5B /* Views */,
+				25C00E591D11A9D5007A6F5B /* Controllers */,
+				25C00E491D11A90F007A6F5B /* Resources */,
 				25C00E311D11A59A007A6F5B /* Supporting Files */,
 			);
 			path = HLZZhihuDaily;
@@ -74,9 +110,90 @@
 		25C00E311D11A59A007A6F5B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				25C00E4A1D11A939007A6F5B /* HLZConstants.h */,
+				25C00E421D11A59A007A6F5B /* Info.plist */,
 				25C00E321D11A59A007A6F5B /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		25C00E481D11A8F4007A6F5B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				25C00E3A1D11A59A007A6F5B /* Main.storyboard */,
+				25C00E3F1D11A59A007A6F5B /* LaunchScreen.storyboard */,
+				25C00E741D142379007A6F5B /* HLZTopStoryImageView.xib */,
+				25CDC9BE1D3723CA000C314D /* HLZTopStoryImageView.h */,
+				25CDC9BF1D3723CA000C314D /* HLZTopStoryImageView.m */,
+				25C00E5F1D11AA11007A6F5B /* HLZStoryCell.xib */,
+				254A38801D34F7B40052AD9D /* UINavigationController+HLZStatusBar.h */,
+				254A38811D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m */,
+				25C00E5D1D11AA11007A6F5B /* HLZStoryCell.h */,
+				25C00E5E1D11AA11007A6F5B /* HLZStoryCell.m */,
+				251631711D32436500A43E35 /* HLZInfiniteScrollView.h */,
+				251631721D32436500A43E35 /* HLZInfiniteScrollView.m */,
+				25C00E651D11AC15007A6F5B /* UITableView+HLZStickyHeader.h */,
+				25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */,
+				25D7A1741D1629C6008030AB /* HLZRefreshView.h */,
+				25D7A1751D1629C6008030AB /* HLZRefreshView.m */,
+				2577ACEF1D30DBF100CBE921 /* HLZLaunchView.h */,
+				2577ACF01D30DBF100CBE921 /* HLZLaunchView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		25C00E491D11A90F007A6F5B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				25C00E3D1D11A59A007A6F5B /* Assets.xcassets */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		25C00E4E1D11A95A007A6F5B /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				25C00E4B1D11A956007A6F5B /* AppDelegate.h */,
+				25C00E4C1D11A956007A6F5B /* AppDelegate.m */,
+			);
+			name = Application;
+			sourceTree = "<group>";
+		};
+		25C00E551D11A99B007A6F5B /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				25C00E4F1D11A993007A6F5B /* HLZStory.h */,
+				25C00E501D11A993007A6F5B /* HLZStory.m */,
+				25C00E511D11A993007A6F5B /* HLZStoryStore.h */,
+				25C00E521D11A993007A6F5B /* HLZStoryStore.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		25C00E591D11A9D5007A6F5B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				25C00E621D11AAFD007A6F5B /* HLZMainViewController.h */,
+				25C00E631D11AAFD007A6F5B /* HLZMainViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		490E9ECA1EACD6590127E6F2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				67DF8815100B926C446D994D /* Pods_HLZZhihuDaily.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		568B6E686AFC085F15E9FE4A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1DDA95C75237F4355DAF72E1 /* Pods-HLZZhihuDaily.debug.xcconfig */,
+				5AACB207D96E2984BD24C400 /* Pods-HLZZhihuDaily.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -86,9 +203,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 25C00E451D11A59A007A6F5B /* Build configuration list for PBXNativeTarget "HLZZhihuDaily" */;
 			buildPhases = (
+				1BDCBD7D24015874B3734C08 /* [CP] Check Pods Manifest.lock */,
 				25C00E2A1D11A59A007A6F5B /* Sources */,
 				25C00E2B1D11A59A007A6F5B /* Frameworks */,
 				25C00E2C1D11A59A007A6F5B /* Resources */,
+				D60C72F4839AC3D72EB2A8F0 /* [CP] Embed Pods Frameworks */,
+				2C3AB3183A8A56C58F10ADAA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -110,6 +230,7 @@
 				TargetAttributes = {
 					25C00E2D1D11A59A007A6F5B = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = KJ2YJ44DM2;
 					};
 				};
 			};
@@ -138,19 +259,78 @@
 			files = (
 				25C00E411D11A59A007A6F5B /* LaunchScreen.storyboard in Resources */,
 				25C00E3E1D11A59A007A6F5B /* Assets.xcassets in Resources */,
+				25C00E751D142379007A6F5B /* HLZTopStoryImageView.xib in Resources */,
 				25C00E3C1D11A59A007A6F5B /* Main.storyboard in Resources */,
+				25C00E611D11AA11007A6F5B /* HLZStoryCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1BDCBD7D24015874B3734C08 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		2C3AB3183A8A56C58F10ADAA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HLZZhihuDaily/Pods-HLZZhihuDaily-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D60C72F4839AC3D72EB2A8F0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HLZZhihuDaily/Pods-HLZZhihuDaily-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		25C00E2A1D11A59A007A6F5B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				25C00E391D11A59A007A6F5B /* ViewController.m in Sources */,
-				25C00E361D11A59A007A6F5B /* AppDelegate.m in Sources */,
+				254A38821D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m in Sources */,
+				25CDC9C01D3723CA000C314D /* HLZTopStoryImageView.m in Sources */,
+				251631731D32436500A43E35 /* HLZInfiniteScrollView.m in Sources */,
+				25C00E531D11A993007A6F5B /* HLZStory.m in Sources */,
+				25C00E541D11A993007A6F5B /* HLZStoryStore.m in Sources */,
+				2577ACF11D30DBF100CBE921 /* HLZLaunchView.m in Sources */,
+				25C00E671D11AC15007A6F5B /* UITableView+HLZStickyHeader.m in Sources */,
+				25C00E601D11AA11007A6F5B /* HLZStoryCell.m in Sources */,
+				25C00E641D11AAFD007A6F5B /* HLZMainViewController.m in Sources */,
+				25D7A1761D1629C6008030AB /* HLZRefreshView.m in Sources */,
+				25C00E4D1D11A956007A6F5B /* AppDelegate.m in Sources */,
 				25C00E331D11A59A007A6F5B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,23 +441,31 @@
 		};
 		25C00E461D11A59A007A6F5B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1DDA95C75237F4355DAF72E1 /* Pods-HLZZhihuDaily.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = HLZZhihuDaily/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hulizhen.HLZZhihuDaily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
 		25C00E471D11A59A007A6F5B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5AACB207D96E2984BD24C400 /* Pods-HLZZhihuDaily.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = HLZZhihuDaily/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hulizhen.HLZZhihuDaily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -300,6 +488,7 @@
 				25C00E471D11A59A007A6F5B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

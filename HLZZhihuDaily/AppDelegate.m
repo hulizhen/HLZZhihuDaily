@@ -2,11 +2,12 @@
 //  AppDelegate.m
 //  HLZZhihuDaily
 //
-//  Created by Hu Lizhen on 6/15/16.
-//  Copyright © 2016 hulizhen. All rights reserved.
+//  Created by Hu Lizhen on 5/31/16.
+//  Copyright © 2016 hulz. All rights reserved.
 //
 
 #import "AppDelegate.h"
+#import "HLZStoryStore.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +17,12 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+//    [UINavigationBar appearance].barTintColor = [UIColor clearColor];
+//    [UINavigationBar appearance].barTintColor = UIColorFromRGBA(0x00000000);
+//    [UINavigationBar appearance].backgroundColor = [UIColor clearColor];
+//    [UINavigationBar appearance].translucent = NO;
+    
+    [[HLZStoryStore sharedInstance] updateStoriesWithCompletion:nil];
     return YES;
 }
 
