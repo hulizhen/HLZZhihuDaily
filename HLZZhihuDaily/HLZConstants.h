@@ -32,7 +32,7 @@ static float const StickyHeaderViewHeightMax = 320.0;
 static float const StoryCellRowHeight        = 92.0;
 static float const AutoScrollTimerInterval   = 5.0;
 
-static int const ViewTagBase = 1000;
-static int const LabelInTopStoryImageViewTag = ViewTagBase + 1;
+static int const ViewTagBase   = 1000;
+static int const SecondsPerDay = 24 * 60 * 60;
 
 #endif /* HLZConstants_h */

@@ -76,6 +76,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		25523BF11D406BE3001A5485 /* UIs */ = {
+			isa = PBXGroup;
+			children = (
+				25C00E3A1D11A59A007A6F5B /* Main.storyboard */,
+				25C00E3F1D11A59A007A6F5B /* LaunchScreen.storyboard */,
+				25C00E741D142379007A6F5B /* HLZTopStoryImageView.xib */,
+				25C00E5F1D11AA11007A6F5B /* HLZStoryCell.xib */,
+			);
+			name = UIs;
+			sourceTree = "<group>";
+		};
 		25C00E251D11A59A007A6F5B = {
 			isa = PBXGroup;
 			children = (
@@ -120,12 +131,9 @@
 		25C00E481D11A8F4007A6F5B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				25C00E3A1D11A59A007A6F5B /* Main.storyboard */,
-				25C00E3F1D11A59A007A6F5B /* LaunchScreen.storyboard */,
-				25C00E741D142379007A6F5B /* HLZTopStoryImageView.xib */,
+				25523BF11D406BE3001A5485 /* UIs */,
 				25CDC9BE1D3723CA000C314D /* HLZTopStoryImageView.h */,
 				25CDC9BF1D3723CA000C314D /* HLZTopStoryImageView.m */,
-				25C00E5F1D11AA11007A6F5B /* HLZStoryCell.xib */,
 				254A38801D34F7B40052AD9D /* UINavigationController+HLZStatusBar.h */,
 				254A38811D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m */,
 				25C00E5D1D11AA11007A6F5B /* HLZStoryCell.h */,

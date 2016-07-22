@@ -26,6 +26,7 @@
 @property (nonatomic, strong) HLZRefreshView *refreshView;
 @property (nonatomic, strong) HLZInfiniteScrollView *scrollView;
 @property (nonatomic, assign) BOOL hideStatusBar;
+@property (nonatomic, assign, getter=isLoadingStories) BOOL loadingStories;
 
 @end
 
@@ -40,8 +41,14 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     if (self) {
         _hideStatusBar = YES;
         
-        [[HLZStoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(latestStories)) options:NSKeyValueObservingOptionNew context:nil];
-        [[HLZStoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(topStories)) options:NSKeyValueObservingOptionNew context:nil];
+        [[HLZStoryStore sharedInstance] addObserver:self
+                                         forKeyPath:NSStringFromSelector(@selector(latestStories))
+                                            options:NSKeyValueObservingOptionNew
+                                            context:nil];
+        [[HLZStoryStore sharedInstance] addObserver:self
+                                         forKeyPath:NSStringFromSelector(@selector(topStories))
+                                            options:NSKeyValueObservingOptionNew
+                                            context:nil];
     }
     return self;
 }
@@ -117,23 +124,37 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         if (progress >= 0) {
             self.refreshView.progress = progress;
         }
+        
+        // Load more stories.
+        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+        if (scrollView.contentSize.height - scrollView.contentOffset.y <= 1.5 * screenHeight) {
+            if (!self.isLoadingStories) {
+                self.loadingStories = YES;
+                [[HLZStoryStore sharedInstance] loadMoreStories: ^{
+                    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[HLZStoryStore sharedInstance].latestStories.count - 1];
+                    [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+                    self.loadingStories = NO;
+                }];
+            }
+        }
     }
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return [HLZStoryStore sharedInstance].latestStories.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [HLZStoryStore sharedInstance].latestStories.count;
+    return [HLZStoryStore sharedInstance].latestStories[section].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HLZStoryCell *cell = [self.tableView dequeueReusableCellWithIdentifier:StoryCellIdentifier forIndexPath:indexPath];
+    NSArray<NSArray *> *latestStories = [HLZStoryStore sharedInstance].latestStories;
     
-    NSArray *stories = [HLZStoryStore sharedInstance].latestStories;
+    NSArray *stories = latestStories[indexPath.section];
     cell.story = (HLZStory *)stories[indexPath.row];
     
     return cell;

@@ -79,11 +79,11 @@ static const NSTimeInterval FadeOutDuration                   = 0.5;
 - (void)setLaunchImageURL:(NSURL *)launchImageURL {
     _launchImageURL = launchImageURL;
     
-    NSData *jsonData = [NSData dataWithContentsOfURL:_launchImageURL];
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:nil];
-    if (!json) {
+    NSData *data = [NSData dataWithContentsOfURL:_launchImageURL];
+    if (!data) {
         return;
     }
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
     
     self.authorLabel.text = json[@"text"];
     self.titleLabel.text = @"知乎日报";

@@ -10,10 +10,11 @@
 
 @interface HLZStoryStore : NSObject
 
-@property (nonatomic, readonly, strong) NSArray *latestStories;
+@property (nonatomic, readonly, strong) NSArray<NSArray *> *latestStories;
 @property (nonatomic, readonly, strong) NSArray *topStories;
 
 + (instancetype)sharedInstance;
 - (void)updateStoriesWithCompletion:(void(^)(void))completion;
+- (void)loadMoreStories:(void(^)(void))completion;
 
 @end

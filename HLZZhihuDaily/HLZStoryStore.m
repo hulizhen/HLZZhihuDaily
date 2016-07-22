@@ -12,8 +12,9 @@
 
 @interface HLZStoryStore ()
 
-@property (nonatomic, strong) NSMutableArray *mutableLatestStories;
+@property (nonatomic, strong) NSMutableArray<NSMutableArray *> *mutableLatestStories;
 @property (nonatomic, strong) NSMutableArray *mutableTopStories;
+@property (nonatomic, strong) NSDate         *earliestDate;
 
 @end
 
@@ -39,6 +40,7 @@
     if (self) {
         _mutableLatestStories = [[NSMutableArray alloc] init];
         _mutableTopStories = [[NSMutableArray alloc] init];
+        _earliestDate = [NSDate dateWithTimeIntervalSinceNow:0];
     }
     return self;
 }
@@ -51,6 +53,10 @@
 - (void)updateStoriesWithCompletion:(void(^)(void))completion {
     NSURL *url = [NSURL URLWithString:LatestStoriesURL];
     NSData *data = [NSData dataWithContentsOfURL:url];
+    if (!data) {
+        return;
+    }
+    
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
     [self.mutableLatestStories removeAllObjects];
     [self.mutableTopStories removeAllObjects];
@@ -58,10 +64,12 @@
     // Latest stories.
     [self willChangeValueForKey:NSStringFromSelector(@selector(latestStories))];
     NSArray *stories = json[@"stories"];
+    NSMutableArray *newestStories = [[NSMutableArray alloc] init];
     for (NSDictionary *dictionary in stories) {
         HLZStory *story = [[HLZStory alloc] initWithDictionary:dictionary];
-        [self.mutableLatestStories addObject:story];
+        [newestStories addObject:story];
     }
+    [self.mutableLatestStories addObject:newestStories];
     [self didChangeValueForKey:NSStringFromSelector(@selector(latestStories))];
     
     // Top stories.
@@ -73,13 +81,50 @@
     }
     [self didChangeValueForKey:NSStringFromSelector(@selector(topStories))];
     
+    // Update the earliest date.
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyyMMdd";
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
+    self.earliestDate = [dateFormatter dateFromString:json[@"date"]];
+    
     if (completion) {
         completion();
     }
-    
-//    [self dumpStories];
 }
 
+- (void)loadMoreStories:(void(^)(void))completion {
+    NSDate *earlierDate = [NSDate dateWithTimeInterval:-SecondsPerDay sinceDate:self.earliestDate];
+    NSLog(@"%@", earlierDate);
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyyMMdd";
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
+    
+    NSString *urlString = [NSString stringWithFormat:BeforeStoriesURL, [dateFormatter stringFromDate:earlierDate]];
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    if (!data) {
+        return;
+    }
+    
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+    
+    NSMutableArray *moreStories = [[NSMutableArray alloc] init];
+    NSArray *stories = json[@"stories"];
+    for (NSDictionary *dictionary in stories) {
+        HLZStory *story = [[HLZStory alloc] initWithDictionary:dictionary];
+        [moreStories addObject:story];
+    }
+    [self.mutableLatestStories addObject:moreStories];
+    
+    // Update the earliestDate.
+    self.earliestDate = earlierDate;
+    
+    // Insert the stories just got into table view.
+    if (completion) {
+        completion();
+    }
+}
 
 #pragma mark - Accessors
 
@@ -89,21 +134,6 @@
 
 - (NSArray *)topStories {
     return [self.mutableTopStories copy];
-}
-
-#pragma mark - Utils
-
-- (void)dumpStories {
-    for (HLZStory *story in self.mutableLatestStories) {
-        NSLog(@"Latest Story: %@", story);
-    }
-    
-    printf("\n");
-    for (HLZStory *story in self.mutableTopStories) {
-        NSLog(@"Top Story: %@", story);
-    }
-    
-    printf("\n");
 }
 
 @end
