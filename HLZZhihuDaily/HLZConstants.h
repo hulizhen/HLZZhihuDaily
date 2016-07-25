@@ -29,8 +29,10 @@ static NSString * const EditorProfileURL        = @"http://news-at.zhihu.com/api
 static float const LaunchDuration            = 1.5;
 static float const StickyHeaderViewHeightMin = 220.0;
 static float const StickyHeaderViewHeightMax = 320.0;
-static float const StoryCellRowHeight        = 92.0;
 static float const AutoScrollTimerInterval   = 5.0;
+
+static float const StoryCellRowHeight           = 92.0;
+static float const TableViewSectionHeaderHeight = 44.0;
 
 static int const ViewTagBase   = 1000;
 static int const SecondsPerDay = 24 * 60 * 60;

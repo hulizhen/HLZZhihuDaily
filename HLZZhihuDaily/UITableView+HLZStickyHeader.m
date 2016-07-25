@@ -40,11 +40,7 @@ static const float DefaultStickyHeaderViewHeightMax = 320.0;
     self.hlz_stickyHeaderView.clipsToBounds = YES;
     
     [self addSubview:stickyHeaderView];
-    
-    // Put scroll view into the top inset of table view.
-    // This is exactly the trick to make scroll view stick to the top of view controller.
-    self.contentInset = UIEdgeInsetsMake(self.hlz_stickyHeaderViewHeightMin, 0, 0, 0);
-    self.contentOffset = CGPointMake(0, -self.hlz_stickyHeaderViewHeightMin);
+    [self layoutIfNeeded];
 }
 
 - (UIView *)hlz_stickyHeaderView {
@@ -85,8 +81,17 @@ static const float DefaultStickyHeaderViewHeightMax = 320.0;
     CGFloat contentOffsetX = self.contentOffset.x;
     CGFloat contentOffsetY = self.contentOffset.y > -self.hlz_stickyHeaderViewHeightMax ? self.contentOffset.y : -self.hlz_stickyHeaderViewHeightMax;
     
-    self.contentOffset = CGPointMake(self.contentOffset.x, contentOffsetY);
-    self.hlz_stickyHeaderView.frame = CGRectMake(contentOffsetX, contentOffsetY, [UIScreen mainScreen].bounds.size.width, -contentOffsetY);
+    // Put header view into the top inset of table view.
+    // This is exactly the trick to make scroll view stick to the top of view controller.
+    CGFloat topEdgeInset = self.contentOffset.y > 0 ? 0 : self.hlz_stickyHeaderViewHeightMin;
+    self.contentInset = UIEdgeInsetsMake(topEdgeInset, 0, 0, 0);
+    
+    if (-contentOffsetY >= self.hlz_stickyHeaderViewHeightMax) {
+        self.contentOffset = CGPointMake(contentOffsetX, contentOffsetY);
+    }
+    if (-contentOffsetY >= 0 && -contentOffsetY <= self.hlz_stickyHeaderViewHeightMax) {
+        self.hlz_stickyHeaderView.frame = CGRectMake(contentOffsetX, contentOffsetY, [UIScreen mainScreen].bounds.size.width, -contentOffsetY);
+    }
 }
 
 @end

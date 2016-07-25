@@ -116,6 +116,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         alpha = alpha < 0 ? 0 : alpha;
         alpha = alpha > 1 ? 1 : alpha;
         self.navigationController.navigationBar.subviews[0].alpha = alpha;
+        NSLog(@"alpha = %f", alpha);
         
         // Update refresh view.
         CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -158,6 +159,25 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     cell.story = (HLZStory *)stories[indexPath.row];
     
     return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return section > 0 ? TableViewSectionHeaderHeight : 0;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    header.textLabel.textAlignment = NSTextAlignmentCenter;
+    header.textLabel.textColor = [UIColor whiteColor];
+    header.contentView.backgroundColor = [UIColor colorWithRed:0.01 green:0.56 blue:0.84 alpha:1.0];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UITableViewHeaderFooterView *header = [[UITableViewHeaderFooterView alloc] init];
+    header.textLabel.text = [NSString stringWithFormat:@"section header %ld", section];
+    return header;
 }
 
 #pragma mark - Helpers
@@ -214,13 +234,11 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 }
 
 - (void)configureTableView {
-    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-    CGFloat navigationBarHeight = self.navigationController.navigationBar.frame.size.height;
-    
-    self.tableView.hlz_stickyHeaderViewHeightMin = StickyHeaderViewHeightMin - statusBarHeight - navigationBarHeight;
+    self.tableView.hlz_stickyHeaderViewHeightMin = StickyHeaderViewHeightMin;
     self.tableView.hlz_stickyHeaderViewHeightMax = StickyHeaderViewHeightMax;
     self.tableView.hlz_stickyHeaderView = self.scrollView;
     
+    self.tableView.sectionHeaderHeight = TableViewSectionHeaderHeight;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = StoryCellRowHeight;
     self.tableView.showsHorizontalScrollIndicator = NO;
