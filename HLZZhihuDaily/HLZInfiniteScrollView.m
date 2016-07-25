@@ -238,6 +238,10 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
 
 - (void)autoScroll {
     NSInteger count = self.workingContentViews.count;
+    NSArray<NSIndexPath *> *indexPaths = [self.containerView indexPathsForVisibleItems];
+    if (indexPaths == nil || indexPaths.count == 0) {
+        return;
+    }
     NSInteger index = [self.containerView indexPathsForVisibleItems][0].row;
     
     // Adjust the index in case it is out of range.
