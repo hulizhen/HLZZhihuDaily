@@ -16,6 +16,7 @@
 #import "HLZRefreshView.h"
 #import "HLZLaunchView.h"
 #import "HLZTopStoryImageView.h"
+#import "UINavigationBar+HLZBackgroundColor.h"
 
 @import SDWebImage;
 
@@ -60,6 +61,8 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self configureNavigationBar];
     [self configureScrollView];
@@ -115,8 +118,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         CGFloat alpha = difference / StickyHeaderViewHeightMin;
         alpha = alpha < 0 ? 0 : alpha;
         alpha = alpha > 1 ? 1 : alpha;
-        self.navigationController.navigationBar.subviews[0].alpha = alpha;
-        NSLog(@"alpha = %f", alpha);
+        self.navigationController.navigationBar.subviews.firstObject.alpha = alpha;
         
         // Update refresh view.
         CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -171,7 +173,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
     header.textLabel.textAlignment = NSTextAlignmentCenter;
     header.textLabel.textColor = [UIColor whiteColor];
-    header.contentView.backgroundColor = [UIColor colorWithRed:0.01 green:0.56 blue:0.84 alpha:1.0];
+    header.contentView.backgroundColor = [UIColor colorWithRed:0.10 green:0.55 blue:0.84 alpha:1.0];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -209,17 +211,15 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 }
 
 - (void)configureNavigationBar {
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.01 green:0.56 blue:0.84 alpha:1.0];
-    self.navigationController.navigationBar.subviews[0].alpha = 0;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-    
     // Customize title view.
     UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 140, 30)];
     
+    // Add refresh view.
     self.refreshView = [[HLZRefreshView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    self.refreshView.tintColor = [UIColor whiteColor];
     [titleView addSubview:self.refreshView];
     
+    // Add title label.
     UILabel *titleLabel = ({
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 80, 30)];
         titleLabel.textColor = [UIColor whiteColor];
@@ -229,8 +229,11 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         titleLabel;
     });
     [titleView addSubview:titleLabel];
-    
     self.navigationItem.titleView = titleView;
+    
+    // Customize navigation bar.
+    [self.navigationController.navigationBar hlz_setBackgroundColor:[UIColor colorWithRed:0.10 green:0.55 blue:0.84 alpha:1.0]];
+    self.navigationController.navigationBar.subviews.firstObject.alpha = 0;
 }
 
 - (void)configureTableView {
