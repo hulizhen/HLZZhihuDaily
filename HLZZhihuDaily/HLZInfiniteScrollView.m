@@ -45,7 +45,7 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    [self setItemSize:self.frame.size];
+//    [self setItemSize:self.frame.size];
 }
 
 #pragma mark - Accessors
@@ -166,8 +166,10 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
 
 - (void)setFrame:(CGRect)frame {
     [super setFrame:frame];
+//    NSLog(@"frame: width = %f, heigh = %f", frame.size.width, frame.size.height);
     
     [self setItemSize:frame.size];
+    [self layoutIfNeeded];
 }
 
 #pragma mark - Timer

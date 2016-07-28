@@ -62,7 +62,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.automaticallyAdjustsScrollViewInsets = NO;
+//    self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self configureNavigationBar];
     [self configureScrollView];
@@ -126,7 +126,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         CGFloat alpha = difference / StickyHeaderViewHeightMin;
         alpha = alpha < 0 ? 0 : alpha;
         alpha = alpha > 1 ? 1 : alpha;
-        self.navigationController.navigationBar.subviews.firstObject.alpha = alpha;
+        self.navigationController.navigationBar.subviews.firstObject.alpha = 0.3;
         
         // Update refresh view.
         CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -148,6 +148,10 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
                 }];
             }
         }
+        
+        // Update title on the  navigation bar.
+        NSInteger currentSection = self.tableView.indexPathsForVisibleRows.firstObject.section;
+        NSLog(@"section: %ld", currentSection);
     }
 }
 

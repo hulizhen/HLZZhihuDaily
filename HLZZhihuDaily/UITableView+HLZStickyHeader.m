@@ -83,7 +83,8 @@ static const float DefaultStickyHeaderViewHeightMax = 320.0;
     
     // Put header view into the top inset of table view.
     // This is exactly the trick to make scroll view stick to the top of view controller.
-    CGFloat topEdgeInset = self.contentOffset.y > 0 ? 0 : self.hlz_stickyHeaderViewHeightMin;
+    CGFloat statusBarHeight = 20.0;
+    CGFloat topEdgeInset = self.contentOffset.y > 0 ? statusBarHeight : self.hlz_stickyHeaderViewHeightMin;
     self.contentInset = UIEdgeInsetsMake(topEdgeInset, 0, 0, 0);
     
     if (-contentOffsetY >= self.hlz_stickyHeaderViewHeightMax) {
