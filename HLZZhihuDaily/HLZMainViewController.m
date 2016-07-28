@@ -83,6 +83,14 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 
 #pragma mark - UIScrollViewDelegate
 
+- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {
+    if (scrollView == self.tableView) {
+        // Scroll to top when the status bar tapped.
+        [self.tableView setContentOffset:CGPointMake(0, -self.tableView.hlz_stickyHeaderViewHeightMin) animated:YES];
+    }
+    return NO;
+}
+
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (scrollView == self.tableView) {
         if (self.refreshView.progress >= 1) {
@@ -247,6 +255,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     self.tableView.showsHorizontalScrollIndicator = NO;
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
+    self.tableView.scrollsToTop = YES;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     

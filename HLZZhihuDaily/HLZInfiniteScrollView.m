@@ -206,6 +206,7 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
         [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CollectionViewCellIdentifier];
         collectionView.showsHorizontalScrollIndicator = NO;
         collectionView.showsVerticalScrollIndicator = NO;
+        collectionView.scrollsToTop = NO;
         collectionView.dataSource = self;
         collectionView.delegate = self;
         collectionView;
