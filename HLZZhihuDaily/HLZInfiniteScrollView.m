@@ -12,9 +12,9 @@
 
 @property (nonatomic, strong) UICollectionView *containerView;
 @property (nonatomic, strong) NSMutableArray<UIView *> *workingContentViews;
-@property (nonatomic, readonly, assign) NSInteger currentViewIndex;
 @property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, readonly, assign) NSInteger currentViewIndex;
 
 @end
 
@@ -270,6 +270,7 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
     UICollectionViewCell *cell = [self.containerView dequeueReusableCellWithReuseIdentifier:CollectionViewCellIdentifier forIndexPath:indexPath];
     
     UIView *view = self.workingContentViews[indexPath.row];
+    [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [cell.contentView addSubview:view];
     view.translatesAutoresizingMaskIntoConstraints = NO;
     [NSLayoutConstraint activateConstraints:@[[view.leftAnchor constraintEqualToAnchor:cell.contentView.leftAnchor],
