@@ -71,12 +71,12 @@
     dateFormatter.dateFormat = @"yyyyMMdd";
     NSDate *currentDate = [dateFormatter dateFromString:json[@"date"]];
     
-    
     // Latest stories.
     NSArray *stories = json[@"stories"];
     NSMutableArray *newestStories = [[NSMutableArray alloc] init];
     NSString *dateString = [currentDate hlz_stringWithFormat:@"MM月dd日 EEEE" locale:@"zh_CN"];
     
+    [self willChangeValueForKey:NSStringFromSelector(@selector(latestStories))];
     [newestStories addObject:dateString];  // Add current date as the first object.
     for (NSDictionary *dictionary in stories) {
         HLZStory *story = [[HLZStory alloc] initWithDictionary:dictionary];
@@ -87,6 +87,7 @@
     
     // Top stories.
     stories = json[@"top_stories"];
+    [self willChangeValueForKey:NSStringFromSelector(@selector(topStories))];
     for (NSDictionary *dictionary in stories) {
         HLZStory *story = [[HLZStory alloc] initWithDictionary:dictionary];
         [self.mutableTopStories addObject:story];

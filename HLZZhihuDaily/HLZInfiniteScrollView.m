@@ -45,9 +45,6 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
 #pragma mark - Accessors
 
 - (void)setContentViews:(NSArray<UIView *> *)contentViews {
-    if (contentViews.count <= 0) {
-        return;
-    }
     _contentViews = [contentViews copy];
     
     // Create a working version of contentViews for internal working,

@@ -21,8 +21,8 @@
 // |   .    |     .    |     .    |     .    |
 // |   .    |     .    |     .    |     .    |
 // -------------------------------------------
-
 @property (nonatomic, readonly, strong) NSArray<NSArray *> *latestStories;
+
 @property (nonatomic, readonly, strong) NSArray *topStories;
 
 + (instancetype)sharedInstance;
