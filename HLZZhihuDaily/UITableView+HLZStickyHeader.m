@@ -50,6 +50,9 @@ static const float DefaultStickyHeaderViewHeightMax = 320.0;
 - (void)hlz_setStickyHeaderViewHeightMin:(CGFloat)stickyHeaderViewHeightMin {
     NSNumber *number = [NSNumber numberWithFloat:stickyHeaderViewHeightMin];
     objc_setAssociatedObject(self, @selector(hlz_stickyHeaderViewHeightMin), number, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    
+    // Reset content inset.
+    self.contentInset = UIEdgeInsetsMake(stickyHeaderViewHeightMin, 0, 0, 0);
 }
 
 - (CGFloat)hlz_stickyHeaderViewHeightMin {

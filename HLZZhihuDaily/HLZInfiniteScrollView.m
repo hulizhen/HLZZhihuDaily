@@ -42,15 +42,12 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-//    [self setItemSize:self.frame.size];
-}
-
 #pragma mark - Accessors
 
 - (void)setContentViews:(NSArray<UIView *> *)contentViews {
+    if (contentViews.count <= 0) {
+        return;
+    }
     _contentViews = [contentViews copy];
     
     // Create a working version of contentViews for internal working,
@@ -166,7 +163,6 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
 
 - (void)setFrame:(CGRect)frame {
     [super setFrame:frame];
-//    NSLog(@"frame: width = %f, heigh = %f", frame.size.width, frame.size.height);
     
     [self setItemSize:frame.size];
     [self layoutIfNeeded];

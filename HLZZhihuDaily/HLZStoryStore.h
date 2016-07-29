@@ -26,7 +26,7 @@
 @property (nonatomic, readonly, strong) NSArray *topStories;
 
 + (instancetype)sharedInstance;
-- (void)updateStoriesWithCompletion:(void(^)(void))completion;
-- (void)loadMoreStories:(void(^)(void))completion;
+- (void)updateStoriesWithCompletion:(void(^)(BOOL finished))completion;
+- (void)loadMoreStories:(void(^)(BOOL finished))completion;
 
 @end

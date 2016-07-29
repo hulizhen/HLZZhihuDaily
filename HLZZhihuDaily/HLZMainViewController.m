@@ -63,15 +63,13 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    self.title = @"今日热闻";
-//    
     [self configureNavigationBar];
     [self configureScrollView];
     [self configureTableView];
     
     [self loadTopStories];
     
-    [self showLaunchViewWithCompletion];
+    [self showLaunchView];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -85,11 +83,9 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 #pragma mark - UIScrollViewDelegate
 
 - (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {
-    if (scrollView == self.tableView) {
-        // Scroll to top when the status bar tapped.
-        [self.tableView setContentOffset:CGPointMake(0, -self.tableView.hlz_stickyHeaderViewHeightMin) animated:YES];
-    }
-    return NO;
+    // Reset the content inset of table view.
+    self.tableView.hlz_stickyHeaderViewHeightMin = StickyHeaderViewHeightMin;
+    return YES;
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
@@ -98,7 +94,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
             [self.refreshView beginRefreshing];
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                [[HLZStoryStore sharedInstance] updateStoriesWithCompletion:^{
+                [[HLZStoryStore sharedInstance] updateStoriesWithCompletion:^(BOOL finished){
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.refreshView endRefreshing];
                     });
@@ -139,14 +135,20 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         
         // Load more stories.
         CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
-        if (scrollView.contentSize.height - scrollView.contentOffset.y <= 1.5 * screenHeight) {
+        if (scrollView.contentSize.height - scrollView.contentOffset.y <= 2 * screenHeight) {
             if (!self.isLoadingStories) {
                 self.loadingStories = YES;
-                [[HLZStoryStore sharedInstance] loadMoreStories: ^{
-                    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[HLZStoryStore sharedInstance].latestStories.count - 1];
-                    [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
-                    self.loadingStories = NO;
-                }];
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    [[HLZStoryStore sharedInstance] loadMoreStories: ^(BOOL finished){
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (finished) {
+                                NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[HLZStoryStore sharedInstance].latestStories.count - 1];
+                                [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+                            }
+                            self.loadingStories = NO;
+                        });
+                    }];
+                });
             }
         }
         
@@ -289,7 +291,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     });
 }
 
-- (void)showLaunchViewWithCompletion {
+- (void)showLaunchView {
     HLZLaunchView *launchView = [[HLZLaunchView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     launchView.launchImageURL = [NSURL URLWithString:[NSString stringWithFormat:LaunchImageURL, [NSString stringWithFormat:@"%d*%d", 1080, 177]]];

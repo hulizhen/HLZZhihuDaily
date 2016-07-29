@@ -51,10 +51,13 @@
     return nil;
 }
 
-- (void)updateStoriesWithCompletion:(void(^)(void))completion {
+- (void)updateStoriesWithCompletion:(void(^)(BOOL finished))completion {
     NSURL *url = [NSURL URLWithString:LatestStoriesURL];
     NSData *data = [NSData dataWithContentsOfURL:url];
     if (!data) {
+        if (completion) {
+            completion(false);
+        }
         return;
     }
     
@@ -94,22 +97,24 @@
     self.earliestDate = currentDate;
     
     if (completion) {
-        completion();
+        completion(true);
     }
 }
 
-- (void)loadMoreStories:(void(^)(void))completion {
+- (void)loadMoreStories:(void(^)(BOOL finished))completion {
     NSDate *earlierDate = [NSDate dateWithTimeInterval:-SecondsPerDay sinceDate:self.earliestDate];
     
     NSString *urlString = [NSString stringWithFormat:BeforeStoriesURL, [earlierDate hlz_stringWithFormat:@"yyyyMMdd"]];
     NSURL *url = [NSURL URLWithString:urlString];
     NSData *data = [NSData dataWithContentsOfURL:url];
     if (!data) {
+        if (completion) {
+            completion(false);
+        }
         return;
     }
     
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-    
     NSMutableArray *moreStories = [[NSMutableArray alloc] init];
     NSArray *stories = json[@"stories"];
     NSString *dateString = [earlierDate hlz_stringWithFormat:@"MM月dd日 EEEE" locale:@"zh_CN"];
@@ -124,9 +129,8 @@
     // Update the earliestDate.
     self.earliestDate = earlierDate;
     
-    // Insert the stories just got into table view.
     if (completion) {
-        completion();
+        completion(true);
     }
 }
 
