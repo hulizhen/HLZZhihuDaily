@@ -27,7 +27,7 @@
 @property (nonatomic, strong) HLZRefreshView *refreshView;
 @property (nonatomic, strong) HLZInfiniteScrollView *scrollView;
 @property (nonatomic, assign) BOOL hideStatusBar;
-@property (nonatomic, assign, getter=isLoadingStories) BOOL loadingStories;
+//@property (nonatomic, assign, getter=isLoadingStories) BOOL loadingStories;
 @property (nonatomic, strong) UIView *titleView;
 
 @end
@@ -136,23 +136,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         // Load more stories.
         CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
         if (scrollView.contentSize.height - scrollView.contentOffset.y <= 2 * screenHeight) {
-            UIActivityIndicatorView *indicatorView = (UIActivityIndicatorView *)self.tableView.tableFooterView;
-            if (!self.isLoadingStories) {
-                self.loadingStories = YES;
-                [indicatorView startAnimating];
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [[HLZStoryStore sharedInstance] loadMoreStories: ^(BOOL finished){
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            if (finished) {
-                                NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[HLZStoryStore sharedInstance].latestStories.count - 1];
-                                [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
-                                [indicatorView stopAnimating];
-                            }
-                            self.loadingStories = NO;
-                        });
-                    }];
-                });
-            }
+            [self loadMoreStories];
         }
         
         // Update title on the navigation bar.
@@ -216,6 +200,28 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     }
     
     self.scrollView.contentViews = imageViews;
+}
+
+- (void)loadMoreStories {
+    static BOOL isLoading = NO;
+    UIActivityIndicatorView *indicatorView = (UIActivityIndicatorView *)self.tableView.tableFooterView;
+    
+    if (!isLoading) {
+        isLoading = YES;
+        [indicatorView startAnimating];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [[HLZStoryStore sharedInstance] loadMoreStories: ^(BOOL finished){
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (finished) {
+                        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[HLZStoryStore sharedInstance].latestStories.count - 1];
+                        [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+                        [indicatorView stopAnimating];
+                    }
+                    isLoading = NO;
+                });
+            }];
+        });
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
