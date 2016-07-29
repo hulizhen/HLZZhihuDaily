@@ -42,12 +42,6 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    [self setItemSize:self.frame.size];
-}
-
 #pragma mark - Accessors
 
 - (void)setContentViews:(NSArray<UIView *> *)contentViews {
@@ -168,6 +162,7 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
     [super setFrame:frame];
     
     [self setItemSize:frame.size];
+    [self layoutIfNeeded];
 }
 
 #pragma mark - Timer
@@ -206,6 +201,7 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
         [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CollectionViewCellIdentifier];
         collectionView.showsHorizontalScrollIndicator = NO;
         collectionView.showsVerticalScrollIndicator = NO;
+        collectionView.scrollsToTop = NO;
         collectionView.dataSource = self;
         collectionView.delegate = self;
         collectionView;
@@ -238,6 +234,10 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
 
 - (void)autoScroll {
     NSInteger count = self.workingContentViews.count;
+    NSArray<NSIndexPath *> *indexPaths = [self.containerView indexPathsForVisibleItems];
+    if (indexPaths == nil || indexPaths.count == 0) {
+        return;
+    }
     NSInteger index = [self.containerView indexPathsForVisibleItems][0].row;
     
     // Adjust the index in case it is out of range.

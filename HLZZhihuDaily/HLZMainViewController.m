@@ -16,6 +16,7 @@
 #import "HLZRefreshView.h"
 #import "HLZLaunchView.h"
 #import "HLZTopStoryImageView.h"
+#import "UINavigationBar+HLZBackgroundColor.h"
 
 @import SDWebImage;
 
@@ -26,6 +27,8 @@
 @property (nonatomic, strong) HLZRefreshView *refreshView;
 @property (nonatomic, strong) HLZInfiniteScrollView *scrollView;
 @property (nonatomic, assign) BOOL hideStatusBar;
+@property (nonatomic, assign, getter=isLoadingStories) BOOL loadingStories;
+@property (nonatomic, strong) UIView *titleView;
 
 @end
 
@@ -40,8 +43,14 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     if (self) {
         _hideStatusBar = YES;
         
-        [[HLZStoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(latestStories)) options:NSKeyValueObservingOptionNew context:nil];
-        [[HLZStoryStore sharedInstance] addObserver:self forKeyPath:NSStringFromSelector(@selector(topStories)) options:NSKeyValueObservingOptionNew context:nil];
+        [[HLZStoryStore sharedInstance] addObserver:self
+                                         forKeyPath:NSStringFromSelector(@selector(latestStories))
+                                            options:NSKeyValueObservingOptionNew
+                                            context:nil];
+        [[HLZStoryStore sharedInstance] addObserver:self
+                                         forKeyPath:NSStringFromSelector(@selector(topStories))
+                                            options:NSKeyValueObservingOptionNew
+                                            context:nil];
     }
     return self;
 }
@@ -60,7 +69,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     
     [self loadTopStories];
     
-    [self showLaunchViewWithCompletion];
+    [self showLaunchView];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -73,13 +82,19 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 
 #pragma mark - UIScrollViewDelegate
 
+- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {
+    // Reset the content inset of table view.
+    self.tableView.hlz_stickyHeaderViewHeightMin = StickyHeaderViewHeightMin;
+    return YES;
+}
+
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (scrollView == self.tableView) {
         if (self.refreshView.progress >= 1) {
             [self.refreshView beginRefreshing];
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                [[HLZStoryStore sharedInstance] updateStoriesWithCompletion:^{
+                [[HLZStoryStore sharedInstance] updateStoriesWithCompletion:^(BOOL finished){
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.refreshView endRefreshing];
                     });
@@ -104,11 +119,11 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         CGFloat difference = 0;
         
         // Update the alpha value of navigation bar, according to the contentOffset.y of table view.
-        difference = (StickyHeaderViewHeightMin + 5) + self.tableView.contentOffset.y;
+        difference = StickyHeaderViewHeightMin + self.tableView.contentOffset.y;
         CGFloat alpha = difference / StickyHeaderViewHeightMin;
         alpha = alpha < 0 ? 0 : alpha;
         alpha = alpha > 1 ? 1 : alpha;
-        self.navigationController.navigationBar.subviews[0].alpha = alpha;
+        self.navigationController.navigationBar.subviews.firstObject.alpha = alpha;
         
         // Update refresh view.
         CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -117,26 +132,76 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         if (progress >= 0) {
             self.refreshView.progress = progress;
         }
+        
+        // Load more stories.
+        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+        if (scrollView.contentSize.height - scrollView.contentOffset.y <= 2 * screenHeight) {
+            UIActivityIndicatorView *indicatorView = (UIActivityIndicatorView *)self.tableView.tableFooterView;
+            if (!self.isLoadingStories) {
+                self.loadingStories = YES;
+                [indicatorView startAnimating];
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    [[HLZStoryStore sharedInstance] loadMoreStories: ^(BOOL finished){
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (finished) {
+                                NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[HLZStoryStore sharedInstance].latestStories.count - 1];
+                                [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+                                [indicatorView stopAnimating];
+                            }
+                            self.loadingStories = NO;
+                        });
+                    }];
+                });
+            }
+        }
+        
+        // Update title on the navigation bar.
+        BOOL isFirstSection = self.tableView.indexPathsForVisibleRows.firstObject.section == 0;
+        self.navigationItem.titleView = isFirstSection ? self.titleView : nil;
+        [self.navigationController.navigationBar hlz_showNavigationBar:isFirstSection];
     }
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return [HLZStoryStore sharedInstance].latestStories.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [HLZStoryStore sharedInstance].latestStories.count;
+    // One minus for storing NSDate.
+    return [HLZStoryStore sharedInstance].latestStories[section].count - 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HLZStoryCell *cell = [self.tableView dequeueReusableCellWithIdentifier:StoryCellIdentifier forIndexPath:indexPath];
+    NSArray<NSArray *> *latestStories = [HLZStoryStore sharedInstance].latestStories;
     
-    NSArray *stories = [HLZStoryStore sharedInstance].latestStories;
-    cell.story = (HLZStory *)stories[indexPath.row];
+    NSArray *stories = latestStories[indexPath.section];
+    cell.story = (HLZStory *)stories[indexPath.row + 1];    // One plus for storing NSDate.
     
     return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return section > 0 ? TableViewSectionHeaderHeight : 0;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+    header.textLabel.textAlignment = NSTextAlignmentCenter;
+    header.textLabel.textColor = [UIColor whiteColor];
+    header.textLabel.font = [UIFont systemFontOfSize:16];
+    header.contentView.backgroundColor = [UIColor colorWithRed:0.01 green:0.55 blue:0.83 alpha:1.0];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UITableViewHeaderFooterView *header = [[UITableViewHeaderFooterView alloc] init];
+    NSString *dateString = [HLZStoryStore sharedInstance].latestStories[section].firstObject;
+    header.textLabel.text = dateString;
+    return header;
 }
 
 #pragma mark - Helpers
@@ -168,49 +233,60 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 }
 
 - (void)configureNavigationBar {
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:0.01 green:0.56 blue:0.84 alpha:1.0];
-    self.navigationController.navigationBar.subviews[0].alpha = 0;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-    
     // Customize title view.
-    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 140, 30)];
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 140, 30)];
     
+    // Add refresh view.
     self.refreshView = [[HLZRefreshView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    [titleView addSubview:self.refreshView];
+    self.refreshView.tintColor = [UIColor whiteColor];
+    [self.titleView addSubview:self.refreshView];
     
+    // Add title label.
     UILabel *titleLabel = ({
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 80, 30)];
-        titleLabel.textColor = [UIColor whiteColor];
-        titleLabel.textAlignment = NSTextAlignmentCenter;
-        titleLabel.font = [UIFont boldSystemFontOfSize:18];
-        titleLabel.text = @"今日热闻";
-        titleLabel;
-    });
-    [titleView addSubview:titleLabel];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 80, 30)];
+        label.textColor = [UIColor whiteColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont boldSystemFontOfSize:18];
+        label.text = @"今日热闻";
+        label;
+        });
+    [self.titleView addSubview:titleLabel];
+    self.navigationItem.titleView = self.titleView;
     
-    self.navigationItem.titleView = titleView;
+    // Customize navigation bar.
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    [navigationBar hlz_setBackgroundColor:[UIColor colorWithRed:0.01 green:0.55 blue:0.83 alpha:1.0]];
+    navigationBar.subviews.firstObject.alpha = 0;
 }
 
 - (void)configureTableView {
-    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-    CGFloat navigationBarHeight = self.navigationController.navigationBar.frame.size.height;
-    
-    self.tableView.hlz_stickyHeaderViewHeightMin = StickyHeaderViewHeightMin - statusBarHeight - navigationBarHeight;
+    self.tableView.hlz_stickyHeaderViewHeightMin = StickyHeaderViewHeightMin;
     self.tableView.hlz_stickyHeaderViewHeightMax = StickyHeaderViewHeightMax;
     self.tableView.hlz_stickyHeaderView = self.scrollView;
     
+    self.tableView.sectionHeaderHeight = TableViewSectionHeaderHeight;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = StoryCellRowHeight;
     self.tableView.showsHorizontalScrollIndicator = NO;
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 15, 0, 15);
+    self.tableView.scrollsToTop = YES;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
     // Register table view cell.
     UINib *cellNib = [UINib nibWithNibName:StoryCellIdentifier bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:StoryCellIdentifier];
+    
+    // Add activity indicator view to footer view.
+    UIActivityIndicatorView *indicatorView = ({
+        CGFloat screenWidth = CGRectGetWidth([UIScreen mainScreen].bounds);
+        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 64)];
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+        indicator.hidesWhenStopped = YES;
+        indicator;
+    });
+    self.tableView.tableFooterView = indicatorView;
 }
 
 - (void)configureScrollView {
@@ -228,7 +304,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     });
 }
 
-- (void)showLaunchViewWithCompletion {
+- (void)showLaunchView {
     HLZLaunchView *launchView = [[HLZLaunchView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     launchView.launchImageURL = [NSURL URLWithString:[NSString stringWithFormat:LaunchImageURL, [NSString stringWithFormat:@"%d*%d", 1080, 177]]];

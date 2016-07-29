@@ -12,7 +12,7 @@
 
 @property (nonatomic, assign, getter=isRefreshing) BOOL refreshing;
 
-/** Range from 0.0 to 1.0. The indicator will start animating when the progress reaches 1.0. */
+// Range from 0.0 to 1.0. The indicator will start animating when the progress reaches 1.0.
 @property (nonatomic, assign) CGFloat progress;
 
 - (void)beginRefreshing;
