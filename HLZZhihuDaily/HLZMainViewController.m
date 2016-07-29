@@ -136,14 +136,17 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         // Load more stories.
         CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
         if (scrollView.contentSize.height - scrollView.contentOffset.y <= 2 * screenHeight) {
+            UIActivityIndicatorView *indicatorView = (UIActivityIndicatorView *)self.tableView.tableFooterView;
             if (!self.isLoadingStories) {
                 self.loadingStories = YES;
+                [indicatorView startAnimating];
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     [[HLZStoryStore sharedInstance] loadMoreStories: ^(BOOL finished){
                         dispatch_async(dispatch_get_main_queue(), ^{
                             if (finished) {
                                 NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[HLZStoryStore sharedInstance].latestStories.count - 1];
                                 [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+                                [indicatorView stopAnimating];
                             }
                             self.loadingStories = NO;
                         });
@@ -274,6 +277,16 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     // Register table view cell.
     UINib *cellNib = [UINib nibWithNibName:StoryCellIdentifier bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:StoryCellIdentifier];
+    
+    // Add activity indicator view to footer view.
+    UIActivityIndicatorView *indicatorView = ({
+        CGFloat screenWidth = CGRectGetWidth([UIScreen mainScreen].bounds);
+        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 64)];
+        indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+        indicator.hidesWhenStopped = YES;
+        indicator;
+    });
+    self.tableView.tableFooterView = indicatorView;
 }
 
 - (void)configureScrollView {
