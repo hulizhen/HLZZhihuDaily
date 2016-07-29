@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		251631731D32436500A43E35 /* HLZInfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 251631721D32436500A43E35 /* HLZInfiniteScrollView.m */; };
 		254A38821D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A38811D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m */; };
+		2553FC6D1D4B003B0023ED46 /* NSDate+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 2553FC6C1D4B003B0023ED46 /* NSDate+Conversion.m */; };
 		255F40561D48894000FD523D /* UINavigationBar+HLZBackgroundColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 255F40551D48894000FD523D /* UINavigationBar+HLZBackgroundColor.m */; };
 		2577ACF11D30DBF100CBE921 /* HLZLaunchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2577ACF01D30DBF100CBE921 /* HLZLaunchView.m */; };
 		25C00E331D11A59A007A6F5B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E321D11A59A007A6F5B /* main.m */; };
@@ -34,6 +35,8 @@
 		251631721D32436500A43E35 /* HLZInfiniteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZInfiniteScrollView.m; sourceTree = "<group>"; };
 		254A38801D34F7B40052AD9D /* UINavigationController+HLZStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+HLZStatusBar.h"; sourceTree = "<group>"; };
 		254A38811D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+HLZStatusBar.m"; sourceTree = "<group>"; };
+		2553FC6B1D4B003B0023ED46 /* NSDate+Conversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Conversion.h"; sourceTree = "<group>"; };
+		2553FC6C1D4B003B0023ED46 /* NSDate+Conversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Conversion.m"; sourceTree = "<group>"; };
 		255F40501D48595200FD523D /* HLZMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZMacros.h; sourceTree = "<group>"; };
 		255F40541D48894000FD523D /* UINavigationBar+HLZBackgroundColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+HLZBackgroundColor.h"; sourceTree = "<group>"; };
 		255F40551D48894000FD523D /* UINavigationBar+HLZBackgroundColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+HLZBackgroundColor.m"; sourceTree = "<group>"; };
@@ -91,6 +94,21 @@
 			name = UIs;
 			sourceTree = "<group>";
 		};
+		2553FC6E1D4B00410023ED46 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				255F40541D48894000FD523D /* UINavigationBar+HLZBackgroundColor.h */,
+				255F40551D48894000FD523D /* UINavigationBar+HLZBackgroundColor.m */,
+				254A38801D34F7B40052AD9D /* UINavigationController+HLZStatusBar.h */,
+				254A38811D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m */,
+				25C00E651D11AC15007A6F5B /* UITableView+HLZStickyHeader.h */,
+				25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */,
+				2553FC6B1D4B003B0023ED46 /* NSDate+Conversion.h */,
+				2553FC6C1D4B003B0023ED46 /* NSDate+Conversion.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		25C00E251D11A59A007A6F5B = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +134,7 @@
 				25C00E551D11A99B007A6F5B /* Models */,
 				25C00E481D11A8F4007A6F5B /* Views */,
 				25C00E591D11A9D5007A6F5B /* Controllers */,
+				2553FC6E1D4B00410023ED46 /* Categories */,
 				25C00E491D11A90F007A6F5B /* Resources */,
 				25C00E311D11A59A007A6F5B /* Supporting Files */,
 			);
@@ -137,12 +156,6 @@
 			isa = PBXGroup;
 			children = (
 				25523BF11D406BE3001A5485 /* UIs */,
-				255F40541D48894000FD523D /* UINavigationBar+HLZBackgroundColor.h */,
-				255F40551D48894000FD523D /* UINavigationBar+HLZBackgroundColor.m */,
-				254A38801D34F7B40052AD9D /* UINavigationController+HLZStatusBar.h */,
-				254A38811D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m */,
-				25C00E651D11AC15007A6F5B /* UITableView+HLZStickyHeader.h */,
-				25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */,
 				251631711D32436500A43E35 /* HLZInfiniteScrollView.h */,
 				251631721D32436500A43E35 /* HLZInfiniteScrollView.m */,
 				25CDC9BE1D3723CA000C314D /* HLZTopStoryImageView.h */,
@@ -345,6 +358,7 @@
 				25C00E601D11AA11007A6F5B /* HLZStoryCell.m in Sources */,
 				255F40561D48894000FD523D /* UINavigationBar+HLZBackgroundColor.m in Sources */,
 				25C00E641D11AAFD007A6F5B /* HLZMainViewController.m in Sources */,
+				2553FC6D1D4B003B0023ED46 /* NSDate+Conversion.m in Sources */,
 				25D7A1761D1629C6008030AB /* HLZRefreshView.m in Sources */,
 				25C00E4D1D11A956007A6F5B /* AppDelegate.m in Sources */,
 				25C00E331D11A59A007A6F5B /* main.m in Sources */,

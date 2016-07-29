@@ -28,6 +28,7 @@
 @property (nonatomic, strong) HLZInfiniteScrollView *scrollView;
 @property (nonatomic, assign) BOOL hideStatusBar;
 @property (nonatomic, assign, getter=isLoadingStories) BOOL loadingStories;
+@property (nonatomic, strong) UIView *titleView;
 
 @end
 
@@ -62,8 +63,8 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    self.automaticallyAdjustsScrollViewInsets = NO;
-    
+//    self.title = @"今日热闻";
+//    
     [self configureNavigationBar];
     [self configureScrollView];
     [self configureTableView];
@@ -122,11 +123,11 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         CGFloat difference = 0;
         
         // Update the alpha value of navigation bar, according to the contentOffset.y of table view.
-        difference = (StickyHeaderViewHeightMin + 5) + self.tableView.contentOffset.y;
+        difference = StickyHeaderViewHeightMin + self.tableView.contentOffset.y;
         CGFloat alpha = difference / StickyHeaderViewHeightMin;
         alpha = alpha < 0 ? 0 : alpha;
         alpha = alpha > 1 ? 1 : alpha;
-        self.navigationController.navigationBar.subviews.firstObject.alpha = 0.3;
+        self.navigationController.navigationBar.subviews.firstObject.alpha = alpha;
         
         // Update refresh view.
         CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -149,9 +150,10 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
             }
         }
         
-        // Update title on the  navigation bar.
-        NSInteger currentSection = self.tableView.indexPathsForVisibleRows.firstObject.section;
-        NSLog(@"section: %ld", currentSection);
+        // Update title on the navigation bar.
+        BOOL isFirstSection = self.tableView.indexPathsForVisibleRows.firstObject.section == 0;
+        self.navigationItem.titleView = isFirstSection ? self.titleView : nil;
+        [self.navigationController.navigationBar hlz_showNavigationBar:isFirstSection];
     }
 }
 
@@ -162,7 +164,8 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [HLZStoryStore sharedInstance].latestStories[section].count;
+    // One minus for storing NSDate.
+    return [HLZStoryStore sharedInstance].latestStories[section].count - 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -170,7 +173,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     NSArray<NSArray *> *latestStories = [HLZStoryStore sharedInstance].latestStories;
     
     NSArray *stories = latestStories[indexPath.section];
-    cell.story = (HLZStory *)stories[indexPath.row];
+    cell.story = (HLZStory *)stories[indexPath.row + 1];    // One plus for storing NSDate.
     
     return cell;
 }
@@ -185,12 +188,14 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
     header.textLabel.textAlignment = NSTextAlignmentCenter;
     header.textLabel.textColor = [UIColor whiteColor];
-    header.contentView.backgroundColor = [UIColor colorWithRed:0.10 green:0.55 blue:0.84 alpha:1.0];
+    header.textLabel.font = [UIFont systemFontOfSize:16];
+    header.contentView.backgroundColor = [UIColor colorWithRed:0.01 green:0.55 blue:0.83 alpha:1.0];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UITableViewHeaderFooterView *header = [[UITableViewHeaderFooterView alloc] init];
-    header.textLabel.text = [NSString stringWithFormat:@"section header %ld", section];
+    NSString *dateString = [HLZStoryStore sharedInstance].latestStories[section].firstObject;
+    header.textLabel.text = dateString;
     return header;
 }
 
@@ -224,28 +229,29 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 
 - (void)configureNavigationBar {
     // Customize title view.
-    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 140, 30)];
+    self.titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 140, 30)];
     
     // Add refresh view.
     self.refreshView = [[HLZRefreshView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     self.refreshView.tintColor = [UIColor whiteColor];
-    [titleView addSubview:self.refreshView];
+    [self.titleView addSubview:self.refreshView];
     
     // Add title label.
     UILabel *titleLabel = ({
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 80, 30)];
-        titleLabel.textColor = [UIColor whiteColor];
-        titleLabel.textAlignment = NSTextAlignmentCenter;
-        titleLabel.font = [UIFont boldSystemFontOfSize:18];
-        titleLabel.text = @"今日热闻";
-        titleLabel;
-    });
-    [titleView addSubview:titleLabel];
-    self.navigationItem.titleView = titleView;
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 80, 30)];
+        label.textColor = [UIColor whiteColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont boldSystemFontOfSize:18];
+        label.text = @"今日热闻";
+        label;
+        });
+    [self.titleView addSubview:titleLabel];
+    self.navigationItem.titleView = self.titleView;
     
     // Customize navigation bar.
-    [self.navigationController.navigationBar hlz_setBackgroundColor:[UIColor colorWithRed:0.10 green:0.55 blue:0.84 alpha:1.0]];
-    self.navigationController.navigationBar.subviews.firstObject.alpha = 0;
+    UINavigationBar *navigationBar = self.navigationController.navigationBar;
+    [navigationBar hlz_setBackgroundColor:[UIColor colorWithRed:0.01 green:0.55 blue:0.83 alpha:1.0]];
+    navigationBar.subviews.firstObject.alpha = 0;
 }
 
 - (void)configureTableView {

@@ -11,5 +11,6 @@
 @interface UINavigationBar (HLZBackgroundColor)
 
 - (void)hlz_setBackgroundColor:(UIColor *)color;
+- (void)hlz_showNavigationBar:(BOOL)show;
 
 @end

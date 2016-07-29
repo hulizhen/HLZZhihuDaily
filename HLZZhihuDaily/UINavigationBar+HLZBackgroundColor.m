@@ -27,7 +27,20 @@ static UIView *backgroundView = nil;
         view;
     });
     [self insertSubview:backgroundView atIndex:0];
-    backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+}
+
+- (void)hlz_showNavigationBar:(BOOL)show {
+    CGFloat statusBarheight = 20;
+    
+    backgroundView.frame = ({
+        CGRect frame = backgroundView.frame;
+        frame.size.height = statusBarheight;
+        if (show) {
+            frame.size.height += CGRectGetHeight(self.bounds);
+        }
+        frame;
+    });
 }
 
 @end

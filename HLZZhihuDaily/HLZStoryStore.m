@@ -9,6 +9,7 @@
 #import "HLZStoryStore.h"
 #import "HLZConstants.h"
 #import "HLZStory.h"
+#import "NSDate+Conversion.h"
 
 @interface HLZStoryStore ()
 
@@ -61,10 +62,19 @@
     [self.mutableLatestStories removeAllObjects];
     [self.mutableTopStories removeAllObjects];
     
+    // Get current date.
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
+    dateFormatter.dateFormat = @"yyyyMMdd";
+    NSDate *currentDate = [dateFormatter dateFromString:json[@"date"]];
+    
+    
     // Latest stories.
-    [self willChangeValueForKey:NSStringFromSelector(@selector(latestStories))];
     NSArray *stories = json[@"stories"];
     NSMutableArray *newestStories = [[NSMutableArray alloc] init];
+    NSString *dateString = [currentDate hlz_stringWithFormat:@"MM月dd日 EEEE" locale:@"zh_CN"];
+    
+    [newestStories addObject:dateString];  // Add current date as the first object.
     for (NSDictionary *dictionary in stories) {
         HLZStory *story = [[HLZStory alloc] initWithDictionary:dictionary];
         [newestStories addObject:story];
@@ -73,7 +83,6 @@
     [self didChangeValueForKey:NSStringFromSelector(@selector(latestStories))];
     
     // Top stories.
-    [self willChangeValueForKey:NSStringFromSelector(@selector(topStories))];
     stories = json[@"top_stories"];
     for (NSDictionary *dictionary in stories) {
         HLZStory *story = [[HLZStory alloc] initWithDictionary:dictionary];
@@ -82,10 +91,7 @@
     [self didChangeValueForKey:NSStringFromSelector(@selector(topStories))];
     
     // Update the earliest date.
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"yyyyMMdd";
-    dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
-    self.earliestDate = [dateFormatter dateFromString:json[@"date"]];
+    self.earliestDate = currentDate;
     
     if (completion) {
         completion();
@@ -94,13 +100,8 @@
 
 - (void)loadMoreStories:(void(^)(void))completion {
     NSDate *earlierDate = [NSDate dateWithTimeInterval:-SecondsPerDay sinceDate:self.earliestDate];
-    NSLog(@"%@", earlierDate);
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"yyyyMMdd";
-    dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
-    
-    NSString *urlString = [NSString stringWithFormat:BeforeStoriesURL, [dateFormatter stringFromDate:earlierDate]];
+    NSString *urlString = [NSString stringWithFormat:BeforeStoriesURL, [earlierDate hlz_stringWithFormat:@"yyyyMMdd"]];
     NSURL *url = [NSURL URLWithString:urlString];
     NSData *data = [NSData dataWithContentsOfURL:url];
     if (!data) {
@@ -111,6 +112,9 @@
     
     NSMutableArray *moreStories = [[NSMutableArray alloc] init];
     NSArray *stories = json[@"stories"];
+    NSString *dateString = [earlierDate hlz_stringWithFormat:@"MM月dd日 EEEE" locale:@"zh_CN"];
+    
+    [moreStories addObject:dateString];   // Add current date as the first object.
     for (NSDictionary *dictionary in stories) {
         HLZStory *story = [[HLZStory alloc] initWithDictionary:dictionary];
         [moreStories addObject:story];

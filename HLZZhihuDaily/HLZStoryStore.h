@@ -10,6 +10,18 @@
 
 @interface HLZStoryStore : NSObject
 
+// !!! Array layout of `latestStories` !!!
+// -------------------------------------------
+// | NSDate | HLZStory | HLZStory | HLZStory |
+// | NSDate | HLZStory | HLZStory | HLZStory |
+// | NSDate | HLZStory | HLZStory | HLZStory |
+// | NSDate | HLZStory | HLZStory | HLZStory |
+// | NSDate | HLZStory | HLZStory | HLZStory |
+// |   .    |     .    |     .    |     .    |
+// |   .    |     .    |     .    |     .    |
+// |   .    |     .    |     .    |     .    |
+// -------------------------------------------
+
 @property (nonatomic, readonly, strong) NSArray<NSArray *> *latestStories;
 @property (nonatomic, readonly, strong) NSArray *topStories;
 
