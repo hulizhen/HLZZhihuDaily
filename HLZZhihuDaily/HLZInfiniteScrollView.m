@@ -269,8 +269,10 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [self.containerView dequeueReusableCellWithReuseIdentifier:CollectionViewCellIdentifier forIndexPath:indexPath];
     
-    UIView *view = self.workingContentViews[indexPath.row];
+    // Remove subviews before adding new view.
     [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    UIView *view = self.workingContentViews[indexPath.row];
     [cell.contentView addSubview:view];
     view.translatesAutoresizingMaskIntoConstraints = NO;
     [NSLayoutConstraint activateConstraints:@[[view.leftAnchor constraintEqualToAnchor:cell.contentView.leftAnchor],
