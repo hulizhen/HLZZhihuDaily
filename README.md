@@ -8,7 +8,7 @@ If you are inteserted in it, feel free to star and follow.
 
 # Live Demo
 
-![hlzzhihudaily-resized](https://cloud.githubusercontent.com/assets/2831422/16899199/69156100-4c2d-11e6-91d4-a17985429330.gif)
+![hlzzhihudaily](https://cloud.githubusercontent.com/assets/2831422/17268271/a2619ba6-5658-11e6-9506-2b4328d9b1e3.gif)
 
 # References:
 
