@@ -8,8 +8,7 @@
 
 #import "HLZTopStoryImageView.h"
 #import "HLZStory.h"
-
-@import SDWebImage;
+#import "UIImageView+HLZWebImage.h"
 
 @interface HLZTopStoryImageView ()
 
@@ -23,7 +22,7 @@
     _story = story;
     
     self.storyTitle.text = _story.title;
-    [self sd_setImageWithURL:_story.imageURL];
+    [self hlz_setWebImageWithURL:_story.imageURL];
     self.contentMode = UIViewContentModeScaleAspectFill;
 }
 
