@@ -20,14 +20,13 @@
 
 @import SDWebImage;
 
-@interface HLZMainViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface HLZMainViewController () <UITableViewDataSource, UITableViewDelegate, HLZInfiniteScrollViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 
 @property (nonatomic, strong) HLZRefreshView *refreshView;
 @property (nonatomic, strong) HLZInfiniteScrollView *scrollView;
 @property (nonatomic, assign) BOOL hideStatusBar;
-//@property (nonatomic, assign, getter=isLoadingStories) BOOL loadingStories;
 @property (nonatomic, strong) UIView *titleView;
 
 @end
@@ -66,8 +65,6 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     [self configureNavigationBar];
     [self configureScrollView];
     [self configureTableView];
-    
-    [self loadTopStories];
     
     [self showLaunchView];
 }
@@ -144,6 +141,12 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         self.navigationItem.titleView = isFirstSection ? self.titleView : nil;
         [self.navigationController.navigationBar hlz_showNavigationBar:isFirstSection];
     }
+}
+
+#pragma mark - HLZInfiniteScrollViewDeleate
+
+- (void)scrollView:(HLZInfiniteScrollView *)scrollView didTapOnPage:(NSInteger)page {
+    NSLog(@"tapped page: %ld", page);
 }
 
 #pragma mark - UITableViewDataSource
@@ -306,6 +309,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         scrollView.autoScrollEnabled = YES;
         scrollView.autoScrollTimerInterval = AutoScrollTimerInterval;
         scrollView.autoScrollDirection = AutoScrollDirectionRight;
+        scrollView.delegate = self;
         scrollView;
     });
 }

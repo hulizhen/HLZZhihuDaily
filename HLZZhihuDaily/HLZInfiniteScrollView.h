@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class HLZInfiniteScrollView;
+
+@protocol HLZInfiniteScrollViewDelegate <NSObject>
+
+- (void)scrollView:(HLZInfiniteScrollView *)scrollView didTapOnPage:(NSInteger)page;
+
+@end
+
 typedef NS_ENUM(NSInteger, AutoScrollDirection) {
     AutoScrollDirectionLeft,
     AutoScrollDirectionRight
@@ -28,6 +36,8 @@ typedef NS_ENUM(NSInteger, AutoScrollDirection) {
 @property (nonatomic, assign) NSTimeInterval autoScrollTimerInterval;
 
 // The paging will be enabled when enabling auto scrolling.
-@property(nonatomic, getter=isPagingEnabled) BOOL pagingEnabled;
+@property (nonatomic, getter=isPagingEnabled) BOOL pagingEnabled;
+
+@property (nonatomic, weak) id<HLZInfiniteScrollViewDelegate> delegate;
 
 @end

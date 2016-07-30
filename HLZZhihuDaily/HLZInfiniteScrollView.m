@@ -55,6 +55,13 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
     [self.workingContentViews insertObject:_contentViews.lastObject atIndex:0];
     [self.workingContentViews addObject:_contentViews.firstObject];
     
+    // Add tap gesture recognizer.
+    for (UIView *view in _contentViews) {
+        UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                        action:@selector(cellTapped:)];
+        [view addGestureRecognizer:tapRecognizer];
+    }
+    
     [self.containerView reloadData];
     
     // Update the number of pages and current page.
@@ -66,7 +73,7 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
                                        animated:NO];
     [self resetTimer];
 }
-
+     
 - (void)setAutoScrollTimerInterval:(NSTimeInterval)autoScrollTimerInterval {
     _autoScrollTimerInterval = autoScrollTimerInterval;
     
@@ -217,6 +224,12 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
     self.autoScrollDirection = AutoScrollDirectionRight;
 }
 
+- (void)cellTapped:(UITapGestureRecognizer *)recognizer {
+    if ([self.delegate respondsToSelector:@selector(scrollView:didTapOnPage:)]) {
+        [self.delegate scrollView:self didTapOnPage:self.currentPage];
+    }
+}
+
 - (void)adjustContentOffset {
     NSInteger count = self.workingContentViews.count;
     CGFloat width = self.containerView.frame.size.width;
@@ -267,7 +280,8 @@ static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [self.containerView dequeueReusableCellWithReuseIdentifier:CollectionViewCellIdentifier forIndexPath:indexPath];
+    UICollectionViewCell *cell = [self.containerView dequeueReusableCellWithReuseIdentifier:CollectionViewCellIdentifier
+                                                                               forIndexPath:indexPath];
     
     // Remove subviews before adding new view.
     [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];

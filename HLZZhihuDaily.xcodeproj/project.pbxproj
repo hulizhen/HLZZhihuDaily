@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		251631731D32436500A43E35 /* HLZInfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 251631721D32436500A43E35 /* HLZInfiniteScrollView.m */; };
 		252927F31D4C4BD400F0A93F /* UIImageView+HLZWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 252927F21D4C4BD400F0A93F /* UIImageView+HLZWebImage.m */; };
+		252927F61D4CDC0400F0A93F /* HLZStoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 252927F51D4CDC0400F0A93F /* HLZStoryViewController.m */; };
 		254A38821D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A38811D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m */; };
 		2553FC6D1D4B003B0023ED46 /* NSDate+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 2553FC6C1D4B003B0023ED46 /* NSDate+Conversion.m */; };
 		255F40561D48894000FD523D /* UINavigationBar+HLZBackgroundColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 255F40551D48894000FD523D /* UINavigationBar+HLZBackgroundColor.m */; };
@@ -36,6 +37,8 @@
 		251631721D32436500A43E35 /* HLZInfiniteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZInfiniteScrollView.m; sourceTree = "<group>"; };
 		252927F11D4C4BD400F0A93F /* UIImageView+HLZWebImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+HLZWebImage.h"; sourceTree = "<group>"; };
 		252927F21D4C4BD400F0A93F /* UIImageView+HLZWebImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+HLZWebImage.m"; sourceTree = "<group>"; };
+		252927F41D4CDC0400F0A93F /* HLZStoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZStoryViewController.h; sourceTree = "<group>"; };
+		252927F51D4CDC0400F0A93F /* HLZStoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZStoryViewController.m; sourceTree = "<group>"; };
 		254A38801D34F7B40052AD9D /* UINavigationController+HLZStatusBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+HLZStatusBar.h"; sourceTree = "<group>"; };
 		254A38811D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+HLZStatusBar.m"; sourceTree = "<group>"; };
 		2553FC6B1D4B003B0023ED46 /* NSDate+Conversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Conversion.h"; sourceTree = "<group>"; };
@@ -208,6 +211,8 @@
 			children = (
 				25C00E621D11AAFD007A6F5B /* HLZMainViewController.h */,
 				25C00E631D11AAFD007A6F5B /* HLZMainViewController.m */,
+				252927F41D4CDC0400F0A93F /* HLZStoryViewController.h */,
+				252927F51D4CDC0400F0A93F /* HLZStoryViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -354,6 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				254A38821D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m in Sources */,
+				252927F61D4CDC0400F0A93F /* HLZStoryViewController.m in Sources */,
 				25CDC9C01D3723CA000C314D /* HLZTopStoryImageView.m in Sources */,
 				251631731D32436500A43E35 /* HLZInfiniteScrollView.m in Sources */,
 				25C00E531D11A993007A6F5B /* HLZStory.m in Sources */,
