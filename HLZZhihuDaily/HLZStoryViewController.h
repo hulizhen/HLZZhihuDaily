@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HLZStory.h"
 
 @interface HLZStoryViewController : UIViewController
+
+@property (nonatomic, strong) HLZStory *story;
 
 @end

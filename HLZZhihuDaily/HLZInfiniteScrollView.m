@@ -22,7 +22,7 @@
 
 @synthesize pageControlEnabled = _pageControlEnabled;
 
-static NSString * const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
+static NSString *const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
 
 #pragma mark - Lifecycle
 

@@ -8,7 +8,7 @@
         <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="HLZMainViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="BYZ-38-t0r" customClass="HLZMainViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -31,18 +31,20 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="eN2-cg-VyJ"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="Ae8-wL-40b" id="lik-2s-S0G"/>
+                        <segue destination="D77-nT-Qc7" kind="push" identifier="ShowStoryViewController" id="709-rd-vih"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="705" y="358"/>
+            <point key="canvasLocation" x="637" y="716"/>
         </scene>
         <!--Story View Controller-->
         <scene sceneID="Snp-It-jNk">
             <objects>
-                <viewController id="D77-nT-Qc7" customClass="HLZStoryViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StoryViewController" id="D77-nT-Qc7" customClass="HLZStoryViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2qf-wZ-vJC"/>
                         <viewControllerLayoutGuide type="bottom" id="qh7-KF-mkw"/>
@@ -52,10 +54,26 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="R5W-G0-4aV"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M3L-aP-VIV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="FgA-mm-F3W">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <items>
+                        <barButtonItem title="Item" id="vFn-2P-28p"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="BwN-xL-VMY"/>
+                        <barButtonItem title="Item" id="hd8-k4-Jkl"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="AYW-bh-g47"/>
+                        <barButtonItem title="Item" id="WAx-iM-BcT"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="6PU-AE-OJf"/>
+                        <barButtonItem title="Item" id="4Ut-dW-jBI"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="CIF-Eh-BKF"/>
+                        <barButtonItem title="Item" id="sJe-Dl-c9r"/>
+                    </items>
+                </toolbar>
             </objects>
-            <point key="canvasLocation" x="705" y="1081"/>
+            <point key="canvasLocation" x="1111" y="716"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="BR6-oT-FHr">

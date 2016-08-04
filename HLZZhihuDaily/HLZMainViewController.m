@@ -17,6 +17,7 @@
 #import "HLZLaunchView.h"
 #import "HLZTopStoryImageView.h"
 #import "UINavigationBar+HLZBackgroundColor.h"
+#import "HLZStoryViewController.h"
 
 @import SDWebImage;
 
@@ -33,7 +34,7 @@
 
 @implementation HLZMainViewController
 
-static NSString * const StoryCellIdentifier = @"HLZStoryCell";
+static NSString *const StoryCellIdentifier = @"HLZStoryCell";
 
 #pragma mark - Lifecycle
 
@@ -146,7 +147,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 #pragma mark - HLZInfiniteScrollViewDeleate
 
 - (void)scrollView:(HLZInfiniteScrollView *)scrollView didTapOnPage:(NSInteger)page {
-    NSLog(@"tapped page: %ld", page);
+    [self showStoryDetail:[HLZStoryStore sharedInstance].topStories[page]];
 }
 
 #pragma mark - UITableViewDataSource
@@ -164,6 +165,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     HLZStoryCell *cell = [self.tableView dequeueReusableCellWithIdentifier:StoryCellIdentifier forIndexPath:indexPath];
     NSArray<NSArray *> *latestStories = [HLZStoryStore sharedInstance].latestStories;
     
+    NSLog(@"section = %ld, row = %ld, count = %ld", indexPath.section, indexPath.row, latestStories.count);
     NSArray *stories = latestStories[indexPath.section];
     cell.story = (HLZStory *)stories[indexPath.row + 1];    // One plus for storing NSDate.
     
@@ -192,6 +194,13 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 }
 
 #pragma mark - Helpers
+
+- (void)showStoryDetail:(HLZStory *)story {
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    HLZStoryViewController *storyViewController = (HLZStoryViewController *)[storyBoard instantiateViewControllerWithIdentifier:@"StoryViewController"];
+    storyViewController.story = story;
+    [self.navigationController pushViewController:storyViewController animated:YES];
+}
 
 - (void)loadTopStories {
     NSMutableArray *imageViews = [[NSMutableArray alloc] init];
