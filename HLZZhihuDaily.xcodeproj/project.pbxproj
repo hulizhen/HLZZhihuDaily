@@ -12,7 +12,7 @@
 		252927F61D4CDC0400F0A93F /* HLZStoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 252927F51D4CDC0400F0A93F /* HLZStoryViewController.m */; };
 		254A38821D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 254A38811D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m */; };
 		2553FC6D1D4B003B0023ED46 /* NSDate+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 2553FC6C1D4B003B0023ED46 /* NSDate+Conversion.m */; };
-		255F40561D48894000FD523D /* UINavigationBar+HLZBackgroundColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 255F40551D48894000FD523D /* UINavigationBar+HLZBackgroundColor.m */; };
+		255F40561D48894000FD523D /* UINavigationBar+HLZCustomization.m in Sources */ = {isa = PBXBuildFile; fileRef = 255F40551D48894000FD523D /* UINavigationBar+HLZCustomization.m */; };
 		2577ACF11D30DBF100CBE921 /* HLZLaunchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2577ACF01D30DBF100CBE921 /* HLZLaunchView.m */; };
 		25C00E331D11A59A007A6F5B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25C00E321D11A59A007A6F5B /* main.m */; };
 		25C00E3C1D11A59A007A6F5B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E3A1D11A59A007A6F5B /* Main.storyboard */; };
@@ -44,8 +44,8 @@
 		2553FC6B1D4B003B0023ED46 /* NSDate+Conversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Conversion.h"; sourceTree = "<group>"; };
 		2553FC6C1D4B003B0023ED46 /* NSDate+Conversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Conversion.m"; sourceTree = "<group>"; };
 		255F40501D48595200FD523D /* HLZMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZMacros.h; sourceTree = "<group>"; };
-		255F40541D48894000FD523D /* UINavigationBar+HLZBackgroundColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+HLZBackgroundColor.h"; sourceTree = "<group>"; };
-		255F40551D48894000FD523D /* UINavigationBar+HLZBackgroundColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+HLZBackgroundColor.m"; sourceTree = "<group>"; };
+		255F40541D48894000FD523D /* UINavigationBar+HLZCustomization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+HLZCustomization.h"; sourceTree = "<group>"; };
+		255F40551D48894000FD523D /* UINavigationBar+HLZCustomization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+HLZCustomization.m"; sourceTree = "<group>"; };
 		2577ACEF1D30DBF100CBE921 /* HLZLaunchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZLaunchView.h; sourceTree = "<group>"; };
 		2577ACF01D30DBF100CBE921 /* HLZLaunchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZLaunchView.m; sourceTree = "<group>"; };
 		25C00E2E1D11A59A007A6F5B /* HLZZhihuDaily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HLZZhihuDaily.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,8 +105,8 @@
 			children = (
 				252927F11D4C4BD400F0A93F /* UIImageView+HLZWebImage.h */,
 				252927F21D4C4BD400F0A93F /* UIImageView+HLZWebImage.m */,
-				255F40541D48894000FD523D /* UINavigationBar+HLZBackgroundColor.h */,
-				255F40551D48894000FD523D /* UINavigationBar+HLZBackgroundColor.m */,
+				255F40541D48894000FD523D /* UINavigationBar+HLZCustomization.h */,
+				255F40551D48894000FD523D /* UINavigationBar+HLZCustomization.m */,
 				254A38801D34F7B40052AD9D /* UINavigationController+HLZStatusBar.h */,
 				254A38811D34F7B40052AD9D /* UINavigationController+HLZStatusBar.m */,
 				25C00E651D11AC15007A6F5B /* UITableView+HLZStickyHeader.h */,
@@ -368,7 +368,7 @@
 				25C00E671D11AC15007A6F5B /* UITableView+HLZStickyHeader.m in Sources */,
 				252927F31D4C4BD400F0A93F /* UIImageView+HLZWebImage.m in Sources */,
 				25C00E601D11AA11007A6F5B /* HLZStoryCell.m in Sources */,
-				255F40561D48894000FD523D /* UINavigationBar+HLZBackgroundColor.m in Sources */,
+				255F40561D48894000FD523D /* UINavigationBar+HLZCustomization.m in Sources */,
 				25C00E641D11AAFD007A6F5B /* HLZMainViewController.m in Sources */,
 				2553FC6D1D4B003B0023ED46 /* NSDate+Conversion.m in Sources */,
 				25D7A1761D1629C6008030AB /* HLZRefreshView.m in Sources */,

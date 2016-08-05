@@ -1,16 +1,20 @@
 //
-//  UINavigationBar+HLZBackgroundColorr.m
+//  UINavigationBar+HLZCustomization.m
 //  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 7/27/16.
 //  Copyright © 2016 hulizhen. All rights reserved.
 //
 
-#import "UINavigationBar+HLZBackgroundColor.h"
+#import "UINavigationBar+HLZCustomization.h"
 
-@implementation UINavigationBar (HLZBackgroundColorr)
+@implementation UINavigationBar (HLZCustomization)
 
 static UIView *backgroundView = nil;
+
+- (void)hlz_setAlpha:(CGFloat)hlz_alpha {
+    self.subviews.firstObject.alpha = hlz_alpha;
+}
 
 - (void)hlz_setBackgroundColor:(UIColor *)color
 {

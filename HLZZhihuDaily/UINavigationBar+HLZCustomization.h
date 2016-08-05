@@ -1,5 +1,5 @@
 //
-//  UINavigationBar+HLZBackgroundColor.h
+//  UINavigationBar+HLZCustomization.h
 //  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 7/27/16.
@@ -10,6 +10,7 @@
 
 @interface UINavigationBar (HLZBackgroundColor)
 
+- (void)hlz_setAlpha:(CGFloat)alpha;
 - (void)hlz_setBackgroundColor:(UIColor *)color;
 - (void)hlz_showNavigationBar:(BOOL)show;
 

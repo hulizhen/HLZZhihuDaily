@@ -16,7 +16,7 @@
 #import "HLZRefreshView.h"
 #import "HLZLaunchView.h"
 #import "HLZStoryImageView.h"
-#import "UINavigationBar+HLZBackgroundColor.h"
+#import "UINavigationBar+HLZCustomization.h"
 #import "HLZStoryViewController.h"
 
 @import SDWebImage;
@@ -24,6 +24,7 @@
 @interface HLZMainViewController () <UITableViewDataSource, UITableViewDelegate, HLZInfiniteScrollViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UINavigationBar *navigationBar;
 
 @property (nonatomic, strong) HLZRefreshView *refreshView;
 @property (nonatomic, strong) HLZInfiniteScrollView *scrollView;
@@ -41,7 +42,7 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        _hideStatusBar = YES;
+        _hideStatusBar = NO;
         
         [[HLZStoryStore sharedInstance] addObserver:self
                                          forKeyPath:NSStringFromSelector(@selector(latestStories))
@@ -68,6 +69,15 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
     [self configureTableView];
     
     [self showLaunchView];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.toolbarHidden = YES;
+    
+    // Use custom navigation bar instead of the one within navigation controller.
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -121,7 +131,7 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
         CGFloat alpha = difference / StickyHeaderViewHeightMin;
         alpha = alpha < 0 ? 0 : alpha;
         alpha = alpha > 1 ? 1 : alpha;
-        self.navigationController.navigationBar.subviews.firstObject.alpha = alpha;
+        [self.navigationBar hlz_setAlpha:alpha];
         
         // Update refresh view.
         CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -139,8 +149,8 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
         
         // Update title on the navigation bar.
         BOOL isFirstSection = self.tableView.indexPathsForVisibleRows.firstObject.section == 0;
-        self.navigationItem.titleView = isFirstSection ? self.titleView : nil;
-        [self.navigationController.navigationBar hlz_showNavigationBar:isFirstSection];
+        self.navigationBar.topItem.titleView = isFirstSection ? self.titleView : nil;
+        [self.navigationBar hlz_showNavigationBar:isFirstSection];
     }
 }
 
@@ -269,12 +279,11 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
         label;
         });
     [self.titleView addSubview:titleLabel];
-    self.navigationItem.titleView = self.titleView;
     
     // Customize navigation bar.
-    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-    [navigationBar hlz_setBackgroundColor:[UIColor colorWithRed:0.01 green:0.55 blue:0.83 alpha:1.0]];
-    navigationBar.subviews.firstObject.alpha = 0;
+    [self.navigationBar hlz_setBackgroundColor:[UIColor colorWithRed:0.01 green:0.55 blue:0.83 alpha:1.0]];
+    [self.navigationBar hlz_setAlpha:0];
+    self.navigationBar.topItem.titleView = self.titleView;
 }
 
 - (void)configureTableView {
@@ -326,6 +335,8 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
 - (void)showLaunchView {
     HLZLaunchView *launchView = [[HLZLaunchView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
+    self.hideStatusBar = YES;
+    [self setNeedsStatusBarAppearanceUpdate];
     launchView.launchImageURL = [NSURL URLWithString:[NSString stringWithFormat:LaunchImageURL, [NSString stringWithFormat:@"%d*%d", 1080, 177]]];
     launchView.completionBlock = ^{
         self.scrollView.currentPage = 0;

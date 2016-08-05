@@ -11,7 +11,7 @@
 #import "UIImageView+HLZWebImage.h"
 #import "HLZConstants.h"
 
-@interface HLZStoryViewController ()
+@interface HLZStoryViewController () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) HLZStoryImageView *imageView;
 @property (nonatomic, strong) UIWebView *webView;
@@ -25,9 +25,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self configureNavigationController];
     [self configureToolbar];
     [self configureViewController];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    self.navigationController.toolbarHidden = NO;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -54,8 +60,6 @@
     self.webView = ({
         UIWebView *view = [[UIWebView alloc] init];
         view.scalesPageToFit = YES;
-        view.opaque = NO;
-        view.backgroundColor = [UIColor redColor];
         view;
     });
     [self.view addSubview:self.webView];
@@ -66,26 +70,29 @@
                                               [self.webView.bottomAnchor constraintEqualToAnchor:self.bottomLayoutGuide.topAnchor]]];
 }
 
-- (void)configureNavigationController {
-    self.navigationController.navigationBarHidden = YES;
-    self.navigationController.toolbarHidden = NO;
-}
-
 - (void)configureToolbar {
     UIBarButtonItem *flexibleItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
     fixedItem.width = -16;
-    self.toolbarItems = @[fixedItem, [self barButtonItemWithImageNamed:@"NavigationBackButton"], flexibleItem,
-                          [self barButtonItemWithImageNamed:@"NavigationNextButton"], flexibleItem,
-                          [self barButtonItemWithImageNamed:@"NavigationVoteButton"], flexibleItem,
-                          [self barButtonItemWithImageNamed:@"NavigationShareButton"], flexibleItem,
-                          [self barButtonItemWithImageNamed:@"NavigationCommentButton"], fixedItem];
+    self.toolbarItems = @[fixedItem,
+                          [self barButtonItemWithImageNamed:@"NavigationBackButton" action:@selector(goBack)], flexibleItem,
+                          [self barButtonItemWithImageNamed:@"NavigationNextButton" action:nil], flexibleItem,
+                          [self barButtonItemWithImageNamed:@"NavigationVoteButton" action:nil], flexibleItem,
+                          [self barButtonItemWithImageNamed:@"NavigationShareButton" action:nil], flexibleItem,
+                          [self barButtonItemWithImageNamed:@"NavigationCommentButton" action:nil], fixedItem];
 }
 
-- (UIBarButtonItem *)barButtonItemWithImageNamed:(NSString *)imageName {
+- (UIBarButtonItem *)barButtonItemWithImageNamed:(NSString *)imageName action:(SEL)selector {
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 64, 43)];
+    [button addTarget:self action:selector forControlEvents:UIControlEventTouchUpInside];
     [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
     return [[UIBarButtonItem alloc] initWithCustomView:button];
+}
+
+#pragma mark - Actions
+
+- (void)goBack {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
