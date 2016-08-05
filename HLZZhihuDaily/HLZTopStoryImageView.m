@@ -13,6 +13,7 @@
 @interface HLZTopStoryImageView ()
 
 @property (nonatomic, weak) IBOutlet UILabel *storyTitle;
+@property (nonatomic, weak) IBOutlet UILabel *imageSource;
 
 @end
 
