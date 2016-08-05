@@ -205,7 +205,7 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
 - (void)loadTopStories {
     NSMutableArray *imageViews = [[NSMutableArray alloc] init];
     for (HLZStory *story in [HLZStoryStore sharedInstance].topStories) {
-        HLZTopStoryImageView *imageView = [[NSBundle mainBundle] loadNibNamed:@"HLZTopStoryImageView" owner:nil options:nil][0];
+        HLZTopStoryImageView *imageView = [[NSBundle mainBundle] loadNibNamed:@"HLZTopStoryImageView" owner:nil options:nil].firstObject;
         imageView.story = story;
         
         [imageViews addObject:imageView];

@@ -7,21 +7,64 @@
 //
 
 #import "HLZStoryViewController.h"
+#import "HLZTopStoryImageView.h"
+#import "UIImageView+HLZWebImage.h"
+#import "HLZConstants.h"
 
 @interface HLZStoryViewController ()
+
+@property (nonatomic, strong) HLZTopStoryImageView *imageView;
+@property (nonatomic, strong) UIWebView *webView;
 
 @end
 
 @implementation HLZStoryViewController
+
+#pragma mark - Lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self configureNavigationController];
     [self configureToolbar];
+    [self configureViewController];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 #pragma mark - Helpers
+
+- (void)configureViewController {
+    // Add image view.
+    self.imageView = ({
+        HLZTopStoryImageView *view = [[NSBundle mainBundle] loadNibNamed:@"HLZTopStoryImageView" owner:nil options:nil].firstObject;
+        view.story = self.story;
+        view;
+    });
+    [self.view addSubview:self.imageView];
+    self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint activateConstraints:@[[self.imageView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
+                                              [self.imageView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor],
+                                              [self.imageView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor],
+                                              [self.imageView.heightAnchor constraintEqualToConstant:StickyHeaderViewHeightMin]]];
+    
+    // Add web view.
+    self.webView = ({
+        UIWebView *view = [[UIWebView alloc] init];
+        view.scalesPageToFit = YES;
+        view.opaque = NO;
+        view.backgroundColor = [UIColor redColor];
+        view;
+    });
+    [self.view addSubview:self.webView];
+    self.webView.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint activateConstraints:@[[self.webView.topAnchor constraintEqualToAnchor:self.imageView.bottomAnchor],
+                                              [self.webView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor],
+                                              [self.webView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor],
+                                              [self.webView.bottomAnchor constraintEqualToAnchor:self.bottomLayoutGuide.topAnchor]]];
+}
 
 - (void)configureNavigationController {
     self.navigationController.navigationBarHidden = YES;

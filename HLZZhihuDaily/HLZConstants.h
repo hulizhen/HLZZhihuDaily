@@ -34,7 +34,6 @@ static float const AutoScrollTimerInterval   = 5.0;
 static float const StoryCellRowHeight           = 92.0;
 static float const TableViewSectionHeaderHeight = 44.0;
 
-static int const ViewTagBase   = 1000;
 static int const SecondsPerDay = 24 * 60 * 60;
 
 #endif /* HLZConstants_h */
