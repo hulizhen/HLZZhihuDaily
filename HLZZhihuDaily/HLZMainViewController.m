@@ -15,7 +15,7 @@
 #import "UITableView+HLZStickyHeader.h"
 #import "HLZRefreshView.h"
 #import "HLZLaunchView.h"
-#import "HLZTopStoryImageView.h"
+#import "HLZStoryImageView.h"
 #import "UINavigationBar+HLZBackgroundColor.h"
 #import "HLZStoryViewController.h"
 
@@ -205,7 +205,7 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
 - (void)loadTopStories {
     NSMutableArray *imageViews = [[NSMutableArray alloc] init];
     for (HLZStory *story in [HLZStoryStore sharedInstance].topStories) {
-        HLZTopStoryImageView *imageView = [[NSBundle mainBundle] loadNibNamed:@"HLZTopStoryImageView" owner:nil options:nil].firstObject;
+        HLZStoryImageView *imageView = [[NSBundle mainBundle] loadNibNamed:@"HLZStoryImageView" owner:nil options:nil].firstObject;
         imageView.story = story;
         
         [imageViews addObject:imageView];

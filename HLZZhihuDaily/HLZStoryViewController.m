@@ -7,13 +7,13 @@
 //
 
 #import "HLZStoryViewController.h"
-#import "HLZTopStoryImageView.h"
+#import "HLZStoryImageView.h"
 #import "UIImageView+HLZWebImage.h"
 #import "HLZConstants.h"
 
 @interface HLZStoryViewController ()
 
-@property (nonatomic, strong) HLZTopStoryImageView *imageView;
+@property (nonatomic, strong) HLZStoryImageView *imageView;
 @property (nonatomic, strong) UIWebView *webView;
 
 @end
@@ -39,7 +39,7 @@
 - (void)configureViewController {
     // Add image view.
     self.imageView = ({
-        HLZTopStoryImageView *view = [[NSBundle mainBundle] loadNibNamed:@"HLZTopStoryImageView" owner:nil options:nil].firstObject;
+        HLZStoryImageView *view = [[NSBundle mainBundle] loadNibNamed:@"HLZStoryImageView" owner:nil options:nil].firstObject;
         view.story = self.story;
         view;
     });

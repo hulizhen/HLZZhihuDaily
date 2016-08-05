@@ -1,23 +1,23 @@
 //
-//  HLZTopStoryImageView.m
+//  HLZStoryImageView.m
 //  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 7/14/16.
 //  Copyright © 2016 hulizhen. All rights reserved.
 //
 
-#import "HLZTopStoryImageView.h"
+#import "HLZStoryImageView.h"
 #import "HLZStory.h"
 #import "UIImageView+HLZWebImage.h"
 
-@interface HLZTopStoryImageView ()
+@interface HLZStoryImageView ()
 
 @property (nonatomic, weak) IBOutlet UILabel *storyTitle;
 @property (nonatomic, weak) IBOutlet UILabel *imageSource;
 
 @end
 
-@implementation HLZTopStoryImageView
+@implementation HLZStoryImageView
 
 - (void)setStory:(HLZStory *)story {
     _story = story;
