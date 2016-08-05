@@ -7,7 +7,7 @@
 //
 
 #import "HLZLaunchView.h"
-#import "UIImageView+HLZWebImage.h"
+#import "UIImageView+WebCache.h"
 
 @interface HLZLaunchView ()
 
@@ -88,7 +88,7 @@ static const NSTimeInterval FadeOutDuration                   = 0.5;
     self.titleLabel.text = @"我的日报";
     self.subtitleLabel.text = @"每天三次，每次七分钟";
     
-    [self.lauchImageView hlz_setWebImageWithURL:[NSURL URLWithString:json[@"img"]]];
+    [self.lauchImageView sd_setImageWithURL:[NSURL URLWithString:json[@"img"]]];
     self.lauchImageView.alpha = 0;
 }
 

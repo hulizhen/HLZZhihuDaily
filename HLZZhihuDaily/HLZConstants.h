@@ -31,9 +31,11 @@ static float const StickyHeaderViewHeightMin = 220.0;
 static float const StickyHeaderViewHeightMax = 320.0;
 static float const AutoScrollTimerInterval   = 5.0;
 
+static float const statusBarHeight = 20;
+
 static float const StoryCellRowHeight           = 92.0;
 static float const TableViewSectionHeaderHeight = 44.0;
 
-static int const SecondsPerDay = 24 * 60 * 60;
+static int const SecondsPerDay     = 24 * 60 * 60;
 
 #endif /* HLZConstants_h */

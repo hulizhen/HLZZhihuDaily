@@ -8,7 +8,6 @@
 
 #import "HLZStoryViewController.h"
 #import "HLZStoryImageView.h"
-#import "UIImageView+HLZWebImage.h"
 #import "HLZConstants.h"
 
 @interface HLZStoryViewController () <UIGestureRecognizerDelegate>
@@ -32,8 +31,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
     self.navigationController.toolbarHidden = NO;
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {

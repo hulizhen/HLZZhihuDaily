@@ -7,6 +7,7 @@
 //
 
 #import "UINavigationBar+HLZCustomization.h"
+#import "HLZConstants.h"
 
 @implementation UINavigationBar (HLZCustomization)
 
@@ -22,7 +23,6 @@ static UIView *backgroundView = nil;
     [self setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     
     backgroundView = ({
-        CGFloat statusBarHeight = 20;
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0,
                                                                 -statusBarHeight,
                                                                 CGRectGetWidth(self.bounds),
@@ -35,11 +35,10 @@ static UIView *backgroundView = nil;
 }
 
 - (void)hlz_showNavigationBar:(BOOL)show {
-    CGFloat statusBarheight = 20;
     
     backgroundView.frame = ({
         CGRect frame = backgroundView.frame;
-        frame.size.height = statusBarheight;
+        frame.size.height = statusBarHeight;
         if (show) {
             frame.size.height += CGRectGetHeight(self.bounds);
         }
