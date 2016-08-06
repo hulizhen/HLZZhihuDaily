@@ -10,7 +10,7 @@
 
 @interface NSDate (HLZConversion)
 
++ (NSDate *)hlz_dateFromString:(NSString *)string format:(NSString *)format;
 - (NSString *)hlz_stringWithFormat:(NSString *)format;
-- (NSString *)hlz_stringWithFormat:(NSString *)format locale:(NSString *)locale;
 
 @end
