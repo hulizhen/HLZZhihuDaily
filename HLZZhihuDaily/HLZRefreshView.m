@@ -8,7 +8,6 @@
 
 #import "HLZRefreshView.h"
 
-
 @interface HLZRefreshView ()
 
 @property (nonatomic, strong) UIActivityIndicatorView *indicatorView;

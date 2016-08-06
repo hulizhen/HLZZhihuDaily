@@ -9,7 +9,7 @@
 #import "HLZStoryImageView.h"
 #import "HLZStory.h"
 
-@import SDWebImage.UIImageView_WebCache;
+@import SDWebImage;
 
 @interface HLZStoryImageView ()
 

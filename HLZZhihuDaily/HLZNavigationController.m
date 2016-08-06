@@ -7,6 +7,7 @@
 //
 
 #import "HLZNavigationController.h"
+#import "objc/runtime.h"
 
 @interface HLZNavigationController () <UIGestureRecognizerDelegate>
 
@@ -17,17 +18,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    id target = self.interactivePopGestureRecognizer.delegate;
-    SEL action = NSSelectorFromString(@"handleNavigationTransition:");
-    UIView *view = self.interactivePopGestureRecognizer.view;
-    
-    // Create a full screen pan gesture recognizer for navigating back.
-    UIPanGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:target action:action];
-    recognizer.delegate = self;
-    [view addGestureRecognizer:recognizer];
-    
-    // Disable the default gesture recognizer.
-    self.interactivePopGestureRecognizer.enabled = NO;
+    // Enable full screen pan back feature.
+    object_setClass(self.interactivePopGestureRecognizer, [UIPanGestureRecognizer class]);
+    self.interactivePopGestureRecognizer.delegate = self;
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {

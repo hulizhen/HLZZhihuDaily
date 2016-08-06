@@ -8,8 +8,8 @@
 
 #import "HLZLaunchView.h"
 
-@import AFNetworking.AFHTTPSessionManager;
-@import SDWebImage.UIImageView_WebCache;
+@import AFNetworking;
+@import SDWebImage;
 
 @interface HLZLaunchView ()
 

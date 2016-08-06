@@ -9,11 +9,11 @@
 #import "HLZStoryViewController.h"
 #import "HLZStoryImageView.h"
 #import "HLZConstants.h"
-#import <WebKit/WebKit.h>
 
-@import AFNetworking.AFHTTPSessionManager;
+@import WebKit;
+@import AFNetworking;
 
-@interface HLZStoryViewController () <UIGestureRecognizerDelegate>
+@interface HLZStoryViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) HLZStoryImageView *imageView;
 @property (nonatomic, strong) WKWebView *webView;
@@ -36,7 +36,6 @@
     [super viewWillAppear:animated];
     
     self.navigationController.toolbarHidden = NO;
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -44,22 +43,6 @@
 }
 
 #pragma mark - Helpers
-
-- (void)configureImageView {
-    // Add image view.
-    self.imageView = ({
-        HLZStoryImageView *view = [[NSBundle mainBundle] loadNibNamed:@"HLZStoryImageView" owner:nil options:nil].firstObject;
-        view.story = self.story;
-        view;
-    });
-    [self.webView addSubview:self.imageView];
-    self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
-    [NSLayoutConstraint activateConstraints:@[[self.imageView.topAnchor constraintEqualToAnchor:self.webView.topAnchor],
-                                              [self.imageView.leftAnchor constraintEqualToAnchor:self.webView.leftAnchor],
-                                              [self.imageView.rightAnchor constraintEqualToAnchor:self.webView.rightAnchor],
-                                              [self.imageView.heightAnchor constraintEqualToConstant:StickyHeaderViewHeightMin]]];
-    self.imageView.clipsToBounds = YES;
-}
 
 - (NSString *)getHTMLStringWithBody:(NSString *)body css:(NSString *)css {
     NSMutableString *html = [[NSMutableString alloc] init];
@@ -115,6 +98,22 @@
                                               [self.webView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor],
                                               [self.webView.bottomAnchor constraintEqualToAnchor:self.bottomLayoutGuide.topAnchor]]];
     [self loadWebView];
+}
+
+- (void)configureImageView {
+    // Add image view.
+    self.imageView = ({
+        HLZStoryImageView *view = [[NSBundle mainBundle] loadNibNamed:@"HLZStoryImageView" owner:nil options:nil].firstObject;
+        view.story = self.story;
+        view;
+    });
+    [self.webView addSubview:self.imageView];
+    self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    [NSLayoutConstraint activateConstraints:@[[self.imageView.topAnchor constraintEqualToAnchor:self.webView.topAnchor],
+                                              [self.imageView.leftAnchor constraintEqualToAnchor:self.webView.leftAnchor],
+                                              [self.imageView.rightAnchor constraintEqualToAnchor:self.webView.rightAnchor],
+                                              [self.imageView.heightAnchor constraintEqualToConstant:StickyHeaderViewHeightMin]]];
+    self.imageView.clipsToBounds = YES;
 }
 
 - (void)configureToolbar {
