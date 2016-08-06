@@ -13,7 +13,7 @@
 @import WebKit;
 @import AFNetworking;
 
-@interface HLZStoryViewController () <UIScrollViewDelegate>
+@interface HLZStoryViewController ()
 
 @property (nonatomic, strong) HLZStoryImageView *imageView;
 @property (nonatomic, strong) WKWebView *webView;
@@ -74,10 +74,10 @@
 - (void)configureWebView {
     // Add web view.
     self.webView = ({
-        // Java script for scaling page to fit.
+        // Java script for scaling page to fit, disable zooming.
         NSString *scalesPageToFitJS = @"var meta = document.createElement('meta');"
                                        "meta.setAttribute('name', 'viewport');"
-                                       "meta.setAttribute('content', 'width=device-width');"
+                                       "meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');"
                                        "document.getElementsByTagName('head')[0].appendChild(meta);";
         
         WKUserScript *script = [[WKUserScript alloc] initWithSource:scalesPageToFitJS
@@ -96,7 +96,7 @@
     [NSLayoutConstraint activateConstraints:@[[self.webView.topAnchor constraintEqualToAnchor:self.view.topAnchor],
                                               [self.webView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor],
                                               [self.webView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor],
-                                              [self.webView.bottomAnchor constraintEqualToAnchor:self.bottomLayoutGuide.topAnchor]]];
+                                              [self.webView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor]]];
     [self loadWebView];
 }
 
@@ -121,7 +121,7 @@
     UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
     fixedItem.width = -16;
     self.toolbarItems = @[fixedItem,
-                          [self barButtonItemWithImageNamed:@"NavigationBackButton" action:@selector(goBack)], flexibleItem,
+                          [self barButtonItemWithImageNamed:@"NavigationBackButton" action:@selector(navigateBack)], flexibleItem,
                           [self barButtonItemWithImageNamed:@"NavigationNextButton" action:nil], flexibleItem,
                           [self barButtonItemWithImageNamed:@"NavigationVoteButton" action:nil], flexibleItem,
                           [self barButtonItemWithImageNamed:@"NavigationShareButton" action:nil], flexibleItem,
@@ -137,7 +137,7 @@
 
 #pragma mark - Actions
 
-- (void)goBack {
+- (void)navigateBack {
     [self.navigationController popViewControllerAnimated:YES];
 }
 

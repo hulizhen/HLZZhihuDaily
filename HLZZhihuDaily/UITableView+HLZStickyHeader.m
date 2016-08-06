@@ -38,7 +38,6 @@ static const float DefaultStickyHeaderViewHeightMax = 320.0;
     objc_setAssociatedObject(self, @selector(hlz_stickyHeaderView), stickyHeaderView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     self.hlz_stickyHeaderView.clipsToBounds = YES;
-    
     [self addSubview:stickyHeaderView];
     [self layoutIfNeeded];
 }

@@ -66,7 +66,7 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
     [self configureScrollView];
     [self configureTableView];
     
-    [self showLaunchView];
+//    [self showLaunchView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

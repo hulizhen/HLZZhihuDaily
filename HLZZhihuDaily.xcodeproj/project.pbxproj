@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		251631731D32436500A43E35 /* HLZInfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 251631721D32436500A43E35 /* HLZInfiniteScrollView.m */; };
 		252505FB1D558FC40053BBEE /* HLZNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 252505FA1D558FC40053BBEE /* HLZNavigationController.m */; };
+		252505FE1D56079E0053BBEE /* WKWebView+HLZStickyHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 252505FD1D56079E0053BBEE /* WKWebView+HLZStickyHeader.m */; };
 		252927F61D4CDC0400F0A93F /* HLZStoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 252927F51D4CDC0400F0A93F /* HLZStoryViewController.m */; };
 		2553FC6D1D4B003B0023ED46 /* NSDate+HLZConversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 2553FC6C1D4B003B0023ED46 /* NSDate+HLZConversion.m */; };
 		255F40561D48894000FD523D /* UINavigationBar+HLZCustomization.m in Sources */ = {isa = PBXBuildFile; fileRef = 255F40551D48894000FD523D /* UINavigationBar+HLZCustomization.m */; };
@@ -36,6 +37,8 @@
 		251631721D32436500A43E35 /* HLZInfiniteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZInfiniteScrollView.m; sourceTree = "<group>"; };
 		252505F91D558FC40053BBEE /* HLZNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZNavigationController.h; sourceTree = "<group>"; };
 		252505FA1D558FC40053BBEE /* HLZNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZNavigationController.m; sourceTree = "<group>"; };
+		252505FC1D56079E0053BBEE /* WKWebView+HLZStickyHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKWebView+HLZStickyHeader.h"; sourceTree = "<group>"; };
+		252505FD1D56079E0053BBEE /* WKWebView+HLZStickyHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKWebView+HLZStickyHeader.m"; sourceTree = "<group>"; };
 		252927F41D4CDC0400F0A93F /* HLZStoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZStoryViewController.h; sourceTree = "<group>"; };
 		252927F51D4CDC0400F0A93F /* HLZStoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZStoryViewController.m; sourceTree = "<group>"; };
 		2553FC6B1D4B003B0023ED46 /* NSDate+HLZConversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+HLZConversion.h"; sourceTree = "<group>"; };
@@ -104,6 +107,8 @@
 				255F40551D48894000FD523D /* UINavigationBar+HLZCustomization.m */,
 				25C00E651D11AC15007A6F5B /* UITableView+HLZStickyHeader.h */,
 				25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */,
+				252505FC1D56079E0053BBEE /* WKWebView+HLZStickyHeader.h */,
+				252505FD1D56079E0053BBEE /* WKWebView+HLZStickyHeader.m */,
 				2553FC6B1D4B003B0023ED46 /* NSDate+HLZConversion.h */,
 				2553FC6C1D4B003B0023ED46 /* NSDate+HLZConversion.m */,
 			);
@@ -363,6 +368,7 @@
 				25C00E671D11AC15007A6F5B /* UITableView+HLZStickyHeader.m in Sources */,
 				25C00E601D11AA11007A6F5B /* HLZStoryCell.m in Sources */,
 				255F40561D48894000FD523D /* UINavigationBar+HLZCustomization.m in Sources */,
+				252505FE1D56079E0053BBEE /* WKWebView+HLZStickyHeader.m in Sources */,
 				25C00E641D11AAFD007A6F5B /* HLZMainViewController.m in Sources */,
 				2553FC6D1D4B003B0023ED46 /* NSDate+HLZConversion.m in Sources */,
 				25D7A1761D1629C6008030AB /* HLZRefreshView.m in Sources */,
