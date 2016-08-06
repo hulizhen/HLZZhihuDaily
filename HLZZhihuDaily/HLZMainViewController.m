@@ -335,7 +335,7 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
     
     self.hideStatusBar = YES;
     [self setNeedsStatusBarAppearanceUpdate];
-    launchView.launchImageURL = [NSURL URLWithString:[NSString stringWithFormat:LaunchImageURL, [NSString stringWithFormat:@"%d*%d", 1080, 177]]];
+    [launchView setLaunchImageWithURL:[NSString stringWithFormat:LaunchImageURL, [NSString stringWithFormat:@"%d*%d", 1080, 177]]];
     launchView.completionBlock = ^{
         self.scrollView.currentPage = 0;
         self.hideStatusBar = NO;

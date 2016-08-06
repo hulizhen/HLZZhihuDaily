@@ -8,6 +8,7 @@
 
 #import "HLZLaunchView.h"
 
+@import AFNetworking.AFHTTPSessionManager;
 @import SDWebImage.UIImageView_WebCache;
 
 @interface HLZLaunchView ()
@@ -76,21 +77,19 @@ static const NSTimeInterval FadeOutDuration                   = 0.5;
     });
 }
 
-- (void)setLaunchImageURL:(NSURL *)launchImageURL {
-    _launchImageURL = launchImageURL;
-    
-    NSData *data = [NSData dataWithContentsOfURL:_launchImageURL];
-    if (!data) {
-        return;
-    }
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-    
-    self.authorLabel.text = json[@"text"];
-    self.titleLabel.text = @"我的日报";
-    self.subtitleLabel.text = @"每天三次，每次七分钟";
-    
-    [self.lauchImageView sd_setImageWithURL:[NSURL URLWithString:json[@"img"]]];
-    self.lauchImageView.alpha = 0;
+- (void)setLaunchImageWithURL:(NSString *)urlString {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager GET:urlString parameters:nil progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+             NSDictionary *json = responseObject;
+             
+             self.authorLabel.text = json[@"text"];
+             self.titleLabel.text = @"我的日报";
+             self.subtitleLabel.text = @"每天三次，每次七分钟";
+             
+             [self.lauchImageView sd_setImageWithURL:[NSURL URLWithString:json[@"img"]]];
+             self.lauchImageView.alpha = 0;
+         } failure:nil];
 }
 
 - (void)setUp:(CGRect)frame {
