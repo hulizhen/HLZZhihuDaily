@@ -9,7 +9,7 @@
 #import "HLZStoryStore.h"
 #import "HLZConstants.h"
 #import "HLZStory.h"
-#import "NSDate+Conversion.h"
+#import "NSDate+HLZConversion.h"
 
 @interface HLZStoryStore ()
 

@@ -19,8 +19,6 @@
 #import "UINavigationBar+HLZCustomization.h"
 #import "HLZStoryViewController.h"
 
-@import SDWebImage;
-
 @interface HLZMainViewController () <UITableViewDataSource, UITableViewDelegate, HLZInfiniteScrollViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;

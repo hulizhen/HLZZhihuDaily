@@ -10,7 +10,7 @@
 
 @interface HLZStoryStore : NSObject
 
-// !!! Array layout of `latestStories` !!!
+// ! Memory layout of array `latestStories` !
 // -------------------------------------------
 // | NSDate | HLZStory | HLZStory | HLZStory |
 // | NSDate | HLZStory | HLZStory | HLZStory |

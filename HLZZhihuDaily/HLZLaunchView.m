@@ -7,7 +7,8 @@
 //
 
 #import "HLZLaunchView.h"
-#import "UIImageView+WebCache.h"
+
+@import SDWebImage.UIImageView_WebCache;
 
 @interface HLZLaunchView ()
 

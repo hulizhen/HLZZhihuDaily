@@ -1,12 +1,12 @@
 //
-//  NSDate+Conversion.m
+//  NSDate+HLZConversion.m
 //  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 7/29/16.
 //  Copyright © 2016 hulizhen. All rights reserved.
 //
 
-#import "NSDate+Conversion.h"
+#import "NSDate+HLZConversion.h"
 #import "objc/runtime.h"
 
 @interface NSDate ()
@@ -15,7 +15,7 @@
 
 @end
 
-@implementation NSDate (Conversion)
+@implementation NSDate (HLZConversion)
 
 - (NSString *)hlz_stringWithFormat:(NSString *)format {
     self.dateFormatter.dateFormat = format;
