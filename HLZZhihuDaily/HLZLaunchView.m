@@ -44,12 +44,6 @@ static const NSTimeInterval FadeOutDuration                   = 0.5;
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    @throw [NSException exceptionWithName:@"Initializer" reason:@"Use -[initWithFrame] instead" userInfo:nil];
-    return nil;
-}
-
 - (void)didMoveToSuperview {
     // Layout without animation.
     [self layoutIfNeeded];
@@ -193,7 +187,6 @@ static const NSTimeInterval FadeOutDuration                   = 0.5;
     layer.strokeColor = color.CGColor;
     layer.fillColor = nil;
     [self.logoView.layer addSublayer:layer];
-    
     
     // The inner circle layer.
     lineWidth = 4.0;

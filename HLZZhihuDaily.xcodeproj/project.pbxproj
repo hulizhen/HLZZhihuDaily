@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		251631731D32436500A43E35 /* HLZInfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 251631721D32436500A43E35 /* HLZInfiniteScrollView.m */; };
+		251DC1F71D59DBC90046E5CA /* HLZWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 251DC1F61D59DBC90046E5CA /* HLZWebView.m */; };
+		251DC1FF1D5C16AA0046E5CA /* HLZZhihuDailyUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 251DC1FE1D5C16AA0046E5CA /* HLZZhihuDailyUITests.m */; };
 		252505FB1D558FC40053BBEE /* HLZNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 252505FA1D558FC40053BBEE /* HLZNavigationController.m */; };
-		252505FE1D56079E0053BBEE /* WKWebView+HLZStickyHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 252505FD1D56079E0053BBEE /* WKWebView+HLZStickyHeader.m */; };
 		252927F61D4CDC0400F0A93F /* HLZStoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 252927F51D4CDC0400F0A93F /* HLZStoryViewController.m */; };
 		2553FC6D1D4B003B0023ED46 /* NSDate+HLZConversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 2553FC6C1D4B003B0023ED46 /* NSDate+HLZConversion.m */; };
 		255F40561D48894000FD523D /* UINavigationBar+HLZCustomization.m in Sources */ = {isa = PBXBuildFile; fileRef = 255F40551D48894000FD523D /* UINavigationBar+HLZCustomization.m */; };
@@ -31,14 +32,27 @@
 		4097FF62344F95D0CACD1BF4 /* Pods_HLZZhihuDaily.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DF8815100B926C446D994D /* Pods_HLZZhihuDaily.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		251DC2011D5C16AA0046E5CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25C00E261D11A59A007A6F5B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 25C00E2D1D11A59A007A6F5B;
+			remoteInfo = HLZZhihuDaily;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1DDA95C75237F4355DAF72E1 /* Pods-HLZZhihuDaily.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HLZZhihuDaily.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HLZZhihuDaily/Pods-HLZZhihuDaily.debug.xcconfig"; sourceTree = "<group>"; };
 		251631711D32436500A43E35 /* HLZInfiniteScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZInfiniteScrollView.h; sourceTree = "<group>"; };
 		251631721D32436500A43E35 /* HLZInfiniteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZInfiniteScrollView.m; sourceTree = "<group>"; };
+		251DC1F51D59DBC90046E5CA /* HLZWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZWebView.h; sourceTree = "<group>"; };
+		251DC1F61D59DBC90046E5CA /* HLZWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZWebView.m; sourceTree = "<group>"; };
+		251DC1FC1D5C16AA0046E5CA /* HLZZhihuDailyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HLZZhihuDailyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		251DC1FE1D5C16AA0046E5CA /* HLZZhihuDailyUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HLZZhihuDailyUITests.m; sourceTree = "<group>"; };
+		251DC2001D5C16AA0046E5CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		252505F91D558FC40053BBEE /* HLZNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZNavigationController.h; sourceTree = "<group>"; };
 		252505FA1D558FC40053BBEE /* HLZNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZNavigationController.m; sourceTree = "<group>"; };
-		252505FC1D56079E0053BBEE /* WKWebView+HLZStickyHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WKWebView+HLZStickyHeader.h"; sourceTree = "<group>"; };
-		252505FD1D56079E0053BBEE /* WKWebView+HLZStickyHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WKWebView+HLZStickyHeader.m"; sourceTree = "<group>"; };
 		252927F41D4CDC0400F0A93F /* HLZStoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZStoryViewController.h; sourceTree = "<group>"; };
 		252927F51D4CDC0400F0A93F /* HLZStoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZStoryViewController.m; sourceTree = "<group>"; };
 		2553FC6B1D4B003B0023ED46 /* NSDate+HLZConversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+HLZConversion.h"; sourceTree = "<group>"; };
@@ -78,6 +92,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		251DC1F91D5C16AA0046E5CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		25C00E2B1D11A59A007A6F5B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -89,6 +110,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		251DC1FD1D5C16AA0046E5CA /* HLZZhihuDailyUITests */ = {
+			isa = PBXGroup;
+			children = (
+				251DC1FE1D5C16AA0046E5CA /* HLZZhihuDailyUITests.m */,
+				251DC2001D5C16AA0046E5CA /* Info.plist */,
+			);
+			path = HLZZhihuDailyUITests;
+			sourceTree = "<group>";
+		};
 		25523BF11D406BE3001A5485 /* UIs */ = {
 			isa = PBXGroup;
 			children = (
@@ -107,8 +137,6 @@
 				255F40551D48894000FD523D /* UINavigationBar+HLZCustomization.m */,
 				25C00E651D11AC15007A6F5B /* UITableView+HLZStickyHeader.h */,
 				25C00E661D11AC15007A6F5B /* UITableView+HLZStickyHeader.m */,
-				252505FC1D56079E0053BBEE /* WKWebView+HLZStickyHeader.h */,
-				252505FD1D56079E0053BBEE /* WKWebView+HLZStickyHeader.m */,
 				2553FC6B1D4B003B0023ED46 /* NSDate+HLZConversion.h */,
 				2553FC6C1D4B003B0023ED46 /* NSDate+HLZConversion.m */,
 			);
@@ -122,6 +150,7 @@
 				25C00E2F1D11A59A007A6F5B /* Products */,
 				568B6E686AFC085F15E9FE4A /* Pods */,
 				490E9ECA1EACD6590127E6F2 /* Frameworks */,
+				251DC1FD1D5C16AA0046E5CA /* HLZZhihuDailyUITests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -129,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				25C00E2E1D11A59A007A6F5B /* HLZZhihuDaily.app */,
+				251DC1FC1D5C16AA0046E5CA /* HLZZhihuDailyUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -172,6 +202,8 @@
 				25D7A1751D1629C6008030AB /* HLZRefreshView.m */,
 				2577ACEF1D30DBF100CBE921 /* HLZLaunchView.h */,
 				2577ACF01D30DBF100CBE921 /* HLZLaunchView.m */,
+				251DC1F51D59DBC90046E5CA /* HLZWebView.h */,
+				251DC1F61D59DBC90046E5CA /* HLZWebView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -237,6 +269,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		251DC1FB1D5C16AA0046E5CA /* HLZZhihuDailyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 251DC2031D5C16AA0046E5CA /* Build configuration list for PBXNativeTarget "HLZZhihuDailyUITests" */;
+			buildPhases = (
+				251DC1F81D5C16AA0046E5CA /* Sources */,
+				251DC1F91D5C16AA0046E5CA /* Frameworks */,
+				251DC1FA1D5C16AA0046E5CA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				251DC2021D5C16AA0046E5CA /* PBXTargetDependency */,
+			);
+			name = HLZZhihuDailyUITests;
+			productName = HLZZhihuDailyUITests;
+			productReference = 251DC1FC1D5C16AA0046E5CA /* HLZZhihuDailyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		25C00E2D1D11A59A007A6F5B /* HLZZhihuDaily */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 25C00E451D11A59A007A6F5B /* Build configuration list for PBXNativeTarget "HLZZhihuDaily" */;
@@ -266,6 +316,10 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = hulizhen;
 				TargetAttributes = {
+					251DC1FB1D5C16AA0046E5CA = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 25C00E2D1D11A59A007A6F5B;
+					};
 					25C00E2D1D11A59A007A6F5B = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = KJ2YJ44DM2;
@@ -286,11 +340,19 @@
 			projectRoot = "";
 			targets = (
 				25C00E2D1D11A59A007A6F5B /* HLZZhihuDaily */,
+				251DC1FB1D5C16AA0046E5CA /* HLZZhihuDailyUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		251DC1FA1D5C16AA0046E5CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		25C00E2C1D11A59A007A6F5B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -354,6 +416,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		251DC1F81D5C16AA0046E5CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				251DC1FF1D5C16AA0046E5CA /* HLZZhihuDailyUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		25C00E2A1D11A59A007A6F5B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -368,16 +438,24 @@
 				25C00E671D11AC15007A6F5B /* UITableView+HLZStickyHeader.m in Sources */,
 				25C00E601D11AA11007A6F5B /* HLZStoryCell.m in Sources */,
 				255F40561D48894000FD523D /* UINavigationBar+HLZCustomization.m in Sources */,
-				252505FE1D56079E0053BBEE /* WKWebView+HLZStickyHeader.m in Sources */,
 				25C00E641D11AAFD007A6F5B /* HLZMainViewController.m in Sources */,
 				2553FC6D1D4B003B0023ED46 /* NSDate+HLZConversion.m in Sources */,
 				25D7A1761D1629C6008030AB /* HLZRefreshView.m in Sources */,
 				25C00E4D1D11A956007A6F5B /* AppDelegate.m in Sources */,
+				251DC1F71D59DBC90046E5CA /* HLZWebView.m in Sources */,
 				25C00E331D11A59A007A6F5B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		251DC2021D5C16AA0046E5CA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 25C00E2D1D11A59A007A6F5B /* HLZZhihuDaily */;
+			targetProxy = 251DC2011D5C16AA0046E5CA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		25C00E3A1D11A59A007A6F5B /* Main.storyboard */ = {
@@ -399,6 +477,28 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		251DC2041D5C16AA0046E5CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = HLZZhihuDailyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hulizhen.HLZZhihuDailyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = HLZZhihuDaily;
+			};
+			name = Debug;
+		};
+		251DC2051D5C16AA0046E5CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = HLZZhihuDailyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hulizhen.HLZZhihuDailyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = HLZZhihuDaily;
+			};
+			name = Release;
+		};
 		25C00E431D11A59A007A6F5B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -514,6 +614,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		251DC2031D5C16AA0046E5CA /* Build configuration list for PBXNativeTarget "HLZZhihuDailyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				251DC2041D5C16AA0046E5CA /* Debug */,
+				251DC2051D5C16AA0046E5CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		25C00E291D11A59A007A6F5B /* Build configuration list for PBXProject "HLZZhihuDaily" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

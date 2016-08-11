@@ -17,8 +17,7 @@ static UIView *backgroundView = nil;
     self.subviews.firstObject.alpha = hlz_alpha;
 }
 
-- (void)hlz_setBackgroundColor:(UIColor *)color
-{
+- (void)hlz_setBackgroundColor:(UIColor *)color {
     self.shadowImage = [UIImage new];
     [self setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     
@@ -35,7 +34,6 @@ static UIView *backgroundView = nil;
 }
 
 - (void)hlz_showNavigationBar:(BOOL)show {
-    
     backgroundView.frame = ({
         CGRect frame = backgroundView.frame;
         frame.size.height = statusBarHeight;

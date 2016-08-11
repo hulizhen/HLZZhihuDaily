@@ -12,15 +12,16 @@
 
 + (NSDateFormatter *)dateFormatter {
     static NSDateFormatter *formatter = nil;
+    static dispatch_once_t onceToken;
     
-    if (!formatter) {
+    dispatch_once(&onceToken, ^{
         formatter = [[NSDateFormatter alloc] init];
         
         // Default values.
         formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
         formatter.locale = [NSLocale localeWithLocaleIdentifier:@"zh_CN"];
         formatter.dateFormat = @"yyyyMMdd";
-    }
+    });
     return formatter;
 }
 

@@ -29,6 +29,8 @@
 @property (nonatomic, assign) BOOL hideStatusBar;
 @property (nonatomic, strong) UIView *titleView;
 
+@property (nonatomic, assign, getter=isUpdatingStories) BOOL updatingStories;
+
 @end
 
 @implementation HLZMainViewController
@@ -41,22 +43,9 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
     self = [super initWithCoder:aDecoder];
     if (self) {
         _hideStatusBar = NO;
-        
-        [[HLZStoryStore sharedInstance] addObserver:self
-                                         forKeyPath:NSStringFromSelector(@selector(latestStories))
-                                            options:NSKeyValueObservingOptionNew
-                                            context:nil];
-        [[HLZStoryStore sharedInstance] addObserver:self
-                                         forKeyPath:NSStringFromSelector(@selector(topStories))
-                                            options:NSKeyValueObservingOptionNew
-                                            context:nil];
+        _updatingStories = NO;
     }
     return self;
-}
-
-- (void)dealloc {
-    [[HLZStoryStore sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(latestStories))];
-    [[HLZStoryStore sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(topStories))];
 }
 
 - (void)viewDidLoad {
@@ -65,6 +54,19 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
     [self configureNavigationBar];
     [self configureScrollView];
     [self configureTableView];
+    
+    // Load stories.
+    if (!self.isUpdatingStories) {
+        self.updatingStories = YES;
+        [[HLZStoryStore sharedInstance] updateStoriesWithCompletionHandler:^(BOOL finished){
+            NSLog(@"table view reload..............................");
+            if (finished) {
+                [self.tableView reloadData];
+                [self loadTopStories];
+            }
+            self.updatingStories = NO;
+        }];
+    }
     
 //    [self showLaunchView];
 }
@@ -99,13 +101,19 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
         if (self.refreshView.progress >= 1) {
             [self.refreshView beginRefreshing];
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                [[HLZStoryStore sharedInstance] updateStoriesWithCompletion:^(BOOL finished){
-                    dispatch_async(dispatch_get_main_queue(), ^{
+            if (!self.isUpdatingStories) {
+                self.updatingStories = YES;
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    [[HLZStoryStore sharedInstance] updateStoriesWithCompletionHandler:^(BOOL finished){
+                        if (finished) {
+                            [self.tableView reloadData];
+                            [self loadTopStories];
+                        }
+                        self.updatingStories = NO;
                         [self.refreshView endRefreshing];
-                    });
-                }];
-            });
+                    }];
+                });
+            }
         } else {
             // Reset the progress to 0 if it did not reach 1.0.
             self.refreshView.progress = 0;
@@ -161,11 +169,13 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    NSLog(@"number of sections in tableview %ld", [HLZStoryStore sharedInstance].latestStories.count);
     return [HLZStoryStore sharedInstance].latestStories.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // One minus for storing NSDate.
+    NSLog(@"number of row in section %ld %ld", section, [HLZStoryStore sharedInstance].latestStories[section].count - 1);
     return [HLZStoryStore sharedInstance].latestStories[section].count - 1;
 }
 
@@ -181,6 +191,11 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
 }
 
 #pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    HLZStory *story = [HLZStoryStore sharedInstance].latestStories[indexPath.section][indexPath.row + 1];
+    [self showStoryDetail:story];
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return section > 0 ? TableViewSectionHeaderHeight : 0;
@@ -223,38 +238,24 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
 }
 
 - (void)loadMoreStories {
-    static BOOL isLoading = NO;
     UIActivityIndicatorView *indicatorView = (UIActivityIndicatorView *)self.tableView.tableFooterView;
     
-    if (!isLoading) {
-        isLoading = YES;
+    if (!self.isUpdatingStories) {
+        self.updatingStories = YES;
         [indicatorView startAnimating];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [[HLZStoryStore sharedInstance] loadMoreStories: ^(BOOL finished){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (finished) {
-                        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[HLZStoryStore sharedInstance].latestStories.count - 1];
-                        [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
-                        [indicatorView stopAnimating];
-                    }
-                    isLoading = NO;
-                });
+            NSLog(@"load more stories");
+            [[HLZStoryStore sharedInstance] loadMoreStoriesWithCompletionHandler:^(BOOL finished){
+                if (finished) {
+                    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[HLZStoryStore sharedInstance].latestStories.count - 1];
+//                    NSLog(@"indexSet = %@ %ld", indexSet, [HLZStoryStore sharedInstance].latestStories.count);
+                    NSLog(@"table view insert section..............................");
+                    [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+                    [indicatorView stopAnimating];
+                }
+                self.updatingStories = NO;
             }];
         });
-    }
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-    if ([object isEqual:[HLZStoryStore sharedInstance]]) {
-        if ([keyPath isEqualToString:NSStringFromSelector(@selector(latestStories))]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView reloadData];
-            });
-        } else if ([keyPath isEqualToString:NSStringFromSelector(@selector(topStories))]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self loadTopStories];
-            });
-        }
     }
 }
 

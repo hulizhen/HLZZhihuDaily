@@ -17,7 +17,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [[HLZStoryStore sharedInstance] updateStoriesWithCompletion:nil];
+    [[HLZStoryStore sharedInstance] updateStoriesWithCompletionHandler:nil];
     return YES;
 }
 

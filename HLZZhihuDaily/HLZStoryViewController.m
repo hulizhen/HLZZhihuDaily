@@ -9,14 +9,14 @@
 #import "HLZStoryViewController.h"
 #import "HLZStoryImageView.h"
 #import "HLZConstants.h"
+#import "HLZWebView.h"
 
-@import WebKit;
 @import AFNetworking;
 
 @interface HLZStoryViewController ()
 
 @property (nonatomic, strong) HLZStoryImageView *imageView;
-@property (nonatomic, strong) WKWebView *webView;
+@property (nonatomic, strong) HLZWebView *webView;
 
 @end
 
@@ -64,8 +64,6 @@
              
              NSString *html = [self getHTMLStringWithBody:json[@"body"] css:json[@"css"][0]];
              
-             
-             
              [self.webView loadHTMLString:html baseURL:nil];
          } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
          }];
@@ -75,12 +73,12 @@
     // Add web view.
     self.webView = ({
         // Java script for scaling page to fit, disable zooming.
-        NSString *scalesPageToFitJS = @"var meta = document.createElement('meta');"
+        NSString *javaScript = @"var meta = document.createElement('meta');"
                                        "meta.setAttribute('name', 'viewport');"
                                        "meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');"
                                        "document.getElementsByTagName('head')[0].appendChild(meta);";
         
-        WKUserScript *script = [[WKUserScript alloc] initWithSource:scalesPageToFitJS
+        WKUserScript *script = [[WKUserScript alloc] initWithSource:javaScript
                                                       injectionTime:WKUserScriptInjectionTimeAtDocumentEnd
                                                    forMainFrameOnly:YES];
         WKUserContentController *contentController = [[WKUserContentController alloc] init];
@@ -88,7 +86,7 @@
         WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
         configuration.userContentController = contentController;
         
-        WKWebView *view = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
+        HLZWebView *view = [[HLZWebView alloc] initWithFrame:CGRectZero configuration:configuration];
         view;
     });
     [self.view addSubview:self.webView];
@@ -122,10 +120,10 @@
     fixedItem.width = -16;
     self.toolbarItems = @[fixedItem,
                           [self barButtonItemWithImageNamed:@"NavigationBackButton" action:@selector(navigateBack)], flexibleItem,
-                          [self barButtonItemWithImageNamed:@"NavigationNextButton" action:nil], flexibleItem,
-                          [self barButtonItemWithImageNamed:@"NavigationVoteButton" action:nil], flexibleItem,
-                          [self barButtonItemWithImageNamed:@"NavigationShareButton" action:nil], flexibleItem,
-                          [self barButtonItemWithImageNamed:@"NavigationCommentButton" action:nil], fixedItem];
+                          [self barButtonItemWithImageNamed:@"NavigationNextButton" action:@selector(buttonType)], flexibleItem,
+                          [self barButtonItemWithImageNamed:@"NavigationVoteButton" action:@selector(buttonType)], flexibleItem,
+                          [self barButtonItemWithImageNamed:@"NavigationShareButton" action:@selector(buttonType)], flexibleItem,
+                          [self barButtonItemWithImageNamed:@"NavigationCommentButton" action:@selector(buttonType)], fixedItem];
 }
 
 - (UIBarButtonItem *)barButtonItemWithImageNamed:(NSString *)imageName action:(SEL)selector {
@@ -139,6 +137,10 @@
 
 - (void)navigateBack {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)buttonTapped {
+    
 }
 
 @end
