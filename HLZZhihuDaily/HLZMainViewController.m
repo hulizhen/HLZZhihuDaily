@@ -80,6 +80,18 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
     self.navigationController.navigationBarHidden = YES;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    self.scrollView.autoScrollEnabled = YES;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    self.scrollView.autoScrollEnabled = NO;
+}
+
 - (BOOL)prefersStatusBarHidden {
     return self.hideStatusBar;
 }
@@ -93,6 +105,8 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
 - (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {
     // Reset the content inset of table view.
     self.tableView.hlz_stickyHeaderViewHeightMin = StickyHeaderViewHeightMin;
+    CGPoint contentOffset = CGPointMake(self.tableView.contentOffset.x, -StickyHeaderViewHeightMin);
+    [self.tableView setContentOffset:contentOffset animated:YES];
     return YES;
 }
 
@@ -119,6 +133,9 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
             self.refreshView.progress = 0;
         }
     }
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -157,6 +174,9 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
         BOOL isFirstSection = self.tableView.indexPathsForVisibleRows.firstObject.section == 0;
         self.navigationBar.topItem.titleView = isFirstSection ? self.titleView : nil;
         [self.navigationBar hlz_showNavigationBar:isFirstSection];
+        
+        // Stop auto scrolling when the scroll view is off screen.
+        self.scrollView.autoScrollEnabled = self.tableView.contentOffset.y < 0;
     }
 }
 
@@ -323,7 +343,6 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
                                                                                                     StickyHeaderViewHeightMin)];
         scrollView.pagingEnabled = YES;
         scrollView.pageControlEnabled = YES;
-        scrollView.autoScrollEnabled = YES;
         scrollView.autoScrollTimerInterval = AutoScrollTimerInterval;
         scrollView.autoScrollDirection = AutoScrollDirectionRight;
         scrollView.delegate = self;

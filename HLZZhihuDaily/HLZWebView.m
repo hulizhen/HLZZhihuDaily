@@ -18,16 +18,10 @@
 
 - (void)layoutSubviews {
     NSLog(@"offset = %f", self.scrollView.contentOffset.y);
-    self.scrollView.delegate = self;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     NSLog(@"offset = %f", self.scrollView.contentOffset.y);
-}
-
-- (void)dealloc {
-    self.scrollView.delegate = nil;
-    NSLog(@"sv = %@", self.scrollView);
 }
 
 @end
