@@ -19,6 +19,7 @@
 @property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) NSLayoutConstraint *imageViewBottomConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *imageViewHeightConstraint;
+@property (nonatomic, strong) UIView *statusBarBackgroundView;
 @property (nonatomic, assign) UIStatusBarStyle statusBarStyle;
 
 @end
@@ -38,6 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self configureStatusBar];
     [self configureToolbar];
     [self configureWebView];
     [self configureImageView];
@@ -71,25 +73,48 @@
     CGFloat contentOffsetX = self.webView.scrollView.contentOffset.x;
     CGFloat contentOffsetY = self.webView.scrollView.contentOffset.y;
     CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-    CGFloat imageViewHeight = StickyHeaderViewHeightMin - statusBarHeight - self.webView.scrollView.contentOffset.y;
-    CGFloat newContentOffsetY = -statusBarHeight - (StickyHeaderViewHeightMax - StickyHeaderViewHeightMin);
+    CGFloat imageViewHeight = StickyHeaderViewHeightMin - contentOffsetY;
+    CGFloat newContentOffsetY = -(StickyHeaderViewHeightMax - StickyHeaderViewHeightMin);
     
-    NSLog(@"offset = %f", contentOffsetY);
-    
-    if (contentOffsetY < StickyHeaderViewHeightMin) {
-        if (contentOffsetY < -statusBarHeight) {
+    // Update image view constraint.
+    if (contentOffsetY < 2 * StickyHeaderViewHeightMin) {
+        if (contentOffsetY < 0) {
             self.imageViewHeightConstraint.constant = imageViewHeight;
         }
         self.imageViewBottomConstraint.constant = imageViewHeight;
         [self.webView layoutIfNeeded];
     }
     
+    // Update scroll view content offset.
     if (contentOffsetY < newContentOffsetY) {
         self.webView.scrollView.contentOffset = CGPointMake(contentOffsetX, newContentOffsetY);
+    }
+    
+    // Update status bar style.
+    UIStatusBarStyle oldStatusBarStyle = self.statusBarStyle;
+    self.statusBarStyle = (contentOffsetY > StickyHeaderViewHeightMin - 2 * statusBarHeight) ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
+    if (oldStatusBarStyle != self.statusBarStyle) {
+        [UIView transitionWithView:self.statusBarBackgroundView
+                          duration:0.2
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            self.statusBarBackgroundView.hidden = (self.statusBarStyle == UIStatusBarStyleDefault) ? NO : YES;
+                        } completion:nil];
+        [self setNeedsStatusBarAppearanceUpdate];
     }
 }
 
 #pragma mark - Helpers
+
+- (void)configureStatusBar {
+    CGFloat statusBarWidth = [UIApplication sharedApplication].statusBarFrame.size.width;
+    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    self.statusBarBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, statusBarWidth, statusBarHeight)];
+    self.statusBarBackgroundView.backgroundColor = [UIColor whiteColor];
+    self.statusBarBackgroundView.hidden = YES;
+    self.statusBarBackgroundView.layer.zPosition = 1.0;
+    [self.view addSubview:self.statusBarBackgroundView];
+}
 
 - (NSString *)getHTMLStringWithBody:(NSString *)body css:(NSString *)css {
     NSMutableString *html = [[NSMutableString alloc] init];

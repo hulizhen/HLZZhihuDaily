@@ -59,7 +59,6 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
     if (!self.isUpdatingStories) {
         self.updatingStories = YES;
         [[HLZStoryStore sharedInstance] updateStoriesWithCompletionHandler:^(BOOL finished){
-            NSLog(@"table view reload..............................");
             if (finished) {
                 [self.tableView reloadData];
                 [self loadTopStories];
@@ -68,7 +67,7 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
         }];
     }
     
-//    [self showLaunchView];
+    [self showLaunchView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -268,8 +267,6 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
             [[HLZStoryStore sharedInstance] loadMoreStoriesWithCompletionHandler:^(BOOL finished){
                 if (finished) {
                     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[HLZStoryStore sharedInstance].latestStories.count - 1];
-//                    NSLog(@"indexSet = %@ %ld", indexSet, [HLZStoryStore sharedInstance].latestStories.count);
-                    NSLog(@"table view insert section..............................");
                     [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
                     [indicatorView stopAnimating];
                 }

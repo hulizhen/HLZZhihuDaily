@@ -19,8 +19,6 @@
 @property (nonatomic, strong) NSMutableArray *mutableTopStories;
 @property (nonatomic, strong) NSDate         *earliestDate;
 
-//@property (nonatomic, assign, getter=isLoadingStories) BOOL loadingStories;
-
 @end
 
 @implementation HLZStoryStore
@@ -59,42 +57,37 @@
 - (void)updateStoriesWithCompletionHandler:(void(^)(BOOL finished))completion {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
-//    if (!self.isLoadingStories) {
-//        self.loadingStories = YES;
-        [manager GET:LatestStoriesURL parameters:nil progress: nil
-             success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
-                 NSDictionary *json = responseObject;
-                 NSDate *currentDate = [NSDate hlz_dateFromString:json[@"date"] format:@"yyyyMMdd"];
-                 
-                 // Latest stories.
-                 NSMutableArray *newestStories = [[NSMutableArray alloc] init];
-                 NSString *dateString = [currentDate hlz_stringWithFormat:@"MM月dd日 EEEE"];
-                 
-                 NSArray *stories = json[@"stories"];
-                 [newestStories addObject:dateString];  // Add current date as the first object.
-                 [self populateStories:newestStories withDictionaries:stories];
-                 [self.mutableLatestStories removeAllObjects];
-                 [self.mutableLatestStories addObject:newestStories];
-                 
-                 // Top stories.
-                 stories = json[@"top_stories"];
-                 [self.mutableTopStories removeAllObjects];
-                 [self populateStories:self.mutableTopStories withDictionaries:stories];
-                 
-                 // Update the earliest date.
-                 self.earliestDate = currentDate;
-                 
-                 if (completion) {
-//                     self.loadingStories = NO;
-                     completion(true);
-                 }
-             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                 if (completion) {
-//                     self.loadingStories = NO;
-                     completion(false);
-                 }
-             }];
-//    }
+    [manager GET:LatestStoriesURL parameters:nil progress: nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+             NSDictionary *json = responseObject;
+             NSDate *currentDate = [NSDate hlz_dateFromString:json[@"date"] format:@"yyyyMMdd"];
+             
+             // Latest stories.
+             NSMutableArray *newestStories = [[NSMutableArray alloc] init];
+             NSString *dateString = [currentDate hlz_stringWithFormat:@"MM月dd日 EEEE"];
+             
+             NSArray *stories = json[@"stories"];
+             [newestStories addObject:dateString];  // Add current date as the first object.
+             [self populateStories:newestStories withDictionaries:stories];
+             [self.mutableLatestStories removeAllObjects];
+             [self.mutableLatestStories addObject:newestStories];
+             
+             // Top stories.
+             stories = json[@"top_stories"];
+             [self.mutableTopStories removeAllObjects];
+             [self populateStories:self.mutableTopStories withDictionaries:stories];
+             
+             // Update the earliest date.
+             self.earliestDate = currentDate;
+             
+             if (completion) {
+                 completion(true);
+             }
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             if (completion) {
+                 completion(false);
+             }
+         }];
 }
 
 - (void)loadMoreStoriesWithCompletionHandler:(void(^)(BOOL finished))completion {
@@ -102,33 +95,28 @@
     NSString *urlString = [NSString stringWithFormat:BeforeStoriesURL, [earlierDate hlz_stringWithFormat:@"yyyyMMdd"]];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     
-//    if (!self.isLoadingStories) {
-//        self.loadingStories = YES;
-        [manager GET:urlString parameters:nil progress:nil
-             success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
-                 NSDictionary *json = responseObject;
-                 NSMutableArray *moreStories = [[NSMutableArray alloc] init];
-                 NSArray *stories = json[@"stories"];
-                 NSString *dateString = [earlierDate hlz_stringWithFormat:@"MM月dd日 EEEE"];
-                 
-                 [moreStories addObject:dateString];   // Add current date as the first object.
-                 [self populateStories:moreStories withDictionaries:stories];
-                 [self.mutableLatestStories addObject:moreStories];
-                 
-                 // Update the earliestDate.
-                 self.earliestDate = earlierDate;
-                 
-                 if (completion) {
-//                     self.loadingStories = NO;
-                     completion(true);
-                 }
-             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                 if (completion) {
-//                     self.loadingStories = NO;
-                     completion(false);
-                 }
-             }];
-//    }
+    [manager GET:urlString parameters:nil progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+             NSDictionary *json = responseObject;
+             NSMutableArray *moreStories = [[NSMutableArray alloc] init];
+             NSArray *stories = json[@"stories"];
+             NSString *dateString = [earlierDate hlz_stringWithFormat:@"MM月dd日 EEEE"];
+             
+             [moreStories addObject:dateString];   // Add current date as the first object.
+             [self populateStories:moreStories withDictionaries:stories];
+             [self.mutableLatestStories addObject:moreStories];
+             
+             // Update the earliestDate.
+             self.earliestDate = earlierDate;
+             
+             if (completion) {
+                 completion(true);
+             }
+         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+             if (completion) {
+                 completion(false);
+             }
+         }];
 }
 
 #pragma mark - Accessors
