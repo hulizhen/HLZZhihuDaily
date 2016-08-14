@@ -10,7 +10,7 @@
 
 @interface HLZStoryStore : NSObject
 
-// !!! Array layout of `latestStories` !!!
+// ! Memory layout of array `latestStories` !
 // -------------------------------------------
 // | NSDate | HLZStory | HLZStory | HLZStory |
 // | NSDate | HLZStory | HLZStory | HLZStory |
@@ -26,7 +26,7 @@
 @property (nonatomic, readonly, strong) NSArray *topStories;
 
 + (instancetype)sharedInstance;
-- (void)updateStoriesWithCompletion:(void(^)(BOOL finished))completion;
-- (void)loadMoreStories:(void(^)(BOOL finished))completion;
+- (void)updateStoriesWithCompletionHandler:(void(^)(BOOL finished))completion;
+- (void)loadMoreStoriesWithCompletionHandler:(void(^)(BOOL finished))completion;
 
 @end

@@ -17,12 +17,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-//    [UINavigationBar appearance].barTintColor = [UIColor clearColor];
-//    [UINavigationBar appearance].barTintColor = UIColorFromRGBA(0x00000000);
-//    [UINavigationBar appearance].backgroundColor = [UIColor clearColor];
-//    [UINavigationBar appearance].translucent = NO;
-    
-    [[HLZStoryStore sharedInstance] updateStoriesWithCompletion:nil];
+    [[HLZStoryStore sharedInstance] updateStoriesWithCompletionHandler:nil];
     return YES;
 }
 

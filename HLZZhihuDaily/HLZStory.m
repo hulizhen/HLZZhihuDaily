@@ -9,13 +9,7 @@
 #import "HLZStory.h"
 #import "HLZConstants.h"
 
-@interface HLZStory ()
-
-
-@end
-
 @implementation HLZStory
-
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];

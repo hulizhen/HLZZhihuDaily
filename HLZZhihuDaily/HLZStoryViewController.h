@@ -1,5 +1,5 @@
 //
-//  UIImageView+HLZWebImage.h
+//  HLZStoryViewController.h
 //  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 7/30/16.
@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HLZStory.h"
 
-@interface UIImageView (HLZWebImage)
+@interface HLZStoryViewController : UIViewController
 
-- (void)hlz_setWebImageWithURL:(NSURL *)url;
+@property (nonatomic, strong) HLZStory *story;
 
 @end

@@ -11,53 +11,41 @@
 #import "HLZStoryStore.h"
 #import "HLZStory.h"
 #import "HLZStoryCell.h"
-#import "HLZInfiniteScrollView.h"
-#import "UITableView+HLZStickyHeader.h"
 #import "HLZRefreshView.h"
 #import "HLZLaunchView.h"
-#import "HLZTopStoryImageView.h"
-#import "UINavigationBar+HLZBackgroundColor.h"
+#import "HLZStoryImageView.h"
+#import "HLZStoryViewController.h"
+#import "HLZInfiniteScrollView.h"
+#import "UITableView+HLZStickyHeader.h"
+#import "UINavigationBar+HLZCustomization.h"
 
-@import SDWebImage;
-
-@interface HLZMainViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface HLZMainViewController () <UITableViewDataSource, UITableViewDelegate, HLZInfiniteScrollViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UINavigationBar *navigationBar;
 
 @property (nonatomic, strong) HLZRefreshView *refreshView;
 @property (nonatomic, strong) HLZInfiniteScrollView *scrollView;
 @property (nonatomic, assign) BOOL hideStatusBar;
-//@property (nonatomic, assign, getter=isLoadingStories) BOOL loadingStories;
 @property (nonatomic, strong) UIView *titleView;
+
+@property (nonatomic, assign, getter=isUpdatingStories) BOOL updatingStories;
 
 @end
 
 @implementation HLZMainViewController
 
-static NSString * const StoryCellIdentifier = @"HLZStoryCell";
+static NSString *const StoryCellIdentifier = @"HLZStoryCell";
 
 #pragma mark - Lifecycle
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        _hideStatusBar = YES;
-        
-        [[HLZStoryStore sharedInstance] addObserver:self
-                                         forKeyPath:NSStringFromSelector(@selector(latestStories))
-                                            options:NSKeyValueObservingOptionNew
-                                            context:nil];
-        [[HLZStoryStore sharedInstance] addObserver:self
-                                         forKeyPath:NSStringFromSelector(@selector(topStories))
-                                            options:NSKeyValueObservingOptionNew
-                                            context:nil];
+        _hideStatusBar = NO;
+        _updatingStories = NO;
     }
     return self;
-}
-
-- (void)dealloc {
-    [[HLZStoryStore sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(latestStories))];
-    [[HLZStoryStore sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(topStories))];
 }
 
 - (void)viewDidLoad {
@@ -67,9 +55,40 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     [self configureScrollView];
     [self configureTableView];
     
-    [self loadTopStories];
+    // Load stories.
+    if (!self.isUpdatingStories) {
+        self.updatingStories = YES;
+        [[HLZStoryStore sharedInstance] updateStoriesWithCompletionHandler:^(BOOL finished){
+            if (finished) {
+                [self.tableView reloadData];
+                [self loadTopStories];
+            }
+            self.updatingStories = NO;
+        }];
+    }
     
     [self showLaunchView];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.navigationController.toolbarHidden = YES;
+    
+    // Use custom navigation bar instead of the one within navigation controller.
+    self.navigationController.navigationBarHidden = YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    self.scrollView.autoScrollEnabled = YES;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    self.scrollView.autoScrollEnabled = NO;
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -85,6 +104,8 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 - (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {
     // Reset the content inset of table view.
     self.tableView.hlz_stickyHeaderViewHeightMin = StickyHeaderViewHeightMin;
+    CGPoint contentOffset = CGPointMake(self.tableView.contentOffset.x, -StickyHeaderViewHeightMin);
+    [self.tableView setContentOffset:contentOffset animated:YES];
     return YES;
 }
 
@@ -93,18 +114,27 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         if (self.refreshView.progress >= 1) {
             [self.refreshView beginRefreshing];
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                [[HLZStoryStore sharedInstance] updateStoriesWithCompletion:^(BOOL finished){
-                    dispatch_async(dispatch_get_main_queue(), ^{
+            if (!self.isUpdatingStories) {
+                self.updatingStories = YES;
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    [[HLZStoryStore sharedInstance] updateStoriesWithCompletionHandler:^(BOOL finished){
+                        if (finished) {
+                            [self.tableView reloadData];
+                            [self loadTopStories];
+                        }
+                        self.updatingStories = NO;
                         [self.refreshView endRefreshing];
-                    });
-                }];
-            });
+                    }];
+                });
+            }
         } else {
             // Reset the progress to 0 if it did not reach 1.0.
             self.refreshView.progress = 0;
         }
     }
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -123,7 +153,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         CGFloat alpha = difference / StickyHeaderViewHeightMin;
         alpha = alpha < 0 ? 0 : alpha;
         alpha = alpha > 1 ? 1 : alpha;
-        self.navigationController.navigationBar.subviews.firstObject.alpha = alpha;
+        [self.navigationBar hlz_setAlpha:alpha];
         
         // Update refresh view.
         CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
@@ -141,19 +171,30 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         
         // Update title on the navigation bar.
         BOOL isFirstSection = self.tableView.indexPathsForVisibleRows.firstObject.section == 0;
-        self.navigationItem.titleView = isFirstSection ? self.titleView : nil;
-        [self.navigationController.navigationBar hlz_showNavigationBar:isFirstSection];
+        self.navigationBar.topItem.titleView = isFirstSection ? self.titleView : nil;
+        [self.navigationBar hlz_showNavigationBar:isFirstSection];
+        
+        // Stop auto scrolling when the scroll view is off screen.
+        self.scrollView.autoScrollEnabled = self.tableView.contentOffset.y < 0;
     }
+}
+
+#pragma mark - HLZInfiniteScrollViewDeleate
+
+- (void)scrollView:(HLZInfiniteScrollView *)scrollView didTapOnPage:(NSInteger)page {
+    [self showStoryDetail:[HLZStoryStore sharedInstance].topStories[page]];
 }
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    NSLog(@"number of sections in tableview %ld", [HLZStoryStore sharedInstance].latestStories.count);
     return [HLZStoryStore sharedInstance].latestStories.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // One minus for storing NSDate.
+    NSLog(@"number of row in section %ld %ld", section, [HLZStoryStore sharedInstance].latestStories[section].count - 1);
     return [HLZStoryStore sharedInstance].latestStories[section].count - 1;
 }
 
@@ -161,6 +202,7 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
     HLZStoryCell *cell = [self.tableView dequeueReusableCellWithIdentifier:StoryCellIdentifier forIndexPath:indexPath];
     NSArray<NSArray *> *latestStories = [HLZStoryStore sharedInstance].latestStories;
     
+    NSLog(@"section = %ld, row = %ld, count = %ld", indexPath.section, indexPath.row, latestStories.count);
     NSArray *stories = latestStories[indexPath.section];
     cell.story = (HLZStory *)stories[indexPath.row + 1];    // One plus for storing NSDate.
     
@@ -168,6 +210,11 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 }
 
 #pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    HLZStory *story = [HLZStoryStore sharedInstance].latestStories[indexPath.section][indexPath.row + 1];
+    [self showStoryDetail:story];
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return section > 0 ? TableViewSectionHeaderHeight : 0;
@@ -190,10 +237,17 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 
 #pragma mark - Helpers
 
+- (void)showStoryDetail:(HLZStory *)story {
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    HLZStoryViewController *storyViewController = (HLZStoryViewController *)[storyBoard instantiateViewControllerWithIdentifier:@"StoryViewController"];
+    storyViewController.story = story;
+    [self.navigationController pushViewController:storyViewController animated:YES];
+}
+
 - (void)loadTopStories {
     NSMutableArray *imageViews = [[NSMutableArray alloc] init];
     for (HLZStory *story in [HLZStoryStore sharedInstance].topStories) {
-        HLZTopStoryImageView *imageView = [[NSBundle mainBundle] loadNibNamed:@"HLZTopStoryImageView" owner:nil options:nil][0];
+        HLZStoryImageView *imageView = [[NSBundle mainBundle] loadNibNamed:@"HLZStoryImageView" owner:nil options:nil].firstObject;
         imageView.story = story;
         
         [imageViews addObject:imageView];
@@ -203,38 +257,22 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 }
 
 - (void)loadMoreStories {
-    static BOOL isLoading = NO;
     UIActivityIndicatorView *indicatorView = (UIActivityIndicatorView *)self.tableView.tableFooterView;
     
-    if (!isLoading) {
-        isLoading = YES;
+    if (!self.isUpdatingStories) {
+        self.updatingStories = YES;
         [indicatorView startAnimating];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [[HLZStoryStore sharedInstance] loadMoreStories: ^(BOOL finished){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (finished) {
-                        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[HLZStoryStore sharedInstance].latestStories.count - 1];
-                        [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
-                        [indicatorView stopAnimating];
-                    }
-                    isLoading = NO;
-                });
+            NSLog(@"load more stories");
+            [[HLZStoryStore sharedInstance] loadMoreStoriesWithCompletionHandler:^(BOOL finished){
+                if (finished) {
+                    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[HLZStoryStore sharedInstance].latestStories.count - 1];
+                    [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationNone];
+                    [indicatorView stopAnimating];
+                }
+                self.updatingStories = NO;
             }];
         });
-    }
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-    if ([object isEqual:[HLZStoryStore sharedInstance]]) {
-        if ([keyPath isEqualToString:NSStringFromSelector(@selector(latestStories))]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView reloadData];
-            });
-        } else if ([keyPath isEqualToString:NSStringFromSelector(@selector(topStories))]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self loadTopStories];
-            });
-        }
     }
 }
 
@@ -257,12 +295,11 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
         label;
         });
     [self.titleView addSubview:titleLabel];
-    self.navigationItem.titleView = self.titleView;
     
     // Customize navigation bar.
-    UINavigationBar *navigationBar = self.navigationController.navigationBar;
-    [navigationBar hlz_setBackgroundColor:[UIColor colorWithRed:0.01 green:0.55 blue:0.83 alpha:1.0]];
-    navigationBar.subviews.firstObject.alpha = 0;
+    [self.navigationBar hlz_setBackgroundColor:[UIColor colorWithRed:0.01 green:0.55 blue:0.83 alpha:1.0]];
+    [self.navigationBar hlz_setAlpha:0];
+    self.navigationBar.topItem.titleView = self.titleView;
 }
 
 - (void)configureTableView {
@@ -303,9 +340,9 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
                                                                                                     StickyHeaderViewHeightMin)];
         scrollView.pagingEnabled = YES;
         scrollView.pageControlEnabled = YES;
-        scrollView.autoScrollEnabled = YES;
         scrollView.autoScrollTimerInterval = AutoScrollTimerInterval;
         scrollView.autoScrollDirection = AutoScrollDirectionRight;
+        scrollView.delegate = self;
         scrollView;
     });
 }
@@ -313,7 +350,9 @@ static NSString * const StoryCellIdentifier = @"HLZStoryCell";
 - (void)showLaunchView {
     HLZLaunchView *launchView = [[HLZLaunchView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    launchView.launchImageURL = [NSURL URLWithString:[NSString stringWithFormat:LaunchImageURL, [NSString stringWithFormat:@"%d*%d", 1080, 177]]];
+    self.hideStatusBar = YES;
+    [self setNeedsStatusBarAppearanceUpdate];
+    [launchView setLaunchImageWithURL:[NSString stringWithFormat:LaunchImageURL, [NSString stringWithFormat:@"%d*%d", 1080, 177]]];
     launchView.completionBlock = ^{
         self.scrollView.currentPage = 0;
         self.hideStatusBar = NO;

@@ -10,7 +10,8 @@
 
 @interface HLZLaunchView : UIView
 
-@property (nonatomic, strong) NSURL *launchImageURL;
 @property (nonatomic, copy) void (^completionBlock)(void);
+
+- (void)setLaunchImageWithURL:(NSString *)urlString;
 
 @end

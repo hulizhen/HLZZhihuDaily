@@ -1,24 +1,27 @@
 //
-//  UINavigationBar+HLZBackgroundColorr.m
+//  UINavigationBar+HLZCustomization.m
 //  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 7/27/16.
 //  Copyright © 2016 hulizhen. All rights reserved.
 //
 
-#import "UINavigationBar+HLZBackgroundColor.h"
+#import "UINavigationBar+HLZCustomization.h"
+#import "HLZConstants.h"
 
-@implementation UINavigationBar (HLZBackgroundColorr)
+@implementation UINavigationBar (HLZCustomization)
 
 static UIView *backgroundView = nil;
 
-- (void)hlz_setBackgroundColor:(UIColor *)color
-{
+- (void)hlz_setAlpha:(CGFloat)hlz_alpha {
+    self.subviews.firstObject.alpha = hlz_alpha;
+}
+
+- (void)hlz_setBackgroundColor:(UIColor *)color {
     self.shadowImage = [UIImage new];
     [self setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     
     backgroundView = ({
-        CGFloat statusBarHeight = 20;
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0,
                                                                 -statusBarHeight,
                                                                 CGRectGetWidth(self.bounds),
@@ -31,11 +34,9 @@ static UIView *backgroundView = nil;
 }
 
 - (void)hlz_showNavigationBar:(BOOL)show {
-    CGFloat statusBarheight = 20;
-    
     backgroundView.frame = ({
         CGRect frame = backgroundView.frame;
-        frame.size.height = statusBarheight;
+        frame.size.height = statusBarHeight;
         if (show) {
             frame.size.height += CGRectGetHeight(self.bounds);
         }

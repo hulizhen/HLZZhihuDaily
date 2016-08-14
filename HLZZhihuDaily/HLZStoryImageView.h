@@ -1,5 +1,5 @@
 //
-//  HLZTopStoryImageView.h
+//  HLZStoryImageView.h
 //  HLZZhihuDaily
 //
 //  Created by Hu Lizhen on 7/14/16.
@@ -10,7 +10,7 @@
 
 @class HLZStory;
 
-@interface HLZTopStoryImageView : UIImageView
+@interface HLZStoryImageView : UIImageView
 
 @property (nonatomic, strong) HLZStory *story;
 

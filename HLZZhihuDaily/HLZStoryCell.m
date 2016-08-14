@@ -9,7 +9,7 @@
 #import "HLZStoryCell.h"
 #import "HLZStory.h"
 
-@import SDWebImage;
+@import SDWebImage.UIImageView_WebCache;
 
 @interface HLZStoryCell ()
 

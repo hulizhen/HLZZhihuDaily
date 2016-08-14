@@ -8,6 +8,7 @@
 
 #import "HLZLaunchView.h"
 
+@import AFNetworking;
 @import SDWebImage;
 
 @interface HLZLaunchView ()
@@ -43,12 +44,6 @@ static const NSTimeInterval FadeOutDuration                   = 0.5;
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    @throw [NSException exceptionWithName:@"Initializer" reason:@"Use -[initWithFrame] instead" userInfo:nil];
-    return nil;
-}
-
 - (void)didMoveToSuperview {
     // Layout without animation.
     [self layoutIfNeeded];
@@ -76,21 +71,19 @@ static const NSTimeInterval FadeOutDuration                   = 0.5;
     });
 }
 
-- (void)setLaunchImageURL:(NSURL *)launchImageURL {
-    _launchImageURL = launchImageURL;
-    
-    NSData *data = [NSData dataWithContentsOfURL:_launchImageURL];
-    if (!data) {
-        return;
-    }
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-    
-    self.authorLabel.text = json[@"text"];
-    self.titleLabel.text = @"我的日报";
-    self.subtitleLabel.text = @"每天三次，每次七分钟";
-    
-    [self.lauchImageView sd_setImageWithURL:[NSURL URLWithString:json[@"img"]]];
-    self.lauchImageView.alpha = 0;
+- (void)setLaunchImageWithURL:(NSString *)urlString {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    [manager GET:urlString parameters:nil progress:nil
+         success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+             NSDictionary *json = responseObject;
+             
+             self.authorLabel.text = json[@"text"];
+             self.titleLabel.text = @"我的日报";
+             self.subtitleLabel.text = @"每天三次，每次七分钟";
+             
+             [self.lauchImageView sd_setImageWithURL:[NSURL URLWithString:json[@"img"]]];
+             self.lauchImageView.alpha = 0;
+         } failure:nil];
 }
 
 - (void)setUp:(CGRect)frame {
@@ -194,7 +187,6 @@ static const NSTimeInterval FadeOutDuration                   = 0.5;
     layer.strokeColor = color.CGColor;
     layer.fillColor = nil;
     [self.logoView.layer addSublayer:layer];
-    
     
     // The inner circle layer.
     lineWidth = 4.0;

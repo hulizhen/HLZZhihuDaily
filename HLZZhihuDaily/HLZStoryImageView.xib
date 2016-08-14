@@ -7,25 +7,33 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="X80-Ys-P1f" customClass="HLZTopStoryImageView">
+        <view contentMode="scaleToFill" id="X80-Ys-P1f" customClass="HLZStoryImageView">
             <rect key="frame" x="0.0" y="0.0" width="436" height="227"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Story Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D93-K3-GE1">
-                    <rect key="frame" x="15" y="175.5" width="406" height="26.5"/>
+                    <rect key="frame" x="15" y="175" width="406" height="26.5"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                     <color key="shadowColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <size key="shadowOffset" width="0.0" height="1"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image Source" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BUa-Wb-wWv">
+                    <rect key="frame" x="342" y="204.5" width="78" height="14.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.80392156862745101" green="0.80392156862745101" blue="0.80392156862745101" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
-            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="D93-K3-GE1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="X80-Ys-P1f" secondAttribute="leading" constant="15" id="5JK-AV-Zzd"/>
                 <constraint firstAttribute="bottom" secondItem="D93-K3-GE1" secondAttribute="bottom" constant="25" id="8TL-9x-c9t"/>
+                <constraint firstAttribute="trailing" secondItem="BUa-Wb-wWv" secondAttribute="trailing" constant="16" id="COA-d3-S5H"/>
                 <constraint firstItem="D93-K3-GE1" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="X80-Ys-P1f" secondAttribute="trailing" constant="-15" id="F7t-SD-rIv"/>
                 <constraint firstItem="D93-K3-GE1" firstAttribute="centerX" secondItem="X80-Ys-P1f" secondAttribute="centerX" id="U9N-hj-ACf"/>
+                <constraint firstAttribute="bottom" secondItem="BUa-Wb-wWv" secondAttribute="bottom" constant="8" id="kce-Mu-egq"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>

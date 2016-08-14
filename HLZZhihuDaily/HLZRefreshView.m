@@ -8,7 +8,6 @@
 
 #import "HLZRefreshView.h"
 
-
 @interface HLZRefreshView ()
 
 @property (nonatomic, strong) UIActivityIndicatorView *indicatorView;
@@ -16,7 +15,6 @@
 @end
 
 @implementation HLZRefreshView
-
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];

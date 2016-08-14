@@ -4,6 +4,6 @@ use_frameworks!
 target 'HLZZhihuDaily' do
 
 pod 'SDWebImage', '~>3.7.6'
-# pod 'HLZInfiniteScrollView', :git:'https://github.com/hulizhen/HLZInfiniteScrollView'
+pod 'AFNetworking', '~> 3.0'
 
 end
