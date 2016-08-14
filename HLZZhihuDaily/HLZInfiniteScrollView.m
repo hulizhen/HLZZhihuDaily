@@ -206,6 +206,7 @@ static NSString *const CollectionViewCellIdentifier = @"HLZCollectionViewCell";
         
         UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
         [collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CollectionViewCellIdentifier];
+        collectionView.backgroundColor = [UIColor whiteColor];
         collectionView.showsHorizontalScrollIndicator = NO;
         collectionView.showsVerticalScrollIndicator = NO;
         collectionView.scrollsToTop = NO;

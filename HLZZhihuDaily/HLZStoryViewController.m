@@ -13,16 +13,27 @@
 
 @import AFNetworking;
 
-@interface HLZStoryViewController ()
+@interface HLZStoryViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) HLZStoryImageView *imageView;
-@property (nonatomic, strong) HLZWebView *webView;
+@property (nonatomic, strong) WKWebView *webView;
+@property (nonatomic, strong) NSLayoutConstraint *imageViewBottomConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *imageViewHeightConstraint;
+@property (nonatomic, assign) UIStatusBarStyle statusBarStyle;
 
 @end
 
 @implementation HLZStoryViewController
 
 #pragma mark - Lifecycle
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        _statusBarStyle = UIStatusBarStyleLightContent;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,8 +49,44 @@
     self.navigationController.toolbarHidden = NO;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    self.webView.scrollView.delegate = self;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    self.webView.scrollView.delegate = nil;
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+    return self.statusBarStyle;
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat contentOffsetX = self.webView.scrollView.contentOffset.x;
+    CGFloat contentOffsetY = self.webView.scrollView.contentOffset.y;
+    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    CGFloat imageViewHeight = StickyHeaderViewHeightMin - statusBarHeight - self.webView.scrollView.contentOffset.y;
+    CGFloat newContentOffsetY = -statusBarHeight - (StickyHeaderViewHeightMax - StickyHeaderViewHeightMin);
+    
+    NSLog(@"offset = %f", contentOffsetY);
+    
+    if (contentOffsetY < StickyHeaderViewHeightMin) {
+        if (contentOffsetY < -statusBarHeight) {
+            self.imageViewHeightConstraint.constant = imageViewHeight;
+        }
+        self.imageViewBottomConstraint.constant = imageViewHeight;
+        [self.webView layoutIfNeeded];
+    }
+    
+    if (contentOffsetY < newContentOffsetY) {
+        self.webView.scrollView.contentOffset = CGPointMake(contentOffsetX, newContentOffsetY);
+    }
 }
 
 #pragma mark - Helpers
@@ -65,8 +112,7 @@
              NSString *html = [self getHTMLStringWithBody:json[@"body"] css:json[@"css"][0]];
              
              [self.webView loadHTMLString:html baseURL:nil];
-         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-         }];
+         } failure:nil];
 }
 
 - (void)configureWebView {
@@ -74,9 +120,9 @@
     self.webView = ({
         // Java script for scaling page to fit, disable zooming.
         NSString *javaScript = @"var meta = document.createElement('meta');"
-                                       "meta.setAttribute('name', 'viewport');"
-                                       "meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');"
-                                       "document.getElementsByTagName('head')[0].appendChild(meta);";
+                                "meta.setAttribute('name', 'viewport');"
+                                "meta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');"
+                                "document.getElementsByTagName('head')[0].appendChild(meta);";
         
         WKUserScript *script = [[WKUserScript alloc] initWithSource:javaScript
                                                       injectionTime:WKUserScriptInjectionTimeAtDocumentEnd
@@ -86,7 +132,7 @@
         WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
         configuration.userContentController = contentController;
         
-        HLZWebView *view = [[HLZWebView alloc] initWithFrame:CGRectZero configuration:configuration];
+        WKWebView *view = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
         view;
     });
     [self.view addSubview:self.webView];
@@ -105,12 +151,14 @@
         view.story = self.story;
         view;
     });
-    [self.webView addSubview:self.imageView];
+    [self.webView.scrollView addSubview:self.imageView];
     self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
-    [NSLayoutConstraint activateConstraints:@[[self.imageView.topAnchor constraintEqualToAnchor:self.webView.topAnchor],
-                                              [self.imageView.leftAnchor constraintEqualToAnchor:self.webView.leftAnchor],
+    self.imageViewBottomConstraint = [self.imageView.bottomAnchor constraintEqualToAnchor:self.webView.topAnchor constant:StickyHeaderViewHeightMin];
+    self.imageViewHeightConstraint = [self.imageView.heightAnchor constraintEqualToConstant:StickyHeaderViewHeightMin];
+    [NSLayoutConstraint activateConstraints:@[[self.imageView.leftAnchor constraintEqualToAnchor:self.webView.leftAnchor],
                                               [self.imageView.rightAnchor constraintEqualToAnchor:self.webView.rightAnchor],
-                                              [self.imageView.heightAnchor constraintEqualToConstant:StickyHeaderViewHeightMin]]];
+                                              self.imageViewBottomConstraint,
+                                              self.imageViewHeightConstraint]];
     self.imageView.clipsToBounds = YES;
 }
 
