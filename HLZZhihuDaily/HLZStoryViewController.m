@@ -92,7 +92,7 @@
     
     // Update status bar style.
     UIStatusBarStyle oldStatusBarStyle = self.statusBarStyle;
-    self.statusBarStyle = (contentOffsetY > StickyHeaderViewHeightMin - 2 * statusBarHeight) ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
+    self.statusBarStyle = (contentOffsetY > StickyHeaderViewHeightMin - statusBarHeight) ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
     if (oldStatusBarStyle != self.statusBarStyle) {
         [UIView transitionWithView:self.statusBarBackgroundView
                           duration:0.2

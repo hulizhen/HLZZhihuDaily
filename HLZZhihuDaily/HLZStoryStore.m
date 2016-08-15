@@ -26,6 +26,11 @@
 #pragma mark - Lifecycle
 
 + (instancetype)sharedInstance {
+    if (self != [HLZStoryStore class]) {
+        [NSException raise:@"HLZSingleton"
+                    format:@"Cannot use sharedInstance method from subclass"];
+    }
+    
     static HLZStoryStore *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -34,8 +39,12 @@
     return sharedInstance;
 }
 
-+ (instancetype)allocWithZone:(struct _NSZone *)zone {
++ (instancetype)allocWithZone:(NSZone *)zone {
     return [self sharedInstance];
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    return [HLZStoryStore sharedInstance];
 }
 
 - (instancetype)initSharedInstance {
@@ -44,13 +53,13 @@
         _mutableLatestStories = [[NSMutableArray alloc] init];
         _mutableTopStories = [[NSMutableArray alloc] init];
         _earliestDate = [NSDate dateWithTimeIntervalSinceNow:0];
-//        _loadingStories = NO;
     }
     return self;
 }
 
 - (instancetype)init {
-    @throw [NSException exceptionWithName:@"Singleton" reason:@"Use +[HLZStoryStore sharedInstance] instead" userInfo:nil];
+    [NSException raise:@"HLZStoryStore"
+                format:@"Use +[HLZStoryStore sharedInstance] instead"];
     return nil;
 }
 
