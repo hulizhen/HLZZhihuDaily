@@ -260,7 +260,6 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
         self.updatingStories = YES;
         [indicatorView startAnimating];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSLog(@"load more stories");
             [[HLZStoryStore sharedInstance] loadMoreStoriesWithCompletionHandler:^(BOOL finished){
                 if (finished) {
                     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[HLZStoryStore sharedInstance].latestStories.count - 1];

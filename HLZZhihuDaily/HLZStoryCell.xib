@@ -41,7 +41,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="storyImageView" destination="afm-wQ-h4W" id="yw8-bX-jW4"/>
-                <outlet property="storyTitle" destination="NxF-sd-mAE" id="xC2-NR-ehO"/>
+                <outlet property="storyTitleLabel" destination="NxF-sd-mAE" id="nB4-ne-nxI"/>
             </connections>
             <point key="canvasLocation" x="-508.5" y="630"/>
         </tableViewCell>

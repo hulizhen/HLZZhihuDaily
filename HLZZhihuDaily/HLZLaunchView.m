@@ -181,11 +181,14 @@ static const NSTimeInterval FadeOutDuration                   = 0.5;
     lineWidth = 1.0;
     path = [UIBezierPath bezierPathWithRoundedRect:CGRectInset(self.logoView.bounds, lineWidth/2, lineWidth/2)
                                       cornerRadius:10.0];
-    layer = [CAShapeLayer layer];
-    layer.path = path.CGPath;
-    layer.lineWidth = lineWidth;
-    layer.strokeColor = color.CGColor;
-    layer.fillColor = nil;
+    layer = ({
+        CAShapeLayer *layer = [CAShapeLayer layer];
+        layer.path = path.CGPath;
+        layer.lineWidth = lineWidth;
+        layer.strokeColor = color.CGColor;
+        layer.fillColor = nil;
+        layer;
+    });
     [self.logoView.layer addSublayer:layer];
     
     // The inner circle layer.
@@ -195,12 +198,15 @@ static const NSTimeInterval FadeOutDuration                   = 0.5;
                                       startAngle:M_PI/2
                                         endAngle:0
                                        clockwise:YES];
-    layer = [CAShapeLayer layer];
-    layer.path = path.CGPath;
-    layer.lineWidth = lineWidth;
-    layer.lineCap = kCALineCapRound;
-    layer.strokeColor = color.CGColor;
-    layer.fillColor = nil;
+    layer = ({
+        CAShapeLayer *layer = [CAShapeLayer layer];
+        layer.path = path.CGPath;
+        layer.lineWidth = lineWidth;
+        layer.lineCap = kCALineCapRound;
+        layer.strokeColor = color.CGColor;
+        layer.fillColor = nil;
+        layer;
+    });
     
     // Animate when drawing the inner circle.
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
@@ -210,7 +216,8 @@ static const NSTimeInterval FadeOutDuration                   = 0.5;
     animation.delegate = self;
     animation.removedOnCompletion = NO;
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(LaunchImageViewAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(LaunchImageViewAnimationDuration * NSEC_PER_SEC));
+    dispatch_after(time, dispatch_get_main_queue(), ^{
         [layer addAnimation:animation forKey:@"strokeEnd"];
         [self.logoView.layer addSublayer:layer];
     });

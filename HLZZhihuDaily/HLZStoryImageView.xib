@@ -37,7 +37,8 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="storyTitle" destination="D93-K3-GE1" id="OZN-nI-jll"/>
+                <outlet property="imageSourceLabel" destination="BUa-Wb-wWv" id="Kra-Gp-Ry6"/>
+                <outlet property="storyTitleLabel" destination="D93-K3-GE1" id="d5i-XG-uG8"/>
             </connections>
             <point key="canvasLocation" x="560" y="620.5"/>
         </view>

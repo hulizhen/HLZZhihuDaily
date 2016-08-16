@@ -13,7 +13,7 @@
 
 @interface HLZStoryCell ()
 
-@property (nonatomic, weak) IBOutlet UILabel     *storyTitle;
+@property (nonatomic, weak) IBOutlet UILabel     *storyTitleLabel;
 @property (nonatomic, weak) IBOutlet UIImageView *storyImageView;
 
 @end
@@ -23,7 +23,9 @@
 - (void)setStory:(HLZStory *)story {
     _story = story;
     
-    self.storyTitle.text = story.title;
+    self.storyTitleLabel.text = story.title;
+    self.storyTitleLabel.backgroundColor = [UIColor whiteColor];
+    self.storyTitleLabel.clipsToBounds = YES;
     [self.storyImageView sd_setImageWithURL:story.imageURL];
 }
 
