@@ -92,7 +92,7 @@
     
     // Update status bar style.
     UIStatusBarStyle oldStatusBarStyle = self.statusBarStyle;
-    self.statusBarStyle = (contentOffsetY > StickyHeaderViewHeightMin - 2 * statusBarHeight) ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
+    self.statusBarStyle = (contentOffsetY > StickyHeaderViewHeightMin - statusBarHeight) ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent;
     if (oldStatusBarStyle != self.statusBarStyle) {
         [UIView transitionWithView:self.statusBarBackgroundView
                           duration:0.2
@@ -193,10 +193,10 @@
     fixedItem.width = -16;
     self.toolbarItems = @[fixedItem,
                           [self barButtonItemWithImageNamed:@"NavigationBackButton" action:@selector(navigateBack)], flexibleItem,
-                          [self barButtonItemWithImageNamed:@"NavigationNextButton" action:@selector(buttonType)], flexibleItem,
-                          [self barButtonItemWithImageNamed:@"NavigationVoteButton" action:@selector(buttonType)], flexibleItem,
-                          [self barButtonItemWithImageNamed:@"NavigationShareButton" action:@selector(buttonType)], flexibleItem,
-                          [self barButtonItemWithImageNamed:@"NavigationCommentButton" action:@selector(buttonType)], fixedItem];
+                          [self barButtonItemWithImageNamed:@"NavigationNextButton" action:@selector(buttonTapped)], flexibleItem,
+                          [self barButtonItemWithImageNamed:@"NavigationVoteButton" action:@selector(buttonTapped)], flexibleItem,
+                          [self barButtonItemWithImageNamed:@"NavigationShareButton" action:@selector(buttonTapped)], flexibleItem,
+                          [self barButtonItemWithImageNamed:@"NavigationCommentButton" action:@selector(buttonTapped)], fixedItem];
 }
 
 - (UIBarButtonItem *)barButtonItemWithImageNamed:(NSString *)imageName action:(SEL)selector {

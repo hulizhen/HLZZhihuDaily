@@ -13,8 +13,8 @@
 
 @interface HLZStoryImageView ()
 
-@property (nonatomic, weak) IBOutlet UILabel *storyTitle;
-@property (nonatomic, weak) IBOutlet UILabel *imageSource;
+@property (nonatomic, weak) IBOutlet UILabel *storyTitleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *imageSourceLabel;
 
 @end
 
@@ -23,7 +23,7 @@
 - (void)setStory:(HLZStory *)story {
     _story = story;
     
-    self.storyTitle.text = _story.title;
+    self.storyTitleLabel.text = _story.title;
     [self sd_setImageWithURL:_story.imageURL];
     self.contentMode = UIViewContentModeScaleAspectFill;
 }

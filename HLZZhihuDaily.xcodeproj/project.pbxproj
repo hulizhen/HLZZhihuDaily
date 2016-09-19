@@ -29,7 +29,7 @@
 		25C00E751D142379007A6F5B /* HLZStoryImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25C00E741D142379007A6F5B /* HLZStoryImageView.xib */; };
 		25CDC9C01D3723CA000C314D /* HLZStoryImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CDC9BF1D3723CA000C314D /* HLZStoryImageView.m */; };
 		25D7A1761D1629C6008030AB /* HLZRefreshView.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A1751D1629C6008030AB /* HLZRefreshView.m */; };
-		4097FF62344F95D0CACD1BF4 /* Pods_HLZZhihuDaily.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67DF8815100B926C446D994D /* Pods_HLZZhihuDaily.framework */; };
+		968B82ED623DC13E50D931ED /* Pods_HLZZhihuDaily.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D59885D48EC5BB7E5C136C6F /* Pods_HLZZhihuDaily.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,7 +88,7 @@
 		25D7A1741D1629C6008030AB /* HLZRefreshView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLZRefreshView.h; sourceTree = "<group>"; };
 		25D7A1751D1629C6008030AB /* HLZRefreshView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLZRefreshView.m; sourceTree = "<group>"; };
 		5AACB207D96E2984BD24C400 /* Pods-HLZZhihuDaily.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HLZZhihuDaily.release.xcconfig"; path = "Pods/Target Support Files/Pods-HLZZhihuDaily/Pods-HLZZhihuDaily.release.xcconfig"; sourceTree = "<group>"; };
-		67DF8815100B926C446D994D /* Pods_HLZZhihuDaily.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HLZZhihuDaily.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D59885D48EC5BB7E5C136C6F /* Pods_HLZZhihuDaily.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HLZZhihuDaily.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,7 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4097FF62344F95D0CACD1BF4 /* Pods_HLZZhihuDaily.framework in Frameworks */,
+				968B82ED623DC13E50D931ED /* Pods_HLZZhihuDaily.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -252,7 +252,7 @@
 		490E9ECA1EACD6590127E6F2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				67DF8815100B926C446D994D /* Pods_HLZZhihuDaily.framework */,
+				D59885D48EC5BB7E5C136C6F /* Pods_HLZZhihuDaily.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -291,12 +291,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 25C00E451D11A59A007A6F5B /* Build configuration list for PBXNativeTarget "HLZZhihuDaily" */;
 			buildPhases = (
-				1BDCBD7D24015874B3734C08 /* [CP] Check Pods Manifest.lock */,
+				78BD2E5FBA46244EFB42988F /* [CP] Check Pods Manifest.lock */,
 				25C00E2A1D11A59A007A6F5B /* Sources */,
 				25C00E2B1D11A59A007A6F5B /* Frameworks */,
 				25C00E2C1D11A59A007A6F5B /* Resources */,
-				D60C72F4839AC3D72EB2A8F0 /* [CP] Embed Pods Frameworks */,
-				2C3AB3183A8A56C58F10ADAA /* [CP] Copy Pods Resources */,
+				39C0410E5D7938B83DCCB3CA /* [CP] Embed Pods Frameworks */,
+				D0BA9EAB1EC86A7268AFA70D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -313,7 +313,7 @@
 		25C00E261D11A59A007A6F5B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = hulizhen;
 				TargetAttributes = {
 					251DC1FB1D5C16AA0046E5CA = {
@@ -368,7 +368,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1BDCBD7D24015874B3734C08 /* [CP] Check Pods Manifest.lock */ = {
+		39C0410E5D7938B83DCCB3CA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HLZZhihuDaily/Pods-HLZZhihuDaily-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		78BD2E5FBA46244EFB42988F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -383,7 +398,7 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		2C3AB3183A8A56C58F10ADAA /* [CP] Copy Pods Resources */ = {
+		D0BA9EAB1EC86A7268AFA70D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -396,21 +411,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HLZZhihuDaily/Pods-HLZZhihuDaily-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D60C72F4839AC3D72EB2A8F0 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HLZZhihuDaily/Pods-HLZZhihuDaily-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -513,8 +513,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -557,8 +559,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -588,7 +592,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = KJ2YJ44DM2;
 				INFOPLIST_FILE = HLZZhihuDaily/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hulizhen.HLZZhihuDaily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -603,7 +609,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = KJ2YJ44DM2;
 				INFOPLIST_FILE = HLZZhihuDaily/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hulizhen.HLZZhihuDaily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -621,6 +629,7 @@
 				251DC2051D5C16AA0046E5CA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		25C00E291D11A59A007A6F5B /* Build configuration list for PBXProject "HLZZhihuDaily" */ = {
 			isa = XCConfigurationList;

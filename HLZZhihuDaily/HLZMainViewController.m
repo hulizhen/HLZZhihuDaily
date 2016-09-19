@@ -188,13 +188,11 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    NSLog(@"number of sections in tableview %ld", [HLZStoryStore sharedInstance].latestStories.count);
     return [HLZStoryStore sharedInstance].latestStories.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // One minus for storing NSDate.
-    NSLog(@"number of row in section %ld %ld", section, [HLZStoryStore sharedInstance].latestStories[section].count - 1);
     return [HLZStoryStore sharedInstance].latestStories[section].count - 1;
 }
 
@@ -202,7 +200,6 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
     HLZStoryCell *cell = [self.tableView dequeueReusableCellWithIdentifier:StoryCellIdentifier forIndexPath:indexPath];
     NSArray<NSArray *> *latestStories = [HLZStoryStore sharedInstance].latestStories;
     
-    NSLog(@"section = %ld, row = %ld, count = %ld", indexPath.section, indexPath.row, latestStories.count);
     NSArray *stories = latestStories[indexPath.section];
     cell.story = (HLZStory *)stories[indexPath.row + 1];    // One plus for storing NSDate.
     
@@ -263,7 +260,6 @@ static NSString *const StoryCellIdentifier = @"HLZStoryCell";
         self.updatingStories = YES;
         [indicatorView startAnimating];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSLog(@"load more stories");
             [[HLZStoryStore sharedInstance] loadMoreStoriesWithCompletionHandler:^(BOOL finished){
                 if (finished) {
                     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[HLZStoryStore sharedInstance].latestStories.count - 1];
