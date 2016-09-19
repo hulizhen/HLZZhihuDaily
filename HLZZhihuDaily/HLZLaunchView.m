@@ -11,7 +11,7 @@
 @import AFNetworking;
 @import SDWebImage;
 
-@interface HLZLaunchView ()
+@interface HLZLaunchView () <CAAnimationDelegate>
 
 @property (nonatomic, strong) UIImageView *lauchImageView;
 @property (nonatomic, strong) UIView      *bottomView;

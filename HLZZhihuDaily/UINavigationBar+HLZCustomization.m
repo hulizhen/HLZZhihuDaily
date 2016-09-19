@@ -13,8 +13,8 @@
 
 static UIView *backgroundView = nil;
 
-- (void)hlz_setAlpha:(CGFloat)hlz_alpha {
-    self.subviews.firstObject.alpha = hlz_alpha;
+- (void)hlz_setAlpha:(CGFloat)alpha {
+    backgroundView.alpha = alpha;
 }
 
 - (void)hlz_setBackgroundColor:(UIColor *)color {
